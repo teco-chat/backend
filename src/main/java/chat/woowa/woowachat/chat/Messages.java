@@ -1,15 +1,16 @@
 package chat.woowa.woowachat.chat;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.LAZY;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
-
-import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.FetchType.LAZY;
 
 @Embeddable
 public class Messages {
@@ -18,22 +19,40 @@ public class Messages {
     @JoinColumn(name = "chat_id")
     private List<Message> messages = new ArrayList<>();
 
-    public Messages(final List<Message> messages) {
-        this.messages.addAll(messages);
-    }
-
     public Messages(final Message... messages) {
         this(Arrays.asList(messages));
+    }
+
+    public Messages(final List<Message> messages) {
+        this.messages.addAll(messages);
     }
 
     protected Messages() {
     }
 
-    public List<Message> messages() {
-        return messages;
-    }
-
     public void add(final Message message) {
         messages.add(message);
+    }
+
+    public List<Message> lessThan(final int token) {
+        final Deque<Message> result = new ArrayDeque<>(this.messages);
+        int tokenSum = calculateTokenSum();
+
+        while (tokenSum > token) {
+            final Message message = result.removeFirst();
+            tokenSum -= message.token();
+        }
+
+        return new ArrayList<>(result);
+    }
+
+    private int calculateTokenSum() {
+        return messages.stream()
+                .mapToInt(Message::token)
+                .sum();
+    }
+
+    public List<Message> messages() {
+        return messages;
     }
 }
