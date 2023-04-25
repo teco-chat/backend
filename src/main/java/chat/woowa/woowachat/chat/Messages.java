@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Messages {
 
     @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "chat_id")  // 연관관계의 주인을 chat 으로 지정
+    @JoinColumn(name = "chat_id")
     private List<Message> messages = new ArrayList<>();
 
     public Messages(final List<Message> messages) {
