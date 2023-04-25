@@ -13,10 +13,10 @@ import static chat.woowa.woowachat.chat.GptModel.GPT_3_5_TURBO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@JpaRepositoryTest
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("ChatRepository 는")
+@JpaRepositoryTest
 class ChatRepositoryTest {
 
     @Autowired

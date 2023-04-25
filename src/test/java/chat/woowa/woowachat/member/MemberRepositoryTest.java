@@ -11,10 +11,10 @@ import static chat.woowa.woowachat.member.Course.BACKEND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@JpaRepositoryTest
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("MemberRepository 는")
+@JpaRepositoryTest
 class MemberRepositoryTest {
 
     @Autowired

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@DataJpaTest
 @Import({JpaConfig.class})
+@DataJpaTest
 public @interface JpaRepositoryTest {
 }
