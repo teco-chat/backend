@@ -2,7 +2,6 @@ package chat.woowa.woowachat.chat.fixture;
 
 import chat.woowa.woowachat.chat.Message;
 import chat.woowa.woowachat.chat.Messages;
-
 import java.util.Arrays;
 import java.util.List;
 

@@ -1,14 +1,14 @@
 package chat.woowa.woowachat.member;
 
-import chat.woowa.woowachat.common.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-
 import static chat.woowa.woowachat.member.Course.ANDROID;
 import static chat.woowa.woowachat.member.Course.BACKEND;
 import static chat.woowa.woowachat.member.Course.FRONTEND;
 import static jakarta.persistence.EnumType.STRING;
+
+import chat.woowa.woowachat.common.entity.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Member extends BaseEntity {
