@@ -1,14 +1,15 @@
 package chat.woowa.woowachat.chat;
 
+import static chat.woowa.woowachat.chat.Role.ASSISTANT;
+import static chat.woowa.woowachat.chat.Role.SYSTEM;
+import static chat.woowa.woowachat.chat.Role.USER;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-
-import static chat.woowa.woowachat.chat.Role.*;
-import static chat.woowa.woowachat.chat.Role.USER;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)

@@ -1,14 +1,14 @@
 package chat.woowa.woowachat.chat;
 
+import static jakarta.persistence.EnumType.STRING;
+
 import chat.woowa.woowachat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
-
+import java.util.ArrayList;
 import java.util.List;
-
-import static jakarta.persistence.EnumType.STRING;
 
 @Entity
 public class Chat extends BaseEntity {
@@ -44,6 +44,17 @@ public class Chat extends BaseEntity {
     protected Chat() {
     }
 
+    public void addMessage(final Message message) {
+        this.messages.add(message);
+    }
+
+    public List<Message> lessThan(final int token) {
+        final List<Message> result = new ArrayList<>();
+        result.add(Message.system(settingMessage.message(), 0));
+        result.addAll(messages.lessThan(token));
+        return result;
+    }
+
     public String title() {
         return title;
     }
@@ -62,9 +73,5 @@ public class Chat extends BaseEntity {
 
     public List<Message> messages() {
         return messages.messages();
-    }
-
-    public void addMessage(final Message message) {
-        this.messages.add(message);
     }
 }
