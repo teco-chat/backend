@@ -1,4 +1,4 @@
-package chat.woowa.woowachat.member.service;
+package chat.woowa.woowachat.member.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
