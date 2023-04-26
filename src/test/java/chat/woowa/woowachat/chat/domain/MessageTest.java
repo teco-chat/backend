@@ -25,9 +25,9 @@ class MessageTest {
 
         // then
         assertAll(
-                () -> assertThat(유저.role()).isEqualTo(USER),
-                () -> assertThat(시스템.role()).isEqualTo(SYSTEM),
-                () -> assertThat(어시스턴트.role()).isEqualTo(ASSISTANT)
+                () -> assertThat(유저.roleName()).isEqualTo(USER.roleName()),
+                () -> assertThat(시스템.roleName()).isEqualTo(SYSTEM.roleName()),
+                () -> assertThat(어시스턴트.roleName()).isEqualTo(ASSISTANT.roleName())
         );
     }
 }

@@ -37,7 +37,7 @@ class ChatRepositoryTest {
         flushAndClear();
         final Chat find = chatRepository.findById(saved.id()).get();
         assertAll(
-                () -> assertThat(find.model()).isEqualTo(GPT_3_5_TURBO),
+                () -> assertThat(find.modelName()).isEqualTo(GPT_3_5_TURBO.modelName()),
                 () -> assertThat(find.title()).isEqualTo("안녕"),
                 () -> assertThat(find.messages()).hasSize(1)
         );
