@@ -7,7 +7,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import chat.woowa.woowachat.member.domain.Course;
 import chat.woowa.woowachat.member.domain.MemberRepository;
 import chat.woowa.woowachat.member.dto.SignUpDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,10 +40,10 @@ class MemberControllerTest {
     }
 
     @Test
-    void 회원_가입을_진행한다() {
+    void 회원_가입을_진행한다() throws Exception {
         // given
         final SignUpDto dto = new SignUpDto("우가", Course.BACKEND);
-        final String body = toJson(dto);
+        final String body = objectMapper.writeValueAsString(dto);
 
         // when
         RestAssured.given().log().all()
@@ -58,13 +57,5 @@ class MemberControllerTest {
 
         // then
         assertThat(memberRepository.findAll()).hasSize(1);
-    }
-
-    private String toJson(final SignUpDto dto) {
-        try {
-            return objectMapper.writeValueAsString(dto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
