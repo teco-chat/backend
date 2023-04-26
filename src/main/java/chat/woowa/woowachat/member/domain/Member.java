@@ -1,8 +1,5 @@
-package chat.woowa.woowachat.member;
+package chat.woowa.woowachat.member.domain;
 
-import static chat.woowa.woowachat.member.Course.ANDROID;
-import static chat.woowa.woowachat.member.Course.BACKEND;
-import static chat.woowa.woowachat.member.Course.FRONTEND;
 import static jakarta.persistence.EnumType.STRING;
 
 import chat.woowa.woowachat.common.entity.BaseEntity;

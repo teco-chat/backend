@@ -1,4 +1,4 @@
-package chat.woowa.woowachat.member;
+package chat.woowa.woowachat.member.domain;
 
 public enum Course {
 

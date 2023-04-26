@@ -1,6 +1,6 @@
-package chat.woowa.woowachat.chat;
+package chat.woowa.woowachat.chat.domain;
 
-import static chat.woowa.woowachat.chat.GptModel.GPT_3_5_TURBO;
+import static chat.woowa.woowachat.chat.domain.GptModel.GPT_3_5_TURBO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

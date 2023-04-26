@@ -1,4 +1,4 @@
-package chat.woowa.woowachat.chat;
+package chat.woowa.woowachat.chat.domain;
 
 import static jakarta.persistence.EnumType.STRING;
 
