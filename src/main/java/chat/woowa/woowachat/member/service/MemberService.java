@@ -6,8 +6,8 @@ import chat.woowa.woowachat.member.dto.SignUpDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Transactional
+@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
