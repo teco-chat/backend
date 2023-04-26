@@ -26,3 +26,7 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+
+
+gpt:
+  key: ${GPT_API_KEY}
