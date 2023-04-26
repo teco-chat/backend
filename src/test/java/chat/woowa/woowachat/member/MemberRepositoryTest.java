@@ -25,7 +25,7 @@ class MemberRepositoryTest {
     @Test
     void Member_를_저장할_수_있다() {
         // when
-        final Member 말랑 = memberRepository.save(Member.backend("말랑"));
+        final Member 말랑 = memberRepository.save(new Member("말랑", BACKEND));
 
         // then
         final Member member = memberRepository.findById(말랑.id()).get();

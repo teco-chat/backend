@@ -17,24 +17,12 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Course course;
 
-    private Member(final String name, final Course course) {
+    public Member(final String name, final Course course) {
         this.name = name;
         this.course = course;
     }
 
     protected Member() {
-    }
-
-    public static Member backend(final String name) {
-        return new Member(name, BACKEND);
-    }
-
-    public static Member frontEnd(final String name) {
-        return new Member(name, FRONTEND);
-    }
-
-    public static Member android(final String name) {
-        return new Member(name, ANDROID);
     }
 
     public String name() {
