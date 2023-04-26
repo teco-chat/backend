@@ -59,13 +59,6 @@ public class Chat extends BaseEntity {
         this.messages.add(message);
     }
 
-    public List<Message> messagesWithSettingMessage() {
-        final List<Message> messages = new ArrayList<>();
-        messages.add(Message.system(settingMessage.message(), 8));
-        messages.addAll(this.messages.messages());
-        return messages;
-    }
-
     /**
      * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
      */

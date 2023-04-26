@@ -24,7 +24,6 @@ public class GptClient {
 
     public Message ask(final Chat chat) {
         final ChatCompletionRequest request = ChatCompletionRequest.from(chat);
-
         final ChatCompletionResponse response = restTemplate.postForEntity(
                         URL,
                         new HttpEntity<>(request, apiKeySettingHeader),
@@ -39,7 +38,7 @@ public class GptClient {
     ) {
         public static ChatCompletionRequest from(final Chat chat) {
             final List<MessageRequest> messageRequests = new ArrayList<>();
-            final List<Message> messages = chat.messagesWithSettingMessage();
+            final List<Message> messages = chat.messagesWithFreeToken();
             for (final Message message : messages) {
                 messageRequests.add(new MessageRequest(
                         message.roleName(), message.content()));
