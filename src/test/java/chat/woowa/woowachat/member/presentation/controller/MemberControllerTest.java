@@ -22,7 +22,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("MemberController 은")
+@DisplayName("MemberController 은(는)")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class MemberControllerTest {
 
