@@ -2,6 +2,7 @@ package chat.woowa.woowachat.chat.domain;
 
 import static jakarta.persistence.EnumType.STRING;
 
+import chat.woowa.woowachat.chat.exception.TokenSizeBigException;
 import chat.woowa.woowachat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Entity
 public class Chat extends BaseEntity {
+
+    public static final int FREE_TOKEN = 2000;
 
     @Enumerated(STRING)
     @Column(nullable = false)
@@ -38,21 +41,22 @@ public class Chat extends BaseEntity {
         this.settingMessage = settingMessage;
         this.title = title;
         this.memberId = memberId;
+        validateTokenSize(message);
         this.messages = new Messages(message);
     }
 
     protected Chat() {
     }
 
-    public void addMessage(final Message message) {
-        this.messages.add(message);
+    private void validateTokenSize(final Message message) {
+        if (model.maxTokens() - FREE_TOKEN <= message.token()) {
+            throw new TokenSizeBigException();
+        }
     }
 
-    public List<Message> lessThan(final int token) {
-        final List<Message> result = new ArrayList<>();
-        result.add(Message.system(settingMessage.message(), 0));
-        result.addAll(messages.lessThan(token));
-        return result;
+    public void addMessage(final Message message) {
+        validateTokenSize(message);
+        this.messages.add(message);
     }
 
     public List<Message> messagesWithSettingMessage() {
@@ -60,6 +64,16 @@ public class Chat extends BaseEntity {
         messages.add(Message.system(settingMessage.message(), 8));
         messages.addAll(this.messages.messages());
         return messages;
+    }
+
+    /**
+     * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
+     */
+    public List<Message> messagesWithFreeToken() {
+        final List<Message> result = new ArrayList<>();
+        result.add(Message.system(settingMessage.message(), 0));
+        result.addAll(messages.lessOrEqualThan(model.maxTokens() - FREE_TOKEN));
+        return result;
     }
 
     public String modelName() {

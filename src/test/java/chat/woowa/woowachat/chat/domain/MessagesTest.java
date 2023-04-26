@@ -26,7 +26,7 @@ class MessagesTest {
     }
 
     @Test
-    void 입력받은_토큰보다_메시지의_토큰_총합이_낮도록_오래된_순으로_메시지를_제외한_후_반환한다() {
+    void 입력받은_토큰보다_메시지의_토큰_총합이_같거나_낮도록_오래된_순으로_메시지를_제외한_후_반환한다() {
         // given
         int token = 2000;
         final Messages messages = new Messages(
@@ -36,10 +36,25 @@ class MessagesTest {
         );
 
         // when
-        final List<Message> result = messages.lessThan(token);
+        final List<Message> result = messages.lessOrEqualThan(token);
 
         // then
         assertThat(result).extracting(Message::content)
                 .containsExactly("Hello2", "Hello3");
+    }
+
+
+    @Test
+    void 입력받은_토큰보다_메시지의_토큰_총합이_낮도록_오래된_순으로_메시지를_제외한_후_반환한다_엣지_케이스() {
+        // given
+        int token = 1000;
+        final Messages messages = new Messages(Message.user("Hello1", 1000));
+
+        // when
+        final List<Message> result = messages.lessOrEqualThan(token);
+
+        // then
+        assertThat(result).extracting(Message::content)
+                .containsExactly("Hello1");
     }
 }

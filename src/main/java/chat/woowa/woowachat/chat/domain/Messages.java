@@ -34,7 +34,7 @@ public class Messages {
         messages.add(message);
     }
 
-    public List<Message> lessThan(final int token) {
+    public List<Message> lessOrEqualThan(final int token) {
         final Deque<Message> result = new ArrayDeque<>(this.messages);
         int tokenSum = calculateTokenSum();
 
