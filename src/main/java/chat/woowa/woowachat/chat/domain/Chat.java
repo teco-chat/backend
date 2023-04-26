@@ -55,12 +55,19 @@ public class Chat extends BaseEntity {
         return result;
     }
 
-    public String title() {
-        return title;
+    public List<Message> messagesWithSettingMessage() {
+        final List<Message> messages = new ArrayList<>();
+        messages.add(Message.system(settingMessage.message(), 8));
+        messages.addAll(this.messages.messages());
+        return messages;
     }
 
-    public GptModel model() {
-        return model;
+    public String modelName() {
+        return model.modelName();
+    }
+
+    public String title() {
+        return title;
     }
 
     public SettingMessage settingMessage() {
@@ -72,6 +79,6 @@ public class Chat extends BaseEntity {
     }
 
     public List<Message> messages() {
-        return messages.messages();
+        return new ArrayList<>(messages.messages());
     }
 }

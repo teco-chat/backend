@@ -46,15 +46,15 @@ public class Message extends BaseEntity {
         return new Message(ASSISTANT, content, token);
     }
 
+    public String roleName() {
+        return role.roleName();
+    }
+
     public String content() {
         return content;
     }
 
     public int token() {
         return token;
-    }
-
-    public Role role() {
-        return role;
     }
 }
