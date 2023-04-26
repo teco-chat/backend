@@ -1,8 +1,8 @@
-package chat.woowa.woowachat.chat;
+package chat.woowa.woowachat.chat.domain;
 
-import static chat.woowa.woowachat.chat.Role.ASSISTANT;
-import static chat.woowa.woowachat.chat.Role.SYSTEM;
-import static chat.woowa.woowachat.chat.Role.USER;
+import static chat.woowa.woowachat.chat.domain.Role.ASSISTANT;
+import static chat.woowa.woowachat.chat.domain.Role.SYSTEM;
+import static chat.woowa.woowachat.chat.domain.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

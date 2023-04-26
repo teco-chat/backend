@@ -1,15 +1,15 @@
-package chat.woowa.woowachat.chat;
+package chat.woowa.woowachat.chat.domain;
+
+import static chat.woowa.woowachat.chat.domain.Role.ASSISTANT;
+import static chat.woowa.woowachat.chat.domain.Role.SYSTEM;
+import static chat.woowa.woowachat.chat.domain.Role.USER;
+import static jakarta.persistence.EnumType.STRING;
 
 import chat.woowa.woowachat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
-
-import static chat.woowa.woowachat.chat.Role.ASSISTANT;
-import static chat.woowa.woowachat.chat.Role.SYSTEM;
-import static chat.woowa.woowachat.chat.Role.USER;
-import static jakarta.persistence.EnumType.STRING;
 
 @Entity
 public class Message extends BaseEntity {

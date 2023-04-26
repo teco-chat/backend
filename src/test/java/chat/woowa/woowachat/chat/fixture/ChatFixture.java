@@ -1,10 +1,10 @@
 package chat.woowa.woowachat.chat.fixture;
 
-import static chat.woowa.woowachat.chat.GptModel.GPT_3_5_TURBO;
-import static chat.woowa.woowachat.chat.SettingMessage.BACK_END_SETTING;
+import static chat.woowa.woowachat.chat.domain.GptModel.GPT_3_5_TURBO;
+import static chat.woowa.woowachat.chat.domain.SettingMessage.BACK_END_SETTING;
 
-import chat.woowa.woowachat.chat.Chat;
-import chat.woowa.woowachat.chat.Message;
+import chat.woowa.woowachat.chat.domain.Chat;
+import chat.woowa.woowachat.chat.domain.Message;
 import java.util.List;
 
 public class ChatFixture {
