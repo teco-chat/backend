@@ -2,8 +2,8 @@ package chat.woowa.woowachat.member.presentation.controller;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import chat.woowa.woowachat.member.application.MemberService;
 import chat.woowa.woowachat.member.dto.SignUpDto;
-import chat.woowa.woowachat.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

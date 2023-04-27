@@ -9,5 +9,4 @@ public class WoowachatApplication {
     public static void main(String[] args) {
         SpringApplication.run(WoowachatApplication.class, args);
     }
-
 }

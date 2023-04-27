@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+
+gpt:
+  key: 따로 설정해서 쓰세용

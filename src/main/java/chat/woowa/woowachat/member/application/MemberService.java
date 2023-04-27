@@ -1,4 +1,4 @@
-package chat.woowa.woowachat.member.service;
+package chat.woowa.woowachat.member.application;
 
 import chat.woowa.woowachat.member.domain.Member;
 import chat.woowa.woowachat.member.domain.MemberRepository;
