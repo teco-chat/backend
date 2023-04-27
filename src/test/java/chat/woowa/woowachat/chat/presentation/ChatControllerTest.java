@@ -2,6 +2,7 @@ package chat.woowa.woowachat.chat.presentation;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -17,6 +18,7 @@ import chat.woowa.woowachat.member.domain.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
+import io.restassured.response.ValidatableResponse;
 import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,6 +51,18 @@ class ChatControllerTest {
 
     @MockBean
     private GptClient gptClient;
+
+    private static void validateMessage(final ValidatableResponse validatableResponse,
+                                        final int index,
+                                        final int id,
+                                        final String content,
+                                        final String role) {
+        validatableResponse
+                .body("messages[" + index + "].id", equalTo(id))
+                .body("messages[" + index + "].content", equalTo(content))
+                .body("messages[" + index + "].role", equalTo(role))
+                .body("messages[" + index + "].createdAt", notNullValue());
+    }
 
     @BeforeEach
     void setUp() {
@@ -105,37 +119,64 @@ class ChatControllerTest {
         질문을_이어서_한다();
 
         // when
-        RestAssured.given().log().all()
+        final ValidatableResponse validatableResponse = RestAssured.given()
+                .log().all()
                 .when()
                 .get("/chats/" + 1L)
                 .then()
                 .log().all()
-                .statusCode(OK.value())
+                .statusCode(OK.value());
+
+        // then
+        validatableResponse
                 .body("id", equalTo(1))
                 .body("crewName", equalTo("말랑"))
                 .body("course", equalTo("BACKEND"))
                 .body("title", equalTo("안녕?"))
-                .body("createdAt", notNullValue())
+                .body("createdAt", notNullValue());
+        assertAll(
+                () -> validateMessage(validatableResponse, 0, 1, "안녕?", "user"),
+                () -> validateMessage(validatableResponse, 1, 2, "응 안녕", "assistant"),
+                () -> validateMessage(validatableResponse, 2, 3, "안녕? 두번째", "user"),
+                () -> validateMessage(validatableResponse, 3, 4, "응 안녕 두번째", "assistant")
+        );
+    }
 
-                .body("messages[0].id", equalTo(1))
-                .body("messages[0].content", equalTo("안녕?"))
-                .body("messages[0].role", equalTo("user"))
-                .body("messages[0].createdAt", notNullValue())
+    @Test
+    void 이름_과정_제목으로_검색한다() throws Exception {
+        // given
+        질문을_한다("안드로이드 허브", Course.ANDROID);
+        질문을_한다("프론트 허브", Course.FRONTEND);
+        질문을_한다("프론트2 허브", Course.FRONTEND);
 
-                .body("messages[1].id", equalTo(2))
-                .body("messages[1].content", equalTo("응 안녕"))
-                .body("messages[1].role", equalTo("assistant"))
-                .body("messages[1].createdAt", notNullValue())
+        // when & then
+        RestAssured.given()
+                .log().all()
+                .when()
+                .get("/chats?name=허브&course=FRONTEND")
+                .then()
+                .body("content[0].crewName", equalTo("프론트2 허브"))
+                .body("content[0].course", equalTo("FRONTEND"))
+                .body("content[1].crewName", equalTo("프론트 허브"))
+                .body("content[1].course", equalTo("FRONTEND"))
+                .body("totalElements", equalTo(2))
+                .log().all();
+    }
 
-                .body("messages[2].id", equalTo(3))
-                .body("messages[2].content", equalTo("안녕? 두번째"))
-                .body("messages[2].role", equalTo("user"))
-                .body("messages[2].createdAt", notNullValue())
+    private void 질문을_한다(final String name, final Course course) throws Exception {
+        memberRepository.save(new Member(name, course)).id();
+        given(gptClient.ask(any()))
+                .willReturn(Message.assistant("응 안녕", 10));
+        final AskRequest askRequest = new AskRequest("안녕?", 50);
+        final String body = objectMapper.writeValueAsString(askRequest);
 
-                .body("messages[3].id", equalTo(4))
-                .body("messages[3].content", equalTo("응 안녕 두번째"))
-                .body("messages[3].role", equalTo("assistant"))
-                .body("messages[3].createdAt", notNullValue());
+        // when & then
+        RestAssured.given()
+                .header(new Header("name", encode(name)))
+                .contentType(APPLICATION_JSON_VALUE)
+                .body(body)
+                .when()
+                .post("/chats");
     }
 
     private String encode(final String name) {
