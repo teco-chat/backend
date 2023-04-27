@@ -151,6 +151,7 @@ class ChatControllerTest {
 
         // when & then
         RestAssured.given()
+                .log().all()
                 .when()
                 .get("/chats?name=허브&course=FRONTEND")
                 .then()
