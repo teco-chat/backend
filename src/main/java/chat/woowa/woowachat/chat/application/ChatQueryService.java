@@ -25,6 +25,6 @@ public class ChatQueryService {
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 %d인 채팅이 없습니다."));
         final Member member = memberRepository.findById(chat.memberId())
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 %d인 회원 없습니다."));
-        return ChatQueryDto.of(chat, member.name());
+        return ChatQueryDto.of(chat, member.name(), member.course());
     }
 }

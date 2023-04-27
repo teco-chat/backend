@@ -113,6 +113,7 @@ class ChatControllerTest {
                 .statusCode(OK.value())
                 .body("id", equalTo(1))
                 .body("crewName", equalTo("말랑"))
+                .body("course", equalTo("BACKEND"))
                 .body("title", equalTo("안녕?"))
                 .body("createdAt", notNullValue())
 

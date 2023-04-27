@@ -2,18 +2,20 @@ package chat.woowa.woowachat.chat.dto;
 
 import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.member.domain.Course;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public record ChatQueryDto(
         Long id,
         String crewName,
+        Course course,
         String title,
         LocalDateTime createdAt,
         List<MessageQueryDto> messages
 ) {
 
-    public static ChatQueryDto of(final Chat chat, final String crewName) {
+    public static ChatQueryDto of(final Chat chat, final String crewName, final Course course) {
         final List<MessageQueryDto> messageQueryDtos = chat.messages()
                 .stream()
                 .map(MessageQueryDto::from)
@@ -21,7 +23,9 @@ public record ChatQueryDto(
 
         return new ChatQueryDto(
                 chat.id(),
-                crewName, chat.title(),
+                crewName,
+                course,
+                chat.title(),
                 chat.createdAt(),
                 messageQueryDtos);
     }
