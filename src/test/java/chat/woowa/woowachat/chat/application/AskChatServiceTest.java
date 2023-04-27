@@ -61,7 +61,7 @@ class AskChatServiceTest {
         given(gptClient.ask(any(Chat.class))).willReturn(answer);
 
         // when
-        final MessageDto answerResponse = askChatService.ask(new AskCommand(memberId, "첫 메세지", 5));
+        final MessageDto answerResponse = askChatService.createAsk(new AskCommand(memberId, "첫 메세지", 5));
 
         // then
         assertThat(answerResponse.content()).isEqualTo(answer.content());
@@ -72,11 +72,14 @@ class AskChatServiceTest {
         // given
         final Message answer1 = Message.assistant("1 답변입니다.", 10);
         final Message answer2 = Message.assistant("2 답변입니다.", 10);
-        given(gptClient.ask(any(Chat.class))).willReturn(answer1, answer2);
-        askChatService.ask(new AskCommand(memberId, "첫 메세지", 5));
+        given(gptClient.ask(any(Chat.class)))
+                .willReturn(answer1, answer2);
+        final MessageDto messageDto =
+                askChatService.createAsk(new AskCommand(memberId, "첫 메세지", 5));
 
         // when
-        final MessageDto answerResponse = askChatService.ask(new AskCommand(memberId, "두번째 메세지", 10));
+        final MessageDto answerResponse = askChatService.ask(messageDto.chatId(),
+                new AskCommand(memberId, "두번째 메세지", 10));
 
         // then
         assertThat(answerResponse.content()).isEqualTo(answer2.content());
@@ -93,12 +96,13 @@ class AskChatServiceTest {
         final Message answer3 = Message.assistant("3 답변입니다.", 2000);
         final Message answer4 = Message.assistant("4 답변입니다.", 2000);
         given(gptClient.ask(any(Chat.class))).willReturn(answer1, answer2, answer3, answer4);
+        final Long chatId = askChatService.createAsk(new AskCommand(memberId, "1 질문", 2000))
+                .chatId();
 
         // when
-        askChatService.ask(new AskCommand(memberId, "1 질문", 2000));
-        askChatService.ask(new AskCommand(memberId, "2 질문", 2000));
-        askChatService.ask(new AskCommand(memberId, "3 질문", 2000));
-        askChatService.ask(new AskCommand(memberId, "4 질문", 2000));
+        askChatService.ask(chatId, new AskCommand(memberId, "2 질문", 2000));
+        askChatService.ask(chatId, new AskCommand(memberId, "3 질문", 2000));
+        askChatService.ask(chatId, new AskCommand(memberId, "4 질문", 2000));
         flushAndClear();
 
         // then

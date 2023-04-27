@@ -94,7 +94,7 @@ class ChatControllerTest {
                 .contentType(APPLICATION_JSON_VALUE)
                 .body(body)
                 .when()
-                .post("/chats")
+                .post("/chats/" + 1L)
                 .then()
                 .log().all()
                 .statusCode(CREATED.value())

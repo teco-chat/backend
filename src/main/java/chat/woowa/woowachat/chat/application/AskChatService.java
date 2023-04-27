@@ -10,7 +10,6 @@ import chat.woowa.woowachat.chat.dto.AskCommand;
 import chat.woowa.woowachat.chat.dto.MessageDto;
 import chat.woowa.woowachat.member.domain.Member;
 import chat.woowa.woowachat.member.domain.MemberRepository;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,21 +29,10 @@ public class AskChatService {
         this.gptClient = gptClient;
     }
 
-    public MessageDto ask(final AskCommand command) {
-        final Message question = Message.user(command.message(), command.token());
-        final List<Chat> chats = chatRepository.findAllByMemberId(command.memberId());
-
-        if (isFirstChat(chats)) {
-            final Chat chat = saveInitialChat(command, question);
-            return answer(chat);
-        }
-        final Chat chat = chats.get(0);
-        chat.addMessage(question);
+    public MessageDto createAsk(final AskCommand command) {
+        final Message question = command.toMessage();
+        final Chat chat = saveInitialChat(command, question);
         return answer(chat);
-    }
-
-    private boolean isFirstChat(final List<Chat> chats) {
-        return chats.isEmpty();
     }
 
     private Chat saveInitialChat(final AskCommand command, final Message question) {
@@ -58,6 +46,14 @@ public class AskChatService {
         return chatRepository.save(chat);
     }
 
+    public MessageDto ask(final Long id, final AskCommand command) {
+        final Message question = command.toMessage();
+        final Chat chat = chatRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("아이디가 %d인 채팅이 없습니다."));
+        chat.addMessage(question);
+        return answer(chat);
+    }
+
     private Member findMemberById(final Long memberId) {
         // TODO 예외처리 변경
         return memberRepository.findById(memberId)
@@ -66,9 +62,9 @@ public class AskChatService {
                 );
     }
 
-    private MessageDto answer(final Chat save) {
-        final Message answer = gptClient.ask(save);
-        save.addMessage(answer);
-        return new MessageDto(answer.content());
+    private MessageDto answer(final Chat chat) {
+        final Message answer = gptClient.ask(chat);
+        chat.addMessage(answer);
+        return new MessageDto(chat.id(), answer.content());
     }
 }
