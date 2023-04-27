@@ -29,11 +29,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 
+
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("ChatController 은(는)")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Sql("/sql/h2ChatTruncate.sql")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ChatControllerTest {
 
     @LocalServerPort

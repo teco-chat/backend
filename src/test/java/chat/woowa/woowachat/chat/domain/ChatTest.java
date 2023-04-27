@@ -55,8 +55,7 @@ class ChatTest {
                 chat.addMessage(Message.user("max", GPT_3_5_TURBO.maxTokens() - FREE_TOKEN + 1))
         ).isInstanceOf(TokenSizeBigException.class);
     }
-
-
+    
     @Test
     void 주어진_가용_토큰만큼의_공간_이상을_확보하도록_오래된_순으로_메시지를_제외한_후_세팅_메세지를_포함하여_반환한다() {
         // given

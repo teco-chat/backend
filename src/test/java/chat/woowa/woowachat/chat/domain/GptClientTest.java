@@ -32,8 +32,7 @@ class GptClientTest {
     private final HttpHeaders apiKeySettingHeader = new HttpHeaders();
     private final RestTemplate restTemplate = mock(RestTemplate.class);
     private final GptClient client = new GptClient(restTemplate, apiKeySettingHeader);
-
-
+    
     @Test
     void Chat_의_messagesWithFreeToken_을_호출해야_한다() {
         // given
