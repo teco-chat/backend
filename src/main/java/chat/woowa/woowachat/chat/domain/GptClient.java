@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GptClient {
 
+    // TODO 추후에 resources에 넣어줘
     private static final String URL = "https://api.openai.com/v1/chat/completions";
 
     private final RestTemplate restTemplate;
