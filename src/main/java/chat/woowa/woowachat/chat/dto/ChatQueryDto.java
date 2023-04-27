@@ -9,7 +9,7 @@ public record ChatQueryDto(
         Long id,
         String crewName,
         String title,
-        LocalDateTime createAt,
+        LocalDateTime createdAt,
         List<MessageQueryDto> messages
 ) {
 
@@ -30,7 +30,7 @@ public record ChatQueryDto(
             Long id,
             String content,
             String role,
-            LocalDateTime createAt
+            LocalDateTime createdAt
     ) {
         public static MessageQueryDto from(final Message message) {
             return new MessageQueryDto(message.id(), message.content(), message.roleName(), message.createdAt());
