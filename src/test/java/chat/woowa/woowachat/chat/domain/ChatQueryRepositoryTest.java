@@ -28,8 +28,8 @@ import org.springframework.data.domain.PageRequest;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("ChatQueryRepository 은(는)")
-@DataJpaTest
 @Import({QueryDslConfig.class, ChatQueryRepository.class, JpaConfig.class})
+@DataJpaTest
 class ChatQueryRepositoryTest {
 
     @Autowired
@@ -51,7 +51,6 @@ class ChatQueryRepositoryTest {
         saveMemberChat(memberRepository.save(new Member("백엔드허브", BACKEND)));
         saveMemberChat(memberRepository.save(new Member("백엔드말랑", BACKEND)));
         flushAndClear();
-        System.out.println("============================");
     }
 
     private void saveMemberChat(final Member member) {
