@@ -1,12 +1,13 @@
 package chat.woowa.woowachat.chat.presentation;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import chat.woowa.woowachat.chat.domain.ChatRepository;
 import chat.woowa.woowachat.chat.domain.GptClient;
 import chat.woowa.woowachat.chat.domain.Message;
 import chat.woowa.woowachat.chat.dto.AskRequest;
@@ -44,9 +45,6 @@ class ChatControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ChatRepository chatRepository;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -76,8 +74,7 @@ class ChatControllerTest {
                 .then()
                 .log().all()
                 .statusCode(CREATED.value())
-                .body("content", equalTo("응 안녕"))
-                .extract();
+                .body("content", equalTo("응 안녕"));
     }
 
     @Test
@@ -99,8 +96,46 @@ class ChatControllerTest {
                 .then()
                 .log().all()
                 .statusCode(CREATED.value())
-                .body("content", equalTo("응 안녕 두번째"))
-                .extract();
+                .body("content", equalTo("응 안녕 두번째"));
+    }
+
+    @Test
+    void 채팅_기록을_조회한다() throws Exception {
+        // given
+        질문을_이어서_한다();
+
+        // when
+        RestAssured.given().log().all()
+                .when()
+                .get("/chats/" + 1L)
+                .then()
+                .log().all()
+                .statusCode(OK.value())
+                .body("id", equalTo(1))
+                .body("crewName", equalTo("말랑"))
+                .body("course", equalTo("BACKEND"))
+                .body("title", equalTo("안녕?"))
+                .body("createdAt", notNullValue())
+
+                .body("messages[0].id", equalTo(1))
+                .body("messages[0].content", equalTo("안녕?"))
+                .body("messages[0].role", equalTo("user"))
+                .body("messages[0].createdAt", notNullValue())
+
+                .body("messages[1].id", equalTo(2))
+                .body("messages[1].content", equalTo("응 안녕"))
+                .body("messages[1].role", equalTo("assistant"))
+                .body("messages[1].createdAt", notNullValue())
+
+                .body("messages[2].id", equalTo(3))
+                .body("messages[2].content", equalTo("안녕? 두번째"))
+                .body("messages[2].role", equalTo("user"))
+                .body("messages[2].createdAt", notNullValue())
+
+                .body("messages[3].id", equalTo(4))
+                .body("messages[3].content", equalTo("응 안녕 두번째"))
+                .body("messages[3].role", equalTo("assistant"))
+                .body("messages[3].createdAt", notNullValue());
     }
 
     private String encode(final String name) {
