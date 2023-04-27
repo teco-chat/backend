@@ -49,7 +49,7 @@ public class Chat extends BaseEntity {
     }
 
     private void validateTokenSize(final Message message) {
-        if (model.maxTokens() - FREE_TOKEN <= message.token()) {
+        if (model.maxTokens() - FREE_TOKEN < message.token()) {
             throw new TokenSizeBigException();
         }
     }
