@@ -1,10 +1,12 @@
-package chat.woowa.woowachat.member.domain;
+package chat.woowa.woowachat.member;
 
 import static chat.woowa.woowachat.member.domain.Course.BACKEND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.woowa.woowachat.common.annotation.JpaRepositoryTest;
+import chat.woowa.woowachat.member.domain.Member;
+import chat.woowa.woowachat.member.domain.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
