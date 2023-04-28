@@ -22,7 +22,6 @@ spring:
     hibernate:
       ddl-auto: create
 
-
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
@@ -30,3 +29,6 @@ logging:
 
 gpt:
   key: ${GPT_API_KEY}
+
+server:
+  port: 5000
