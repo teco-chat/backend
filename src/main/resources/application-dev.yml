@@ -1,6 +1,5 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL
     username: sa
     password:
@@ -21,6 +20,10 @@ spring:
     hibernate:
       ddl-auto: create
 
+
+  flyway:
+    enabled: false
+    baseline-on-migrate: false
 
 logging:
   level:

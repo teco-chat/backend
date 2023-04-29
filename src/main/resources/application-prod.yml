@@ -14,7 +14,11 @@ spring:
         highlight_sql: false
         default_batch_fetch_size: 100
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 
 server:
   port: 5000
