@@ -34,7 +34,7 @@ public class ChatController {
     }
 
     @PostMapping("/chats")
-    public ResponseEntity<MessageDto> createAsk(
+    ResponseEntity<MessageDto> createAsk(
             @Auth final Long memberId,
             @RequestBody final AskRequest askRequest
     ) {
@@ -45,7 +45,7 @@ public class ChatController {
     }
 
     @PostMapping("/chats/{id}")
-    public ResponseEntity<MessageDto> ask(
+    ResponseEntity<MessageDto> ask(
             @PathVariable("id") final Long chatId,
             @Auth final Long memberId,
             @RequestBody final AskRequest askRequest
@@ -58,14 +58,14 @@ public class ChatController {
     }
 
     @GetMapping("/chats/{id}")
-    public ResponseEntity<ChatQueryDto> findById(
+    ResponseEntity<ChatQueryDto> findById(
             @PathVariable final Long id
     ) {
         return ResponseEntity.ok(chatQueryService.findById(id));
     }
 
     @GetMapping("/chats")
-    public ResponseEntity<PageResponse<ChatSearchQueryDto>> search(
+    ResponseEntity<PageResponse<ChatSearchQueryDto>> search(
             @ModelAttribute final ChatSearchCond cond,
             @PageableDefault(size = 20) final Pageable pageable
     ) {
