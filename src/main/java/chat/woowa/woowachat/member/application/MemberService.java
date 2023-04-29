@@ -18,8 +18,10 @@ public class MemberService {
 
     public void signUp(final SignUpDto signUpDto) {
         final Member member = signUpDto.toDomain();
-        if (!memberRepository.existsByName(member.name())) {
-            memberRepository.save(member);
-        }
+        memberRepository.findByName(member.name())
+                .ifPresentOrElse(
+                        saved -> saved.changeCourse(member.course()),
+                        () -> memberRepository.save(member)
+                );
     }
 }

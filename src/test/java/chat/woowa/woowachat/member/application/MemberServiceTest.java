@@ -1,8 +1,10 @@
 package chat.woowa.woowachat.member.application;
 
+import static chat.woowa.woowachat.member.domain.Course.BACKEND;
+import static chat.woowa.woowachat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.woowa.woowachat.member.domain.Course;
 import chat.woowa.woowachat.member.domain.MemberRepository;
 import chat.woowa.woowachat.member.dto.SignUpDto;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +31,7 @@ class MemberServiceTest {
     @Test
     void 이름으로_회원가입을_진행한다() {
         // given
-        final SignUpDto 말랑 = new SignUpDto("말랑", Course.BACKEND);
+        final SignUpDto 말랑 = new SignUpDto("말랑", BACKEND);
 
         // when
         memberService.signUp(말랑);
@@ -39,14 +41,22 @@ class MemberServiceTest {
     }
 
     @Test
-    void 이미_이름이_존재하는_경우_따로_저장하지_않는다() {
+    void 이미_이름이_존재하는_경우_코스를_변경한다() {
         // given
-        이름으로_회원가입을_진행한다();
+        final SignUpDto before = new SignUpDto("말랑", BACKEND);
+        final SignUpDto after = new SignUpDto("말랑", FRONTEND);
+        memberService.signUp(before);
 
         // when
-        이름으로_회원가입을_진행한다();
+        memberService.signUp(after);
 
         // then
-        assertThat(memberRepository.findAll()).hasSize(1);
+        assertAll(
+                () ->
+                        assertThat(memberRepository.findAll()).hasSize(1),
+                () ->
+                        assertThat(memberRepository.findByName("말랑").get().course())
+                                .isEqualTo(FRONTEND)
+        );
     }
 }
