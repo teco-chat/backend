@@ -11,6 +11,7 @@ public record ChatSearchQueryDto(
         String crewName,
         Course course,
         String title,
+        int totalQnaCount,
         LocalDateTime createdAt
 ) {
     public static ChatSearchQueryDto from(final Chat chat, final Member member) {
@@ -20,6 +21,7 @@ public record ChatSearchQueryDto(
                 member.name(),
                 member.course(),
                 chat.title(),
+                chat.questionAndAnswers().size(),
                 chat.createdAt()
         );
     }
