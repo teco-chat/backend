@@ -1,5 +1,7 @@
 package chat.woowa.woowachat.chat.presentation;
 
+import static chat.woowa.woowachat.chat.domain.Answer.answer;
+import static chat.woowa.woowachat.chat.domain.Question.question;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -9,8 +11,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.GptClient;
-import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.chat.domain.Question;
+import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import chat.woowa.woowachat.chat.dto.AskRequest;
 import chat.woowa.woowachat.member.domain.Course;
 import chat.woowa.woowachat.member.domain.Member;
@@ -54,11 +58,9 @@ class ChatControllerTest {
 
     private static void validateMessage(final ValidatableResponse validatableResponse,
                                         final int index,
-                                        final int id,
                                         final String content,
                                         final String role) {
         validatableResponse
-                .body("messages[" + index + "].id", equalTo(id))
                 .body("messages[" + index + "].content", equalTo(content))
                 .body("messages[" + index + "].role", equalTo(role))
                 .body("messages[" + index + "].createdAt", notNullValue());
@@ -73,9 +75,13 @@ class ChatControllerTest {
     @Test
     void 첫_질문을_한다() throws Exception {
         // given
-        given(gptClient.ask(any()))
-                .willReturn(Message.assistant("응 안녕", 10));
-        final AskRequest askRequest = new AskRequest("안녕?", 50);
+        given(gptClient.ask(any(Chat.class), any(Question.class)))
+                .willReturn(new QuestionAndAnswer(
+                        question("안녕?"),
+                        answer("응 안녕"),
+                        10
+                ));
+        final AskRequest askRequest = new AskRequest("안녕?");
         final String body = objectMapper.writeValueAsString(askRequest);
 
         // when & then
@@ -95,9 +101,13 @@ class ChatControllerTest {
     void 질문을_이어서_한다() throws Exception {
         // given
         첫_질문을_한다();
-        given(gptClient.ask(any()))
-                .willReturn(Message.assistant("응 안녕 두번째", 10));
-        final AskRequest askRequest = new AskRequest("안녕? 두번째", 50);
+        given(gptClient.ask(any(Chat.class), any(Question.class)))
+                .willReturn(new QuestionAndAnswer(
+                        question("안녕? 2"),
+                        answer("응 안녕 2"),
+                        10
+                ));
+        final AskRequest askRequest = new AskRequest("안녕? 2");
         final String body = objectMapper.writeValueAsString(askRequest);
 
         // when & then
@@ -110,7 +120,7 @@ class ChatControllerTest {
                 .then()
                 .log().all()
                 .statusCode(CREATED.value())
-                .body("content", equalTo("응 안녕 두번째"));
+                .body("content", equalTo("응 안녕 2"));
     }
 
     @Test
@@ -135,10 +145,10 @@ class ChatControllerTest {
                 .body("title", equalTo("안녕?"))
                 .body("createdAt", notNullValue());
         assertAll(
-                () -> validateMessage(validatableResponse, 0, 1, "안녕?", "user"),
-                () -> validateMessage(validatableResponse, 1, 2, "응 안녕", "assistant"),
-                () -> validateMessage(validatableResponse, 2, 3, "안녕? 두번째", "user"),
-                () -> validateMessage(validatableResponse, 3, 4, "응 안녕 두번째", "assistant")
+                () -> validateMessage(validatableResponse, 0, "안녕?", "user"),
+                () -> validateMessage(validatableResponse, 1, "응 안녕", "assistant"),
+                () -> validateMessage(validatableResponse, 2, "안녕? 2", "user"),
+                () -> validateMessage(validatableResponse, 3, "응 안녕 2", "assistant")
         );
     }
 
@@ -165,9 +175,13 @@ class ChatControllerTest {
 
     private void 질문을_한다(final String name, final Course course) throws Exception {
         memberRepository.save(new Member(name, course)).id();
-        given(gptClient.ask(any()))
-                .willReturn(Message.assistant("응 안녕", 10));
-        final AskRequest askRequest = new AskRequest("안녕?", 50);
+        given(gptClient.ask(any(Chat.class), any(Question.class)))
+                .willReturn(new QuestionAndAnswer(
+                        question("안녕?"),
+                        answer("응 안녕"),
+                        10
+                ));
+        final AskRequest askRequest = new AskRequest("안녕?");
         final String body = objectMapper.writeValueAsString(askRequest);
 
         // when & then

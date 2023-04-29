@@ -14,16 +14,25 @@ public class GptApiConfig {
     @Value("${gpt.key}")
     private String key;
 
+    @Value("${gpt.url}")
+    private String url;
+
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
     @Bean
-    public HttpHeaders gptKey() {
+    public HttpHeaders httpHeaders() {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
         headers.setBearerAuth(key);
         return headers;
+    }
+
+    @Bean
+    public String gptApiUrl() {
+        return url;
     }
 }

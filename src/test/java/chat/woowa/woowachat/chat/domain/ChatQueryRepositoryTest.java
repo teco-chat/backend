@@ -57,9 +57,14 @@ class ChatQueryRepositoryTest {
         final Chat chat = new Chat(GPT_3_5_TURBO,
                 SettingMessage.byCourse(member.course()),
                 member.name() + "의 Title",
-                member.id(),
-                Message.user(member.name() + "의 Title", 2));
-        chat.addMessage(Message.assistant("안녕하세요", 5));
+                member.id());
+
+        QuestionAndAnswer qna = new QuestionAndAnswer(
+                Question.question(member.name() + "의 Title"),
+                Answer.answer("안녕하세요"),
+                7
+        );
+        chat.addQuestionAndAnswer(qna);
         chatRepository.save(chat);
     }
 
@@ -73,12 +78,9 @@ class ChatQueryRepositoryTest {
         // then
         final List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(6),
-                () -> assertThat(content.get(0).messages())
-                        .extracting(Message::content)
-                        .containsExactly("백엔드말랑의 Title", "안녕하세요"),
-                () -> assertThat(content.get(1).messages())
-                        .extracting(Message::content)
-                        .containsExactly("백엔드허브의 Title", "안녕하세요")
+                () -> assertThat(content.get(0).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("백엔드말랑의 Title")
         );
     }
 
@@ -91,15 +93,15 @@ class ChatQueryRepositoryTest {
         // then
         final List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(3),
-                () -> assertThat(content.get(0).messages())
-                        .extracting(Message::content)
-                        .containsExactly("백엔드말랑의 Title", "안녕하세요"),
-                () -> assertThat(content.get(1).messages())
-                        .extracting(Message::content)
-                        .containsExactly("안드로이드말랑의 Title", "안녕하세요"),
-                () -> assertThat(content.get(2).messages())
-                        .extracting(Message::content)
-                        .containsExactly("프론트엔드말랑의 Title", "안녕하세요")
+                () -> assertThat(content.get(0).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("백엔드말랑의 Title"),
+                () -> assertThat(content.get(1).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("안드로이드말랑의 Title"),
+                () -> assertThat(content.get(2).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("프론트엔드말랑의 Title")
         );
     }
 
@@ -112,12 +114,12 @@ class ChatQueryRepositoryTest {
         // then
         final List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(2),
-                () -> assertThat(content.get(0).messages())
-                        .extracting(Message::content)
-                        .containsExactly("백엔드허브의 Title", "안녕하세요"),
-                () -> assertThat(content.get(1).messages())
-                        .extracting(Message::content)
-                        .containsExactly("프론트엔드허브의 Title", "안녕하세요")
+                () -> assertThat(content.get(0).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("백엔드허브의 Title"),
+                () -> assertThat(content.get(1).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("프론트엔드허브의 Title")
         );
     }
 
@@ -131,12 +133,12 @@ class ChatQueryRepositoryTest {
         // then
         final List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(2),
-                () -> assertThat(content.get(0).messages())
-                        .extracting(Message::content)
-                        .containsExactly("안드로이드말랑의 Title", "안녕하세요"),
-                () -> assertThat(content.get(1).messages())
-                        .extracting(Message::content)
-                        .containsExactly("안드로이드허브의 Title", "안녕하세요")
+                () -> assertThat(content.get(0).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("안드로이드말랑의 Title"),
+                () -> assertThat(content.get(1).questionAndAnswers())
+                        .extracting(it -> it.question().content())
+                        .containsExactly("안드로이드허브의 Title")
         );
     }
 

@@ -2,10 +2,12 @@ package chat.woowa.woowachat.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.woowa.woowachat.chat.domain.Answer;
 import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.GptClient;
-import chat.woowa.woowachat.chat.domain.Message;
-import chat.woowa.woowachat.chat.fixture.ChatFixture;
+import chat.woowa.woowachat.chat.domain.Question;
+import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
+import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -27,12 +29,20 @@ class GptClientIntTest {
     @Test
     void Chat_Completion_API_에_질문을_보내고_답변을_받아온다() {
         // given
-        final Chat chat = ChatFixture.chatWithMessages("안녕?", "네. 안녕하세요.", "다음 단어를 똑같이 말해봐. 안녕");
+        final Chat chat =
+                Chat2Fixture.chat(
+                        new QuestionAndAnswer(
+                                Question.question("안녕?"),
+                                Answer.answer("네. 안녕하세요"),
+                                100
+                        )
+                );
 
         // when
-        final Message ask = client.ask(chat);
+        final QuestionAndAnswer ask = client.ask(chat, Question.question("다음 단어를 똑같이 말해봐. 안녕"));
 
         // then
-        assertThat(ask.content()).isEqualTo("안녕");
+        assertThat(ask.answer().content())
+                .isEqualTo("안녕");
     }
 }

@@ -4,3 +4,4 @@ spring:
 
 gpt:
   key: ${GPT_API_KEY}
+  url: ${GPT_API_URL}

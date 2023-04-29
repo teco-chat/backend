@@ -2,8 +2,10 @@ package chat.woowa.woowachat.chat.dto;
 
 import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import chat.woowa.woowachat.member.domain.Course;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public record ChatQueryDto(
@@ -16,28 +18,33 @@ public record ChatQueryDto(
 ) {
 
     public static ChatQueryDto of(final Chat chat, final String crewName, final Course course) {
-        final List<MessageQueryDto> messageQueryDtos = chat.messages()
-                .stream()
-                .map(MessageQueryDto::from)
-                .toList();
-
+        final List<MessageQueryDto> messages = new ArrayList<>();
+        for (final QuestionAndAnswer qna : chat.questionAndAnswers()) {
+            messages.add(MessageQueryDto.of(qna.question(), qna.createdAt()));
+            messages.add(MessageQueryDto.of(qna.answer(), qna.createdAt()));
+        }
         return new ChatQueryDto(
                 chat.id(),
                 crewName,
                 course,
                 chat.title(),
                 chat.createdAt(),
-                messageQueryDtos);
+                messages);
     }
 
+    // TODO 반환형식 바꿀 수 있으면 QnaDto 만들어서 바꾸기
     public record MessageQueryDto(
-            Long id,
             String content,
             String role,
             LocalDateTime createdAt
     ) {
-        public static MessageQueryDto from(final Message message) {
-            return new MessageQueryDto(message.id(), message.content(), message.roleName(), message.createdAt());
+        public static MessageQueryDto of(final Message message,
+                                         final LocalDateTime createdAt) {
+            return new MessageQueryDto(
+                    message.content(),
+                    message.roleName(),
+                    createdAt
+            );
         }
     }
 }

@@ -39,7 +39,7 @@ public class ChatController {
             @RequestBody final AskRequest askRequest
     ) {
         final MessageDto answer = askChatService.createAsk(
-                new AskCommand(memberId, askRequest.message(), askRequest.token()));
+                new AskCommand(memberId, askRequest.message()));
         return ResponseEntity.status(CREATED.value())
                 .body(answer);
     }
@@ -52,7 +52,7 @@ public class ChatController {
     ) {
         final MessageDto answer = askChatService.ask(
                 chatId,
-                new AskCommand(memberId, askRequest.message(), askRequest.token()));
+                new AskCommand(memberId, askRequest.message()));
         return ResponseEntity.status(CREATED.value())
                 .body(answer);
     }

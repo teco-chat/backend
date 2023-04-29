@@ -1,10 +1,12 @@
 package chat.woowa.woowachat.chat.domain;
 
+import static chat.woowa.woowachat.chat.domain.Role.SYSTEM;
+
 import chat.woowa.woowachat.member.domain.Course;
 import java.util.EnumMap;
 import java.util.Map;
 
-public enum SettingMessage {
+public enum SettingMessage implements Message {
 
     // (참고) 토큰 수는 31 나옴
     BACK_END_SETTING("You are a helpful backend developer assistant."),
@@ -22,10 +24,10 @@ public enum SettingMessage {
         byCourseMap.put(Course.ANDROID, ANDROID_SETTING);
     }
 
-    private final String message;
+    private final String content;
 
     SettingMessage(final String message) {
-        this.message = message + DEFAULT_LANGUAGE_SETTING;
+        this.content = message + DEFAULT_LANGUAGE_SETTING;
     }
 
     public static SettingMessage byCourse(final Course course) {
@@ -33,6 +35,16 @@ public enum SettingMessage {
     }
 
     public String message() {
-        return message;
+        return content;
+    }
+
+    @Override
+    public String roleName() {
+        return SYSTEM.roleName();
+    }
+
+    @Override
+    public String content() {
+        return content;
     }
 }
