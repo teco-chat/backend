@@ -167,8 +167,10 @@ class ChatControllerTest {
                 .then()
                 .body("content[0].crewName", equalTo("프론트2 허브"))
                 .body("content[0].course", equalTo("FRONTEND"))
+                .body("content[0].totalQnaCount", equalTo(1))
                 .body("content[1].crewName", equalTo("프론트 허브"))
                 .body("content[1].course", equalTo("FRONTEND"))
+                .body("content[1].totalQnaCount", equalTo(1))
                 .body("totalElements", equalTo(2))
                 .log().all();
     }
