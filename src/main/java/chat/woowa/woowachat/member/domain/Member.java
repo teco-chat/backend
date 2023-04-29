@@ -32,4 +32,8 @@ public class Member extends BaseEntity {
     public Course course() {
         return course;
     }
+
+    public void changeCourse(final Course course) {
+        this.course = course;
+    }
 }
