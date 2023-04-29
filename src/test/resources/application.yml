@@ -28,4 +28,5 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
 
 gpt:
-  key: 따로 설정해서 쓰세용
+  key: 실제 요청보낼 때 따로 설정해서 쓰세용
+  url: 실제 요청보낼 때 따로 설정해서 쓰세용

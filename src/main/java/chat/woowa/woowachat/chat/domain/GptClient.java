@@ -12,22 +12,23 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GptClient {
 
-    // TODO 추후에 resources에 넣어줘
-    private static final String URL = "https://api.openai.com/v1/chat/completions";
-
     private final RestTemplate restTemplate;
     private final HttpHeaders apiKeySettingHeader;
+    private final String gptApiUrl;
 
-    public GptClient(final RestTemplate restTemplate, final HttpHeaders apiKeySettingHeader) {
+    public GptClient(final RestTemplate restTemplate,
+                     final HttpHeaders apiKeySettingHeader,
+                     final String gptApiUrl) {
         this.restTemplate = restTemplate;
         this.apiKeySettingHeader = apiKeySettingHeader;
+        this.gptApiUrl = gptApiUrl;
     }
 
     public QuestionAndAnswer ask(final Chat chat, final Question question) {
         final ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
         try {
             final ChatCompletionResponse response = restTemplate.postForEntity(
-                            URL,
+                            gptApiUrl,
                             new HttpEntity<>(request, apiKeySettingHeader),
                             ChatCompletionResponse.class)
                     .getBody();
