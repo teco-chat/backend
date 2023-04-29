@@ -1,21 +1,25 @@
 package chat.woowa.woowachat.chat.application;
 
 
+import static chat.woowa.woowachat.chat.domain.Answer.answer;
+import static chat.woowa.woowachat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import chat.woowa.woowachat.chat.domain.Answer;
 import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.ChatQueryRepository;
 import chat.woowa.woowachat.chat.domain.ChatQueryRepository.ChatSearchCond;
 import chat.woowa.woowachat.chat.domain.ChatRepository;
-import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.chat.domain.Question;
+import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import chat.woowa.woowachat.chat.dto.ChatQueryDto;
 import chat.woowa.woowachat.chat.dto.ChatQueryDto.MessageQueryDto;
 import chat.woowa.woowachat.chat.dto.ChatSearchQueryDto;
-import chat.woowa.woowachat.chat.fixture.ChatFixture;
+import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
 import chat.woowa.woowachat.member.domain.Course;
 import chat.woowa.woowachat.member.domain.Member;
 import chat.woowa.woowachat.member.domain.MemberRepository;
@@ -46,11 +50,17 @@ class ChatQueryServiceTest {
     @Test
     void 단일_채팅_기록을_전부_조회한다() {
         // given
-        final Chat chat = ChatFixture.chatWithMessages(
-                List.of(Message.user("안녕", 1),
-                        Message.user("안녕하세요", 1),
-                        Message.user("반가워 ", 1),
-                        Message.user("저도 반갑습니다", 1)));
+        final Chat chat = Chat2Fixture.chat(
+                new QuestionAndAnswer(
+                        question("안녕"),
+                        answer("안녕하세요"),
+                        2
+                ),
+                new QuestionAndAnswer(
+                        Question.question("반가워"),
+                        Answer.answer("저도 반갑습니다"),
+                        2
+                ));
         given(chatRepository.findById(1L))
                 .willReturn(Optional.of(chat));
         given(memberRepository.findById(any()))
@@ -65,17 +75,28 @@ class ChatQueryServiceTest {
                 () -> assertThat(chatQueryDto.title()).isEqualTo("안녕"),
                 () -> assertThat(chatQueryDto.messages())
                         .extracting(MessageQueryDto::content)
-                        .containsExactly("안녕", "안녕하세요", "반가워 ", "저도 반갑습니다")
+                        .containsExactly("안녕", "안녕하세요", "반가워", "저도 반갑습니다")
         );
     }
 
     @Test
     void 검색할_수_있다() {
         // given
-        final Chat chat1 = ChatFixture.chatWithMessages(List.of(Message.user("제목1", 1)));
-        final Chat chat2 = ChatFixture.chatWithMessages(List.of(Message.user("제목2", 1)));
+        final Chat chat1 = Chat2Fixture.chat(
+                new QuestionAndAnswer(
+                        question("안녕"),
+                        answer("안녕하세요"),
+                        2
+                ));
+
+        final Chat chat = Chat2Fixture.chat(
+                new QuestionAndAnswer(
+                        question("안녕2"),
+                        answer("안녕하세요2"),
+                        2
+                ));
         final Page<Chat> page = PageableExecutionUtils.getPage(
-                List.of(chat1, chat2),
+                List.of(chat1, chat),
                 PageRequest.of(0, 10),
                 () -> 0);
         given(chatQueryRepository.search(any(), any()))
@@ -94,7 +115,7 @@ class ChatQueryServiceTest {
         assertAll(
                 () -> assertThat(chatSearchQueryDto.crewName()).isEqualTo("말랑"),
                 () -> assertThat(chatSearchQueryDto.course()).isEqualTo(Course.BACKEND),
-                () -> assertThat(chatSearchQueryDto.title()).isEqualTo("제목1")
+                () -> assertThat(chatSearchQueryDto.title()).isEqualTo("안녕")
         );
     }
 }

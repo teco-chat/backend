@@ -4,7 +4,8 @@ import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.ChatRepository;
 import chat.woowa.woowachat.chat.domain.GptClient;
 import chat.woowa.woowachat.chat.domain.GptModel;
-import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.chat.domain.Question;
+import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import chat.woowa.woowachat.chat.domain.SettingMessage;
 import chat.woowa.woowachat.chat.dto.AskCommand;
 import chat.woowa.woowachat.chat.dto.MessageDto;
@@ -30,28 +31,25 @@ public class AskChatService {
     }
 
     public MessageDto createAsk(final AskCommand command) {
-        final Message question = command.toMessage();
+        final Question question = command.question();
         final Chat chat = saveInitialChat(command, question);
-        return answer(chat);
+        return answer(chat, question);
     }
 
-    private Chat saveInitialChat(final AskCommand command, final Message question) {
+    private Chat saveInitialChat(final AskCommand command, final Question question) {
         final Member member = findMemberById(command.memberId());
         Chat chat = new Chat(GptModel.GPT_3_5_TURBO,
                 SettingMessage.byCourse(member.course()),
                 question.content(),
-                command.memberId(),
-                question
+                command.memberId()
         );
         return chatRepository.save(chat);
     }
 
     public MessageDto ask(final Long id, final AskCommand command) {
-        final Message question = command.toMessage();
         final Chat chat = chatRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 %d인 채팅이 없습니다."));
-        chat.addMessage(question);
-        return answer(chat);
+        return answer(chat, command.question());
     }
 
     private Member findMemberById(final Long memberId) {
@@ -62,9 +60,9 @@ public class AskChatService {
                 );
     }
 
-    private MessageDto answer(final Chat chat) {
-        final Message answer = gptClient.ask(chat);
-        chat.addMessage(answer);
-        return new MessageDto(chat.id(), answer.content());
+    private MessageDto answer(final Chat chat, final Question question) {
+        final QuestionAndAnswer ask = gptClient.ask(chat, question);
+        chat.addQuestionAndAnswer(ask);
+        return new MessageDto(chat.id(), ask.answer().content());
     }
 }

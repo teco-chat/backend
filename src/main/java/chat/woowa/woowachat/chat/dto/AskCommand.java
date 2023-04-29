@@ -1,13 +1,12 @@
 package chat.woowa.woowachat.chat.dto;
 
-import chat.woowa.woowachat.chat.domain.Message;
+import chat.woowa.woowachat.chat.domain.Question;
 
 public record AskCommand(
         Long memberId,
-        String message,
-        int token
+        String message
 ) {
-    public Message toMessage() {
-        return Message.user(message, token);
+    public Question question() {
+        return Question.question(message);
     }
 }

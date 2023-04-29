@@ -23,23 +23,37 @@ public class GptClient {
         this.apiKeySettingHeader = apiKeySettingHeader;
     }
 
-    public Message ask(final Chat chat) {
-        final ChatCompletionRequest request = ChatCompletionRequest.from(chat);
-        final ChatCompletionResponse response = restTemplate.postForEntity(
-                        URL,
-                        new HttpEntity<>(request, apiKeySettingHeader),
-                        ChatCompletionResponse.class)
-                .getBody();
-        return Objects.requireNonNull(response).answer();
+    public QuestionAndAnswer ask(final Chat chat, final Question question) {
+        final ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
+        try {
+            final ChatCompletionResponse response = restTemplate.postForEntity(
+                            URL,
+                            new HttpEntity<>(request, apiKeySettingHeader),
+                            ChatCompletionResponse.class)
+                    .getBody();
+            Objects.requireNonNull(response);
+            return new QuestionAndAnswer(
+                    question,
+                    Answer.answer(response.choices().get(0).message.content),
+                    (response.usage().totalTokens - chat.totalToken())
+            );
+        } catch (final Exception e) {
+            // TODO 적절히 예외처리
+            if (e.getMessage().contains("context_length_exceeded")) {
+                throw new IllegalArgumentException("질문이 너무 깁니다. 질문의 크기를 줄여주세요");
+            }
+            throw new RuntimeException("GPT API 에 문제가 있습니다", e);
+        }
     }
 
     public record ChatCompletionRequest(
             String model,
             List<MessageRequest> messages
     ) {
-        public static ChatCompletionRequest from(final Chat chat) {
+        public static ChatCompletionRequest of(final Chat chat, final Question question) {
             final List<MessageRequest> messageRequests = new ArrayList<>();
             final List<Message> messages = chat.messagesWithFreeToken();
+            messages.add(question);
             for (final Message message : messages) {
                 messageRequests.add(new MessageRequest(
                         message.roleName(), message.content()));
@@ -61,10 +75,6 @@ public class GptClient {
             List<ChoiceResponse> choices,
             UsageResponse usage
     ) {
-        public Message answer() {
-            return Message.assistant(choices.get(0).message.content, usage.completionTokens);
-        }
-
         public record ChoiceResponse(
                 Long index,
                 MessageResponse message,

@@ -30,33 +30,30 @@ public class Chat extends BaseEntity {
     private Long memberId;
 
     @Embedded
-    private Messages messages = new Messages();
+    private QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers();
 
     public Chat(final GptModel model,
                 final SettingMessage settingMessage,
                 final String title,
-                final Long memberId,
-                final Message message) {
+                final Long memberId) {
         this.model = model;
         this.settingMessage = settingMessage;
         this.title = title;
         this.memberId = memberId;
-        validateTokenSize(message);
-        this.messages = new Messages(message);
     }
 
     protected Chat() {
     }
 
-    private void validateTokenSize(final Message message) {
-        if (model.maxTokens() - FREE_TOKEN < message.token()) {
-            throw new TokenSizeBigException();
-        }
+    public void addQuestionAndAnswer(final QuestionAndAnswer questionAndAnswer) {
+        validateTokenSize(questionAndAnswer);
+        this.questionAndAnswers.add(questionAndAnswer);
     }
 
-    public void addMessage(final Message message) {
-        validateTokenSize(message);
-        this.messages.add(message);
+    private void validateTokenSize(final QuestionAndAnswer questionAndAnswer) {
+        if (model.maxTokens() - FREE_TOKEN < questionAndAnswer.token()) {
+            throw new TokenSizeBigException();
+        }
     }
 
     /**
@@ -64,9 +61,21 @@ public class Chat extends BaseEntity {
      */
     public List<Message> messagesWithFreeToken() {
         final List<Message> result = new ArrayList<>();
-        result.add(Message.system(settingMessage.message(), 0));
-        result.addAll(messages.lessOrEqualThan(model.maxTokens() - FREE_TOKEN));
+        result.add(settingMessage);
+        final List<QuestionAndAnswer> lessOrEqualThan =
+                questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
+        for (final QuestionAndAnswer qna : lessOrEqualThan) {
+            result.add(qna.question());
+            result.add(qna.answer());
+        }
         return result;
+    }
+
+    public int totalToken() {
+        return questionAndAnswers.questionAndAnswers()
+                .stream()
+                .mapToInt(QuestionAndAnswer::token)
+                .sum();
     }
 
     public String modelName() {
@@ -85,7 +94,7 @@ public class Chat extends BaseEntity {
         return memberId;
     }
 
-    public List<Message> messages() {
-        return new ArrayList<>(messages.messages());
+    public List<QuestionAndAnswer> questionAndAnswers() {
+        return new ArrayList<>(questionAndAnswers.questionAndAnswers());
     }
 }
