@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
 
   jpa:
     show_sql: false
@@ -19,6 +19,9 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+    user: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
 
 server:
   port: 5000
