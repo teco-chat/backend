@@ -61,3 +61,7 @@ sourceSets {
 clean {
     delete file(generated)
 }
+
+test {
+    maxHeapSize = "1024m"
+}
