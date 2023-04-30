@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Question implements Message {
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String question;
 
     private Question(final String content) {
