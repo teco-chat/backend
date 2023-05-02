@@ -9,6 +9,6 @@ public class HealthCheckController {
 
     @GetMapping("/")
     public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("WOOWA CHAT API IS RUNNING NOW.");
+        return ResponseEntity.ok("TECO CHAT API IS RUNNING NOW.");
     }
 }
