@@ -10,7 +10,7 @@ pipeline {
     stage('zip') {
       steps {
         sh 'mv ./build/libs/woowachat.jar .'
-        sh 'zip -r woowachat.zip .platform delivery.jar Procfile'
+        sh 'zip -r woowachat.zip .platform woowachat.jar Procfile'
       }
     }
 
