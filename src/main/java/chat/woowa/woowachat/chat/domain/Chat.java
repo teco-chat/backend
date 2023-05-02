@@ -32,6 +32,9 @@ public class Chat extends BaseEntity {
     @Embedded
     private QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers();
 
+    protected Chat() {
+    }
+
     public Chat(final GptModel model,
                 final SettingMessage settingMessage,
                 final String title,
@@ -40,9 +43,6 @@ public class Chat extends BaseEntity {
         this.settingMessage = settingMessage;
         this.title = title;
         this.memberId = memberId;
-    }
-
-    protected Chat() {
     }
 
     public void addQuestionAndAnswer(final QuestionAndAnswer questionAndAnswer) {
@@ -59,23 +59,8 @@ public class Chat extends BaseEntity {
     /**
      * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
      */
-    public List<Message> messagesWithFreeToken() {
-        final List<Message> result = new ArrayList<>();
-        result.add(settingMessage);
-        final List<QuestionAndAnswer> lessOrEqualThan =
-                questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
-        for (final QuestionAndAnswer qna : lessOrEqualThan) {
-            result.add(qna.question());
-            result.add(qna.answer());
-        }
-        return result;
-    }
-
-    public int totalToken() {
-        return questionAndAnswers.questionAndAnswers()
-                .stream()
-                .mapToInt(QuestionAndAnswer::token)
-                .sum();
+    public QuestionAndAnswers qnaWithFreeToken() {
+        return questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
     }
 
     public String modelName() {
