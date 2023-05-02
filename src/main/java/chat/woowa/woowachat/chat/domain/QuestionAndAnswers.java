@@ -46,6 +46,16 @@ public class QuestionAndAnswers {
         return new QuestionAndAnswers(new ArrayList<>(result));
     }
 
+    public List<Message> messagesWithSettingMessage(final SettingMessage settingMessage) {
+        final List<Message> result = new ArrayList<>();
+        result.add(settingMessage);
+        for (final QuestionAndAnswer qna : questionAndAnswers) {
+            result.add(qna.question());
+            result.add(qna.answer());
+        }
+        return result;
+    }
+
     public int calculateTokenSum() {
         return questionAndAnswers.stream()
                 .mapToInt(QuestionAndAnswer::token)

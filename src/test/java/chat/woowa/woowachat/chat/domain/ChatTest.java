@@ -85,7 +85,8 @@ class ChatTest {
         final Chat chat = ChatFixture.chat(messages);
 
         // when
-        final List<Message> messageInterfaces = chat.messagesWithFreeToken();
+        final List<Message> messageInterfaces = chat.qnaWithFreeToken()
+                .messagesWithSettingMessage(chat.settingMessage());
 
         // then
         assertThat(messageInterfaces).extracting(Message::content)
@@ -119,7 +120,8 @@ class ChatTest {
         final Chat chat = ChatFixture.chat(messages);
 
         // when
-        final List<Message> result = chat.messagesWithFreeToken();
+        final List<Message> result = chat.qnaWithFreeToken()
+                .messagesWithSettingMessage(chat.settingMessage());
 
         // then
         assertThat(result).extracting(Message::content)
