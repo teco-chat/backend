@@ -46,7 +46,7 @@ public class QuestionAndAnswers {
         return new ArrayList<>(result);
     }
 
-    private int calculateTokenSum() {
+    public int calculateTokenSum() {
         return questionAndAnswers.stream()
                 .mapToInt(QuestionAndAnswer::token)
                 .sum();

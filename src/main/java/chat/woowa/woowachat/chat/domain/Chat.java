@@ -72,10 +72,7 @@ public class Chat extends BaseEntity {
     }
 
     public int totalToken() {
-        return questionAndAnswers.questionAndAnswers()
-                .stream()
-                .mapToInt(QuestionAndAnswer::token)
-                .sum();
+        return questionAndAnswers.calculateTokenSum();
     }
 
     public String modelName() {
