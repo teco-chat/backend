@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.woowa.woowachat.chat.exception.TokenSizeBigException;
-import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
+import chat.woowa.woowachat.chat.fixture.ChatFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -24,7 +24,7 @@ class ChatTest {
     @Test
     void QnA를_추가할_수_있다() {
         // given
-        final Chat chat = Chat2Fixture.defaultChat();
+        final Chat chat = ChatFixture.defaultChat();
 
         // when
         chat.addQuestionAndAnswer(new QuestionAndAnswer(
@@ -46,7 +46,7 @@ class ChatTest {
     @Test
     void 메세지를_추가_시_최대토큰에서_가용토큰을_뺀_길이만큼의_메세지가_들어오면_예외() {
         // given
-        final Chat chat = Chat2Fixture.chatWithModel(GPT_3_5_TURBO,
+        final Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO,
                 new QuestionAndAnswer(
                         question("안녕"),
                         answer("응 안녕"),
@@ -82,7 +82,7 @@ class ChatTest {
                         answer("A3"),
                         1500
                 ));
-        final Chat chat = Chat2Fixture.chat(messages);
+        final Chat chat = ChatFixture.chat(messages);
 
         // when
         final List<Message> messageInterfaces = chat.messagesWithFreeToken();
@@ -116,7 +116,7 @@ class ChatTest {
                         answer("A3"),
                         GPT_3_5_TURBO.maxTokens() - FREE_TOKEN
                 ));
-        final Chat chat = Chat2Fixture.chat(messages);
+        final Chat chat = ChatFixture.chat(messages);
 
         // when
         final List<Message> result = chat.messagesWithFreeToken();

@@ -9,7 +9,7 @@ import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import java.util.Arrays;
 import java.util.List;
 
-public class Chat2Fixture {
+public class ChatFixture {
 
     public static Chat defaultChat() {
         return new Chat(GPT_3_5_TURBO,

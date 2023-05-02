@@ -7,7 +7,7 @@ import chat.woowa.woowachat.chat.domain.Chat;
 import chat.woowa.woowachat.chat.domain.GptClient;
 import chat.woowa.woowachat.chat.domain.Question;
 import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
-import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
+import chat.woowa.woowachat.chat.fixture.ChatFixture;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -30,7 +30,7 @@ class GptClientIntTest {
     void Chat_Completion_API_에_질문을_보내고_답변을_받아온다() {
         // given
         final Chat chat =
-                Chat2Fixture.chat(
+                ChatFixture.chat(
                         new QuestionAndAnswer(
                                 Question.question("안녕?"),
                                 Answer.answer("네. 안녕하세요"),

@@ -147,7 +147,7 @@ class GptClientTest {
                         1000
                 )
         );
-        final Chat chat = Chat2Fixture.chatWithModel(GPT_3_5_TURBO, messages);
+        final Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO, messages);
 
         // when
         final ChatCompletionRequest from = ChatCompletionRequest.of(chat, question("질문"));
