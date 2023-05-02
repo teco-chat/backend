@@ -34,7 +34,7 @@ public class QuestionAndAnswers {
         questionAndAnswers.add(questionAndAnswer);
     }
 
-    public List<QuestionAndAnswer> lessOrEqualThan(final int token) {
+    public QuestionAndAnswers lessOrEqualThan(final int token) {
         final Deque<QuestionAndAnswer> result = new ArrayDeque<>(this.questionAndAnswers);
         int tokenSum = calculateTokenSum();
 
@@ -43,7 +43,7 @@ public class QuestionAndAnswers {
             tokenSum -= message.token();
         }
 
-        return new ArrayList<>(result);
+        return new QuestionAndAnswers(new ArrayList<>(result));
     }
 
     public int calculateTokenSum() {

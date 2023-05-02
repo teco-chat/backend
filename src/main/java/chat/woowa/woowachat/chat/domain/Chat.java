@@ -63,12 +63,20 @@ public class Chat extends BaseEntity {
         final List<Message> result = new ArrayList<>();
         result.add(settingMessage);
         final List<QuestionAndAnswer> lessOrEqualThan =
-                questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
+                questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN)
+                        .questionAndAnswers();
         for (final QuestionAndAnswer qna : lessOrEqualThan) {
             result.add(qna.question());
             result.add(qna.answer());
         }
         return result;
+    }
+
+    /**
+     * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
+     */
+    public QuestionAndAnswers qnaWithFreeToken() {
+        return questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
     }
 
     public int totalToken() {
