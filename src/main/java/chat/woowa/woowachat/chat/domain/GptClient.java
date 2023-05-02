@@ -27,16 +27,15 @@ public class GptClient {
     public QuestionAndAnswer ask(final Chat chat, final Question question) {
         final ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
         try {
-            final ChatCompletionResponse response = restTemplate.postForEntity(
-                            gptApiUrl,
-                            new HttpEntity<>(request, apiKeySettingHeader),
-                            ChatCompletionResponse.class)
-                    .getBody();
+            final ChatCompletionResponse response = restTemplate.postForEntity(gptApiUrl,
+                    new HttpEntity<>(request, apiKeySettingHeader),
+                    ChatCompletionResponse.class
+            ).getBody();
             Objects.requireNonNull(response);
             return new QuestionAndAnswer(
                     question,
-                    Answer.answer(response.choices().get(0).message.content),
-                    (response.usage().totalTokens - chat.totalToken())
+                    Answer.answer(response.answer()),
+                    response.totalTokens() - chat.qnaWithFreeToken().calculateTokenSum()
             );
         } catch (final Exception e) {
             // TODO 적절히 예외처리
@@ -53,11 +52,13 @@ public class GptClient {
     ) {
         public static ChatCompletionRequest of(final Chat chat, final Question question) {
             final List<MessageRequest> messageRequests = new ArrayList<>();
-            final List<Message> messages = chat.messagesWithFreeToken();
+            final QuestionAndAnswers questionAndAnswers = chat.qnaWithFreeToken();
+            final List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
             messages.add(question);
             for (final Message message : messages) {
-                messageRequests.add(new MessageRequest(
-                        message.roleName(), message.content()));
+                messageRequests.add(
+                        new MessageRequest(message.roleName(), message.content())
+                );
             }
             return new ChatCompletionRequest(chat.modelName(), messageRequests);
         }
@@ -76,6 +77,14 @@ public class GptClient {
             List<ChoiceResponse> choices,
             UsageResponse usage
     ) {
+        public String answer() {
+            return choices.get(0).message().content();
+        }
+
+        public int totalTokens() {
+            return usage().totalTokens();
+        }
+
         public record ChoiceResponse(
                 Long index,
                 MessageResponse message,

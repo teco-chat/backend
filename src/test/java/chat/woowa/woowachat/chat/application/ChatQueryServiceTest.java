@@ -19,7 +19,7 @@ import chat.woowa.woowachat.chat.domain.QuestionAndAnswer;
 import chat.woowa.woowachat.chat.dto.ChatQueryDto;
 import chat.woowa.woowachat.chat.dto.ChatQueryDto.MessageQueryDto;
 import chat.woowa.woowachat.chat.dto.ChatSearchQueryDto;
-import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
+import chat.woowa.woowachat.chat.fixture.ChatFixture;
 import chat.woowa.woowachat.member.domain.Course;
 import chat.woowa.woowachat.member.domain.Member;
 import chat.woowa.woowachat.member.domain.MemberRepository;
@@ -50,7 +50,7 @@ class ChatQueryServiceTest {
     @Test
     void 단일_채팅_기록을_전부_조회한다() {
         // given
-        final Chat chat = Chat2Fixture.chat(
+        final Chat chat = ChatFixture.chat(
                 new QuestionAndAnswer(
                         question("안녕"),
                         answer("안녕하세요"),
@@ -82,14 +82,14 @@ class ChatQueryServiceTest {
     @Test
     void 검색할_수_있다() {
         // given
-        final Chat chat1 = Chat2Fixture.chat(
+        final Chat chat1 = ChatFixture.chat(
                 new QuestionAndAnswer(
                         question("안녕"),
                         answer("안녕하세요"),
                         2
                 ));
 
-        final Chat chat = Chat2Fixture.chat(
+        final Chat chat = ChatFixture.chat(
                 new QuestionAndAnswer(
                         question("안녕2"),
                         answer("안녕하세요2"),

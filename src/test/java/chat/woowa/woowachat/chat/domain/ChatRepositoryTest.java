@@ -6,7 +6,7 @@ import static chat.woowa.woowachat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
+import chat.woowa.woowachat.chat.fixture.ChatFixture;
 import chat.woowa.woowachat.common.annotation.JpaRepositoryTest;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ class ChatRepositoryTest {
     @Test
     void 채팅과_메세지를_저장한다() {
         // given
-        final Chat chat = Chat2Fixture.chat(
+        final Chat chat = ChatFixture.chat(
                 new QuestionAndAnswer(
                         question("안녕"),
                         answer("응 안녕"),
@@ -54,7 +54,7 @@ class ChatRepositoryTest {
     @Test
     void 채팅에_메세지를_추가할_수_있다() {
         // given
-        final Chat chat = Chat2Fixture.chat(
+        final Chat chat = ChatFixture.chat(
                 new QuestionAndAnswer(
                         question("안녕"),
                         answer("응 안녕"),

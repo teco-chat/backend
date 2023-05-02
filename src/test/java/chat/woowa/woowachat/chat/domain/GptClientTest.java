@@ -8,8 +8,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionRequest;
 import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionRequest.MessageRequest;
@@ -17,7 +15,7 @@ import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionResponse;
 import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionResponse.ChoiceResponse;
 import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionResponse.MessageResponse;
 import chat.woowa.woowachat.chat.domain.GptClient.ChatCompletionResponse.UsageResponse;
-import chat.woowa.woowachat.chat.fixture.Chat2Fixture;
+import chat.woowa.woowachat.chat.fixture.ChatFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -40,62 +38,46 @@ class GptClientTest {
     private final RestTemplate restTemplate = mock(RestTemplate.class);
     private final GptClient client = new GptClient(restTemplate, apiKeySettingHeader, "");
 
-    @Test
-    void Chat_의_messagesWithFreeToken_을_호출해야_한다() {
-        // given
-        final ChatCompletionResponse response = new ChatCompletionResponse("", ",", "",
-                List.of(new ChoiceResponse(1L,
-                        new MessageResponse("assistant", "답변"),
-                        "stop")),
-                new UsageResponse(1, 2, 3));
-
-        given(restTemplate.postForEntity(any(String.class), any(), any())).willReturn(
-                ResponseEntity.status(200).body(response));
-        final Chat chat = mock(Chat.class);
-
-        // when
-        client.ask(chat, Question.question("질문"));
-
-        // then
-        verify(chat, times(1))
-                .messagesWithFreeToken();
-    }
-
 
     @Test
     void 받아온_응답을_바탕으로_QnA의_토큰_수를_계산하여_반환한다() {
         // given
-        final Chat chat = mock(Chat.class);
+        final List<QuestionAndAnswer> messages = List.of(
+                new QuestionAndAnswer(
+                        question("Q1"),
+                        answer("A1"),
+                        1000
+                )
+        );
+        final Chat chat = ChatFixture.chat(messages);
         final ChatCompletionResponse response = new ChatCompletionResponse("", ",", "",
                 List.of(new ChoiceResponse(1L,
                         new MessageResponse("assistant", "답변"),
                         "stop")),
-                new UsageResponse(2500, 500, 3000));
+                new UsageResponse(1500, 500, 2000));
 
         given(restTemplate.postForEntity(any(String.class), any(), any())).willReturn(
                 ResponseEntity.status(200).body(response));
-
-        given(chat.totalToken()).willReturn(2000);
 
         // when
         final QuestionAndAnswer qna = client.ask(chat, question("질문"));
 
         // then
-        // 기존 채팅 [2000], API 결과 전체 토큰 [3000] -> [3000] - [2000] = 1000
+        // 기존 채팅 [1000], API 결과 전체 토큰 [2000] -> [2000] - [1000] = 1000
         assertThat(qna.token()).isEqualTo(1000);
     }
 
-    /**
-     * Caused by: org.springframework.web.client.HttpClientErrorException$BadRequest: 400 Bad Request: "{<EOL> "error":
-     * {<EOL> "message": "This model's maximum context length is 4097 tokens. However, your messages resulted in 8436
-     * tokens. Please reduce the length of the messages.",
-     * <EOL> "type": "invalid_request_error",<EOL>
-     * "param": "messages",<EOL> "code": "context_length_exceeded"<EOL> }<EOL>}<EOL>”
-     */
     @Test
     void 질문의_토큰이_허용치를_넘어_GPT_API_에서_오류가_반환된다면_이를_처리한다() {
         // given
-        final Chat chat = mock(Chat.class);
+        final List<QuestionAndAnswer> messages = List.of(
+                new QuestionAndAnswer(
+                        question("Q1"),
+                        answer("A1"),
+                        1000
+                )
+        );
+        final Chat chat = ChatFixture.chat(messages);
         given(restTemplate.postForEntity(any(String.class), any(), any()))
                 .willThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, OVER_MAX_TOKEN_CODE));
 
@@ -107,7 +89,14 @@ class GptClientTest {
 
     @Test
     void GPT_API_에_문제가_있는_경우_예외처리() {
-        final Chat chat = mock(Chat.class);
+        final List<QuestionAndAnswer> messages = List.of(
+                new QuestionAndAnswer(  // 제외
+                        question("Q1"),
+                        answer("A1"),
+                        100
+                )
+        );
+        final Chat chat = ChatFixture.chat(messages);
         given(restTemplate.postForEntity(any(String.class), any(), any()))
                 .willThrow(new RestClientException("some problem"));
 
@@ -147,7 +136,7 @@ class GptClientTest {
                         1000
                 )
         );
-        final Chat chat = Chat2Fixture.chatWithModel(GPT_3_5_TURBO, messages);
+        final Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO, messages);
 
         // when
         final ChatCompletionRequest from = ChatCompletionRequest.of(chat, question("질문"));

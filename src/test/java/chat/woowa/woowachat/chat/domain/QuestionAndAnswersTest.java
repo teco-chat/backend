@@ -4,7 +4,6 @@ import static chat.woowa.woowachat.chat.domain.Answer.answer;
 import static chat.woowa.woowachat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -55,10 +54,10 @@ class QuestionAndAnswersTest {
         );
 
         // when
-        final List<QuestionAndAnswer> result = questionAndAnswers.lessOrEqualThan(token);
+        final QuestionAndAnswers result = questionAndAnswers.lessOrEqualThan(token);
 
         // then
-        assertThat(result)
+        assertThat(result.questionAndAnswers())
                 .extracting(QuestionAndAnswer::question)
                 .containsExactly(question("질문2"), question("질문3"));
     }
@@ -77,10 +76,10 @@ class QuestionAndAnswersTest {
         );
 
         // when
-        final List<QuestionAndAnswer> result = questionAndAnswers.lessOrEqualThan(token);
+        final QuestionAndAnswers result = questionAndAnswers.lessOrEqualThan(token);
 
         // then
-        assertThat(result)
+        assertThat(result.questionAndAnswers())
                 .extracting(QuestionAndAnswer::question)
                 .containsExactly(question("질문1"));
     }
