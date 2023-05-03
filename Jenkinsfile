@@ -16,7 +16,7 @@ pipeline {
           slackSend (
             channel: SLACK_CHANNEL,
             color: SLACK_SUCCESS_COLOR,
-            message: "파이프라인 시작\n${env.JOB_NAME}(${env.BUILD_NUMBER})\n${GIT_COMMIT_AUTHOR} - ${GIT_COMMIT_MESSAGE}\n${env.BUILD_URL}"
+            message: "파이프라인 시작\n${env.JOB_NAME}(${env.BUILD_NUMBER})\n${GIT_COMMIT_AUTHOR} - ${GIT_COMMIT_MESSAGE}\n
           )
         }
       }
