@@ -20,12 +20,6 @@ public enum ChatExceptionType implements BaseExceptionType {
             HttpStatus.SERVICE_UNAVAILABLE,
             "GPT API 에 문제가 있습니다"
     ),
-
-    TOKEN_SIZE_BIG(
-            202,
-            HttpStatus.BAD_REQUEST,
-            "질문 & 답변의 길이가 너무 깁니다."
-    ),
     ;
 
     private final int errorCode;
