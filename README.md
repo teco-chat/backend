@@ -1,3 +1,3 @@
 # backend
 
-https://woowa.chat
+https://teco.chat
