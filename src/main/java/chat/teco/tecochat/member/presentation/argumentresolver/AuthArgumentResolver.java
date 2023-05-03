@@ -1,7 +1,10 @@
 package chat.teco.tecochat.member.presentation.argumentresolver;
 
+import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
+
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
+import chat.teco.tecochat.member.exception.MemberException;
 import java.util.Base64;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -29,7 +32,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                 final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         final String name = decodeName(webRequest);
         final Member member = memberRepository.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("이거 발생하면 안됨 프론트야 처리해라"));
+                .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         return member.id();
     }
 
