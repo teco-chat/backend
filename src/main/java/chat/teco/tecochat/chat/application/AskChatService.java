@@ -1,5 +1,8 @@
 package chat.teco.tecochat.chat.application;
 
+import static chat.teco.tecochat.chat.exception.ChatExceptionType.NOT_FOUND_CHAT;
+import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
+
 import chat.teco.tecochat.chat.domain.Chat;
 import chat.teco.tecochat.chat.domain.ChatRepository;
 import chat.teco.tecochat.chat.domain.GptClient;
@@ -9,8 +12,10 @@ import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.SettingMessage;
 import chat.teco.tecochat.chat.dto.AskCommand;
 import chat.teco.tecochat.chat.dto.MessageDto;
+import chat.teco.tecochat.chat.exception.ChatException;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
+import chat.teco.tecochat.member.exception.MemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -62,11 +67,11 @@ public class AskChatService {
     private Member findMemberById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("일치하는 회원 ID가 없습니다. (TODO: 변경)"));
+                        new MemberException(NOT_FOUND_MEMBER));
     }
 
     private Chat findChatWithQuestionAndAnswersById(final Long id) {
         return chatRepository.findWithQuestionAndAnswersById(id)
-                .orElseThrow(() -> new IllegalArgumentException("아이디가 %d인 채팅이 없습니다."));
+                .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
     }
 }

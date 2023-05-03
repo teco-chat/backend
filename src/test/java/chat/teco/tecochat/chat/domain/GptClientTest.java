@@ -3,8 +3,10 @@ package chat.teco.tecochat.chat.domain;
 import static chat.teco.tecochat.chat.domain.Answer.answer;
 import static chat.teco.tecochat.chat.domain.GptModel.GPT_3_5_TURBO;
 import static chat.teco.tecochat.chat.domain.Question.question;
+import static chat.teco.tecochat.chat.exception.ChatExceptionType.GPT_API_ERROR;
+import static chat.teco.tecochat.chat.exception.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -15,7 +17,9 @@ import chat.teco.tecochat.chat.domain.GptClient.ChatCompletionResponse;
 import chat.teco.tecochat.chat.domain.GptClient.ChatCompletionResponse.ChoiceResponse;
 import chat.teco.tecochat.chat.domain.GptClient.ChatCompletionResponse.MessageResponse;
 import chat.teco.tecochat.chat.domain.GptClient.ChatCompletionResponse.UsageResponse;
+import chat.teco.tecochat.chat.exception.ChatException;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
+import chat.teco.tecochat.common.exception.BaseExceptionType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -82,9 +86,10 @@ class GptClientTest {
                 .willThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, OVER_MAX_TOKEN_CODE));
 
         // when & then
-        assertThatThrownBy(
+        final BaseExceptionType exceptionType = assertThrows(ChatException.class,
                 () -> client.ask(chat, question("질문"))
-        ).isInstanceOf(IllegalArgumentException.class);
+        ).exceptionType();
+        assertThat(exceptionType).isEqualTo(QUESTION_SIZE_TOO_BIG);
     }
 
     @Test
@@ -101,9 +106,10 @@ class GptClientTest {
                 .willThrow(new RestClientException("some problem"));
 
         // when & then
-        assertThatThrownBy(
+        final BaseExceptionType exceptionType = assertThrows(ChatException.class,
                 () -> client.ask(chat, question("질문"))
-        ).isInstanceOf(RuntimeException.class);
+        ).exceptionType();
+        assertThat(exceptionType).isEqualTo(GPT_API_ERROR);
     }
 
     @Test

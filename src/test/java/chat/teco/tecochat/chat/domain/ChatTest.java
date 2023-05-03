@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.exception.TokenSizeBigException;
+import chat.teco.tecochat.chat.exception.ChatException;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +60,7 @@ class ChatTest {
                         answer("응안녕"),
                         GPT_3_5_TURBO.maxTokens() - FREE_TOKEN + 1
                 ))
-        ).isInstanceOf(TokenSizeBigException.class);
+        ).isInstanceOf(ChatException.class);
     }
 
     @Test
