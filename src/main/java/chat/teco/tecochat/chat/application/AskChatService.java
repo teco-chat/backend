@@ -54,6 +54,7 @@ public class AskChatService {
     }
 
     public MessageDto ask(final Long id, final AskCommand command) {
+        // TODO 자신의 채팅인경우, 아닌 경우 나눠서 처리해야 함
         final Chat chat = findChatWithQuestionAndAnswersById(id);
 
         final QuestionAndAnswer qna = gptClient.ask(chat, command.question());
