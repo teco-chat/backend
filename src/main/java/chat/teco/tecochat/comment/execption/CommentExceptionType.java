@@ -5,10 +5,20 @@ import org.springframework.http.HttpStatus;
 
 public enum CommentExceptionType implements BaseExceptionType {
 
-    NO_AUTHORITY_UPDATE_COMMENT(
+    NOT_FOUND_COMMENT(
             300,
+            HttpStatus.NOT_FOUND,
+            "해당 댓글이 존재하지 않습니다."
+    ),
+    NO_AUTHORITY_UPDATE_COMMENT(
+            301,
             HttpStatus.FORBIDDEN,
             "댓글을 수정할 권한이 없습니다."
+    ),
+    NO_AUTHORITY_DELETE_COMMENT(
+            302,
+            HttpStatus.FORBIDDEN,
+            "댓글을 삭제할 권한이 없습니다."
     ),
     ;
 

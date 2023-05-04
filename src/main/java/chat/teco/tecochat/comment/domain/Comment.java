@@ -1,6 +1,7 @@
 package chat.teco.tecochat.comment.domain;
 
 
+import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
 
 import chat.teco.tecochat.comment.execption.CommentException;
@@ -49,5 +50,11 @@ public class Comment extends BaseEntity {
         }
 
         this.content = content;
+    }
+
+    public void validateDelete(final Long memberId) {
+        if (!this.memberId.equals(memberId)) {
+            throw new CommentException(NO_AUTHORITY_DELETE_COMMENT);
+        }
     }
 }
