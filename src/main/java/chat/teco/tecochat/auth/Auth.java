@@ -1,4 +1,4 @@
-package chat.teco.tecochat.member.presentation.argumentresolver;
+package chat.teco.tecochat.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
