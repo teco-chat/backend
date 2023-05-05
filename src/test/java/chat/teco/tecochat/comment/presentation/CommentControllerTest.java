@@ -20,6 +20,8 @@ import chat.teco.tecochat.member.domain.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -155,5 +157,24 @@ class CommentControllerTest {
 
         // then
         assertThat(commentRepository.findById(1L)).isEmpty();
+    }
+
+    @Test
+    void 채팅에_달린_댓글들을_조회한다() throws Exception {
+        // given
+        댓글을_단다();
+        댓글을_단다();
+        댓글을_단다();
+
+        // when & then
+        final ExtractableResponse<Response> extract = RestAssured.given().log().all()
+                .when()
+                .get("/comments?chatId=" + chat.id())
+                .then()
+                .log().all()
+                .statusCode(OK.value())
+                .extract();
+        assertThat(extract.jsonPath().getString("[0].crewName")).isEqualTo("말랑");
+        assertThat(extract.jsonPath().getString("[0].content")).isEqualTo("댓글 내용입니다.");
     }
 }
