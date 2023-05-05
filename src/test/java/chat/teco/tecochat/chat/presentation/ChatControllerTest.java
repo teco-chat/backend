@@ -56,16 +56,6 @@ class ChatControllerTest {
     @MockBean
     private GptClient gptClient;
 
-    private static void validateMessage(final ValidatableResponse validatableResponse,
-                                        final int index,
-                                        final String content,
-                                        final String role) {
-        validatableResponse
-                .body("messages[" + index + "].content", equalTo(content))
-                .body("messages[" + index + "].role", equalTo(role))
-                .body("messages[" + index + "].createdAt", notNullValue());
-    }
-
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
@@ -150,6 +140,16 @@ class ChatControllerTest {
                 () -> validateMessage(validatableResponse, 2, "안녕? 2", "user"),
                 () -> validateMessage(validatableResponse, 3, "응 안녕 2", "assistant")
         );
+    }
+
+    private void validateMessage(final ValidatableResponse validatableResponse,
+                                 final int index,
+                                 final String content,
+                                 final String role) {
+        validatableResponse
+                .body("messages[" + index + "].content", equalTo(content))
+                .body("messages[" + index + "].role", equalTo(role))
+                .body("messages[" + index + "].createdAt", notNullValue());
     }
 
     @Test

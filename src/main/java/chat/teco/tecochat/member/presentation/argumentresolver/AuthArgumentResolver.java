@@ -30,6 +30,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Long resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
                                 final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
+        // TODO Auth 예외처리 따로 관리(401)
         final String name = decodeName(webRequest);
         final Member member = memberRepository.findByName(name)
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
