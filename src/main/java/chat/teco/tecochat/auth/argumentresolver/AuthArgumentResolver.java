@@ -1,10 +1,12 @@
-package chat.teco.tecochat.member.presentation.argumentresolver;
+package chat.teco.tecochat.auth.argumentresolver;
 
-import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
+import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_NAME_HEADER;
+import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_REGISTERED_MEMBER;
 
+import chat.teco.tecochat.auth.Auth;
+import chat.teco.tecochat.auth.exception.AuthenticationException;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
-import chat.teco.tecochat.member.exception.MemberException;
 import java.util.Base64;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -32,13 +34,21 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                 final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         final String name = decodeName(webRequest);
         final Member member = memberRepository.findByName(name)
-                .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new AuthenticationException(NO_REGISTERED_MEMBER));
         return member.id();
     }
 
     private String decodeName(final NativeWebRequest webRequest) {
         final byte[] names = Base64.getDecoder()
-                .decode(webRequest.getHeader("name"));
+                .decode(getNameHeader(webRequest));
         return new String(names).intern();
+    }
+
+    private String getNameHeader(final NativeWebRequest webRequest) {
+        final String name = webRequest.getHeader("name");
+        if (name == null) {
+            throw new AuthenticationException(NO_NAME_HEADER);
+        }
+        return name;
     }
 }

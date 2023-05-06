@@ -2,6 +2,7 @@ package chat.teco.tecochat.chat.presentation;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.chat.application.AskChatService;
 import chat.teco.tecochat.chat.application.ChatQueryService;
 import chat.teco.tecochat.chat.domain.ChatQueryRepository.ChatSearchCond;
@@ -11,7 +12,6 @@ import chat.teco.tecochat.chat.dto.ChatQueryDto;
 import chat.teco.tecochat.chat.dto.ChatSearchQueryDto;
 import chat.teco.tecochat.chat.dto.MessageDto;
 import chat.teco.tecochat.common.presentation.PageResponse;
-import chat.teco.tecochat.member.presentation.argumentresolver.Auth;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;

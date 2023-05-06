@@ -1,7 +1,7 @@
 package chat.teco.tecochat.common.config;
 
 
-import chat.teco.tecochat.member.presentation.argumentresolver.AuthArgumentResolver;
+import chat.teco.tecochat.auth.argumentresolver.AuthArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
