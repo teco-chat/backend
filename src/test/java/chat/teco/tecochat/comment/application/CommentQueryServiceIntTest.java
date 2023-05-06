@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("CommentQueryService 은(는)")
-@SpringBootTest
 @Transactional
+@SpringBootTest
 class CommentQueryServiceIntTest {
 
     @Autowired

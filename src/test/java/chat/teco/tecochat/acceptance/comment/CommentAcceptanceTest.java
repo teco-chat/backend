@@ -144,4 +144,3 @@ public class CommentAcceptanceTest {
         assertThat(response.jsonPath().getString("[1].course")).isEqualTo("FRONTEND");
     }
 }
-

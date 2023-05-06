@@ -12,8 +12,8 @@ import chat.teco.tecochat.member.exception.MemberException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Transactional
+@Service
 public class WriteCommentService {
 
     private final MemberRepository memberRepository;
@@ -35,7 +35,6 @@ public class WriteCommentService {
         final Comment comment = command.toDomain();
         return commentRepository.save(comment).id();
     }
-
 
     private void validateMemberExist(final WriteCommentCommand command) {
         memberRepository.findById(command.memberId())
