@@ -25,6 +25,13 @@ public class ChatFixture {
                 memberId);
     }
 
+    public static Chat defaultChat(final String title, final Long memberId) {
+        return new Chat(GPT_3_5_TURBO,
+                BACK_END_SETTING,
+                title,
+                memberId);
+    }
+
     public static Chat chat(final QuestionAndAnswer... questionAndAnswers) {
         final Chat chat = new Chat(GPT_3_5_TURBO,
                 BACK_END_SETTING,
