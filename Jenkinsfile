@@ -100,8 +100,8 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'aws elasticbeanstalk create-application-version --region ap-northeast-2 --application-name woowachat --version-label ${BUILD_TAG} --source-bundle S3Bucket="teco-chat",S3Key="tecochat.zip"'
-        sh 'aws elasticbeanstalk update-environment --region ap-northeast-2 --environment-name Woowachat-env --version-label ${BUILD_TAG}'
+        sh 'aws elasticbeanstalk create-application-version --region ap-northeast-2 --application-name tecochat --version-label ${BUILD_TAG} --source-bundle S3Bucket="teco-chat",S3Key="tecochat.zip"'
+        sh 'aws elasticbeanstalk update-environment --region ap-northeast-2 --environment-name tecochat-env --version-label ${BUILD_TAG}'
       }
       post {
         success {
