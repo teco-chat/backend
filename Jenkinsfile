@@ -49,7 +49,7 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'mv ./build/libs/woowachat.jar .'
+        sh 'mv ./build/libs/tecochat.jar .'
         sh 'zip -r tecochat.zip .platform tecochat.jar Procfile'
       }
       post {
@@ -75,7 +75,7 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'aws s3 cp tecochat.zip s3://woowa-chat/tecochat.zip --region ap-northeast-2'
+        sh 'aws s3 cp tecochat.zip s3://teco-chat/tecochat.zip --region ap-northeast-2'
       }
       post {
         success {
@@ -100,8 +100,8 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'aws elasticbeanstalk create-application-version --region ap-northeast-2 --application-name woowachat --version-label ${BUILD_TAG} --source-bundle S3Bucket="woowa-chat",S3Key="tecochat.zip"'
-        sh 'aws elasticbeanstalk update-environment --region ap-northeast-2 --environment-name Woowachat-env --version-label ${BUILD_TAG}'
+        sh 'aws elasticbeanstalk create-application-version --region ap-northeast-2 --application-name tecochat --version-label ${BUILD_TAG} --source-bundle S3Bucket="teco-chat",S3Key="tecochat.zip"'
+        sh 'aws elasticbeanstalk update-environment --region ap-northeast-2 --environment-name tecochat-env --version-label ${BUILD_TAG}'
       }
       post {
         success {
