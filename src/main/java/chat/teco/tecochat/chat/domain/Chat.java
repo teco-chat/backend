@@ -28,6 +28,8 @@ public class Chat extends BaseEntity {
     @Column(nullable = false)
     private Long memberId;
 
+    private int likeCount;
+
     @Embedded
     private QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers();
 
@@ -55,6 +57,14 @@ public class Chat extends BaseEntity {
         return questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
     }
 
+    public void decreaseLike() {
+        likeCount--;
+    }
+
+    public void increaseLike() {
+        likeCount++;
+    }
+
     public String modelName() {
         return model.modelName();
     }
@@ -74,4 +84,9 @@ public class Chat extends BaseEntity {
     public List<QuestionAndAnswer> questionAndAnswers() {
         return new ArrayList<>(questionAndAnswers.questionAndAnswers());
     }
+
+    public int likeCount() {
+        return likeCount;
+    }
+
 }

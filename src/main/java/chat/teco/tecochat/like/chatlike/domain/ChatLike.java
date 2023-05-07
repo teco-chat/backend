@@ -21,11 +21,11 @@ public class ChatLike extends BaseEntity {
         this.chatId = chatId;
     }
 
-    public Long getMemberId() {
+    public Long memberId() {
         return memberId;
     }
 
-    public Long getChatId() {
+    public Long chatId() {
         return chatId;
     }
 }
