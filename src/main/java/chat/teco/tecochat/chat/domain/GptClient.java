@@ -1,5 +1,9 @@
 package chat.teco.tecochat.chat.domain;
 
+import static chat.teco.tecochat.chat.exception.ChatExceptionType.GPT_API_ERROR;
+import static chat.teco.tecochat.chat.exception.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
+
+import chat.teco.tecochat.chat.exception.ChatException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +42,10 @@ public class GptClient {
                     response.totalTokens() - chat.qnaWithFreeToken().calculateTokenSum()
             );
         } catch (final Exception e) {
-            // TODO 적절히 예외처리
             if (e.getMessage().contains("context_length_exceeded")) {
-                throw new IllegalArgumentException("질문이 너무 깁니다. 질문의 크기를 줄여주세요");
+                throw new ChatException(QUESTION_SIZE_TOO_BIG);
             }
-            throw new RuntimeException("GPT API 에 문제가 있습니다", e);
+            throw new ChatException(GPT_API_ERROR);
         }
     }
 
@@ -53,12 +56,11 @@ public class GptClient {
         public static ChatCompletionRequest of(final Chat chat, final Question question) {
             final List<MessageRequest> messageRequests = new ArrayList<>();
             final QuestionAndAnswers questionAndAnswers = chat.qnaWithFreeToken();
+
             final List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
             messages.add(question);
             for (final Message message : messages) {
-                messageRequests.add(
-                        new MessageRequest(message.roleName(), message.content())
-                );
+                messageRequests.add(new MessageRequest(message.roleName(), message.content()));
             }
             return new ChatCompletionRequest(chat.modelName(), messageRequests);
         }

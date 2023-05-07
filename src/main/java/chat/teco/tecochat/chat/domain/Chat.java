@@ -2,7 +2,6 @@ package chat.teco.tecochat.chat.domain;
 
 import static jakarta.persistence.EnumType.STRING;
 
-import chat.teco.tecochat.chat.exception.TokenSizeBigException;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -46,14 +45,7 @@ public class Chat extends BaseEntity {
     }
 
     public void addQuestionAndAnswer(final QuestionAndAnswer questionAndAnswer) {
-        validateTokenSize(questionAndAnswer);
         this.questionAndAnswers.add(questionAndAnswer);
-    }
-
-    private void validateTokenSize(final QuestionAndAnswer questionAndAnswer) {
-        if (model.maxTokens() - FREE_TOKEN < questionAndAnswer.token()) {
-            throw new TokenSizeBigException();
-        }
     }
 
     /**

@@ -5,10 +5,8 @@ import static chat.teco.tecochat.chat.domain.Chat.FREE_TOKEN;
 import static chat.teco.tecochat.chat.domain.GptModel.GPT_3_5_TURBO;
 import static chat.teco.tecochat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.exception.TokenSizeBigException;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -41,26 +39,6 @@ class ChatTest {
                 () -> assertThat(qna.question())
                         .isEqualTo(question("안녕"))
         );
-    }
-
-    @Test
-    void 메세지를_추가_시_최대토큰에서_가용토큰을_뺀_길이만큼의_메세지가_들어오면_예외() {
-        // given
-        final Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO,
-                new QuestionAndAnswer(
-                        question("안녕"),
-                        answer("응 안녕"),
-                        0
-                ));
-
-        // when & then
-        assertThatThrownBy(() ->
-                chat.addQuestionAndAnswer(new QuestionAndAnswer(
-                        question("안녕"),
-                        answer("응안녕"),
-                        GPT_3_5_TURBO.maxTokens() - FREE_TOKEN + 1
-                ))
-        ).isInstanceOf(TokenSizeBigException.class);
     }
 
     @Test

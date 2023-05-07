@@ -1,5 +1,10 @@
-package chat.teco.tecochat.member.presentation.argumentresolver;
+package chat.teco.tecochat.auth.argumentresolver;
 
+import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_NAME_HEADER;
+import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_REGISTERED_MEMBER;
+
+import chat.teco.tecochat.auth.Auth;
+import chat.teco.tecochat.auth.exception.AuthenticationException;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import java.util.Base64;
@@ -29,13 +34,21 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                 final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         final String name = decodeName(webRequest);
         final Member member = memberRepository.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("이거 발생하면 안됨 프론트야 처리해라"));
+                .orElseThrow(() -> new AuthenticationException(NO_REGISTERED_MEMBER));
         return member.id();
     }
 
     private String decodeName(final NativeWebRequest webRequest) {
         final byte[] names = Base64.getDecoder()
-                .decode(webRequest.getHeader("name"));
+                .decode(getNameHeader(webRequest));
         return new String(names).intern();
+    }
+
+    private String getNameHeader(final NativeWebRequest webRequest) {
+        final String name = webRequest.getHeader("name");
+        if (name == null) {
+            throw new AuthenticationException(NO_NAME_HEADER);
+        }
+        return name;
     }
 }

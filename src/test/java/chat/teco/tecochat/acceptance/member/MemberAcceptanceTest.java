@@ -1,14 +1,13 @@
-package chat.teco.tecochat.member.presentation.controller;
+package chat.teco.tecochat.acceptance.member;
 
+import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.MemberRepository;
-import chat.teco.tecochat.member.dto.SignUpDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -21,9 +20,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("MemberController 은(는)")
+@DisplayName("MemberController 인수 테스트")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class MemberControllerTest {
+public class MemberAcceptanceTest {
 
     @LocalServerPort
     private int port;
@@ -31,31 +30,18 @@ class MemberControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
     }
 
     @Test
-    void 회원_가입을_진행한다() throws Exception {
+    void 회원_가입을_진행한다() {
         // given
-        final SignUpDto dto = new SignUpDto("우가", Course.BACKEND);
-        final String body = objectMapper.writeValueAsString(dto);
-
-        // when
-        RestAssured.given().log().all()
-                .contentType(APPLICATION_JSON_VALUE)
-                .body(body)
-                .when()
-                .post("/members")
-                .then()
-                .log().all()
-                .statusCode(CREATED.value()).extract();
+        final ExtractableResponse<Response> response = 회원_가입_요청("말랑", Course.BACKEND);
 
         // then
+        assertThat(response.statusCode()).isEqualTo(201);
         assertThat(memberRepository.findAll()).hasSize(1);
     }
 }
