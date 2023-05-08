@@ -18,12 +18,12 @@ spring:
         highlight_sql: true
         default_batch_fetch_size: 100
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
 
   flyway:
-    enabled: false
-    baseline-on-migrate: false
+    enabled: true
+    baseline-on-migrate: true
 
 logging:
   level:

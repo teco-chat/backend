@@ -13,6 +13,7 @@ public record ChatQueryDto(
         String crewName,
         Course course,
         String title,
+        int likeCount,
         LocalDateTime createdAt,
         List<MessageQueryDto> messages
 ) {
@@ -28,6 +29,7 @@ public record ChatQueryDto(
                 crewName,
                 course,
                 chat.title(),
+                chat.likeCount(),
                 chat.createdAt(),
                 messages);
     }

@@ -47,7 +47,6 @@ public class CommentAcceptanceTest {
     @Autowired
     private CommentRepository commentRepository;
 
-
     private Chat chat;
 
     @BeforeEach
@@ -102,7 +101,7 @@ public class CommentAcceptanceTest {
     }
 
     @Test
-    void 댓글을_제거한다() throws Exception {
+    void 댓글을_제거한다() {
         // given
         댓글_작성_요청("말랑", chat.id(), "댓글 내용입니다.");
 

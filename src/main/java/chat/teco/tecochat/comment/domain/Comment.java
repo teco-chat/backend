@@ -8,7 +8,6 @@ import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 
 @Entity
 public class Comment extends BaseEntity {
@@ -19,7 +18,6 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    @Lob
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 

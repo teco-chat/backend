@@ -4,5 +4,6 @@ TRUNCATE TABLE member;
 TRUNCATE TABLE chat;
 TRUNCATE TABLE question_and_answer;
 TRUNCATE TABLE comment;
+TRUNCATE TABLE chat_like;
 SET
 FOREIGN_KEY_CHECKS = 1;
