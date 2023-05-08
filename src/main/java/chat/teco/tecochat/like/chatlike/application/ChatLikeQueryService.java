@@ -88,7 +88,7 @@ public class ChatLikeQueryService {
     }
 
     /**
-     * 회원이 누른 좋아요를 좋아할때 반환되는 정보
+     * 회원이 누른 좋아요를 조회할때 반환되는 정보
      */
     public record ChatLikeByMemberIdQueryDto(
             Long id,
