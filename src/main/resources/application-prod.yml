@@ -25,3 +25,5 @@ spring:
 
 server:
   port: 5000
+  tomcat:
+    connection-timeout: ${TOMCAT_TIMEOUT}
