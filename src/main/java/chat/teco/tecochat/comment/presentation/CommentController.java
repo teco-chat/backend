@@ -14,6 +14,7 @@ import chat.teco.tecochat.comment.application.WriteCommentService;
 import chat.teco.tecochat.comment.application.WriteCommentService.WriteCommentCommand;
 import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
+import chat.teco.tecochat.comment.presentation.response.CreatedIdResponse;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class CommentController {
     }
 
     @PostMapping
-    ResponseEntity<Void> write(
+    ResponseEntity<CreatedIdResponse> write(
             @Auth final Long memberId,
             @RequestBody final WriteCommentRequest request
     ) {
@@ -67,7 +68,7 @@ public class CommentController {
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUri();
-        return created(uri).build();
+        return created(uri).body(new CreatedIdResponse(id));
     }
 
     @PatchMapping("/{id}")

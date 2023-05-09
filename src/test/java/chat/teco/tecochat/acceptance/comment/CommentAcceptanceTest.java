@@ -64,6 +64,7 @@ public class CommentAcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(CREATED.value());
+        assertThat(response.body().jsonPath().getLong("id")).isEqualTo(1L);
         assertThat(response.header("location")).contains("/comments/");
     }
 
