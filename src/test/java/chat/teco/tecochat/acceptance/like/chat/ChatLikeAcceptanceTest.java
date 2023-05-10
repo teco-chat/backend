@@ -1,5 +1,6 @@
 package chat.teco.tecochat.acceptance.like.chat;
 
+import static chat.teco.tecochat.acceptance.chat.ChatSteps.단일_채팅_조회_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.좋아요_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.채팅에_달린_좋아요_조회_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.회원이_누른_좋아요_조회_요청;
@@ -145,5 +146,27 @@ public class ChatLikeAcceptanceTest {
         assertThat(jsonPath.getString("[2].chatInfo.title")).isEqualTo("허브채팅2");
         assertThat(jsonPath.getInt("[2].chatInfo.likeCount")).isEqualTo(1);
         assertThat(jsonPath.getInt("[2].chatInfo.totalQnaCount")).isEqualTo(0);
+    }
+
+    @Test
+    void 좋아요를_누른_채팅을_조회한다() {
+        // given
+        좋아요_요청("말랑", 말랑채팅.id());
+
+        // when
+        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id());
+
+        // then
+        assertThat(response.jsonPath().getBoolean("isAlreadyClickLike")).isTrue();
+    }
+
+    @Test
+    void 좋아요를_누르지_않은_채팅을_조회한다() {
+        // when
+        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id());
+        좋아요_요청("말랑", 말랑채팅.id());
+
+        // then
+        assertThat(response.jsonPath().getBoolean("isAlreadyClickLike")).isFalse();
     }
 }

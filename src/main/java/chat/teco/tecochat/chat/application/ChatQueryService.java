@@ -10,6 +10,7 @@ import chat.teco.tecochat.chat.domain.ChatRepository;
 import chat.teco.tecochat.chat.dto.ChatQueryDto;
 import chat.teco.tecochat.chat.dto.ChatSearchQueryDto;
 import chat.teco.tecochat.chat.exception.ChatException;
+import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;
@@ -25,20 +26,26 @@ public class ChatQueryService {
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
     private final ChatQueryRepository chatQueryRepository;
+    private final ChatLikeRepository chatLikeRepository;
 
     public ChatQueryService(final MemberRepository memberRepository,
                             final ChatRepository chatRepository,
-                            final ChatQueryRepository chatQueryRepository) {
+                            final ChatQueryRepository chatQueryRepository,
+                            final ChatLikeRepository chatLikeRepository) {
         this.memberRepository = memberRepository;
         this.chatRepository = chatRepository;
         this.chatQueryRepository = chatQueryRepository;
+        this.chatLikeRepository = chatLikeRepository;
     }
 
     public ChatQueryDto findById(final Long id) {
         final Chat chat = chatRepository.findById(id)
                 .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
         final Member member = findMemberById(chat.memberId());
-        return ChatQueryDto.of(chat, member.name(), member.course());
+        final boolean isAlreadyClickLike = chatLikeRepository
+                .findByMemberIdAndChatId(member.id(), id)
+                .isPresent();
+        return ChatQueryDto.of(chat, member.name(), member.course(), isAlreadyClickLike);
     }
 
     public Page<ChatSearchQueryDto> search(final ChatSearchCond cond, final Pageable pageable) {
