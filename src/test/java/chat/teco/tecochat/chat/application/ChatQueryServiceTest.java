@@ -20,6 +20,7 @@ import chat.teco.tecochat.chat.dto.ChatQueryDto;
 import chat.teco.tecochat.chat.dto.ChatQueryDto.MessageQueryDto;
 import chat.teco.tecochat.chat.dto.ChatSearchQueryDto;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
+import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
@@ -42,10 +43,11 @@ class ChatQueryServiceTest {
     private final ChatRepository chatRepository = mock(ChatRepository.class);
     private final MemberRepository memberRepository = mock(MemberRepository.class);
     private final ChatQueryRepository chatQueryRepository = mock(ChatQueryRepository.class);
+    private final ChatLikeRepository chatLikeRepository = mock(ChatLikeRepository.class);
 
     @InjectMocks
     private ChatQueryService chatQueryService =
-            new ChatQueryService(memberRepository, chatRepository, chatQueryRepository);
+            new ChatQueryService(memberRepository, chatRepository, chatQueryRepository, chatLikeRepository);
 
     @Test
     void 단일_채팅_기록을_전부_조회한다() {

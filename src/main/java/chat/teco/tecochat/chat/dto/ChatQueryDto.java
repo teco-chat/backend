@@ -14,11 +14,17 @@ public record ChatQueryDto(
         Course course,
         String title,
         int likeCount,
+        boolean isAlreadyClickLike,
         LocalDateTime createdAt,
         List<MessageQueryDto> messages
 ) {
 
-    public static ChatQueryDto of(final Chat chat, final String crewName, final Course course) {
+    public static ChatQueryDto of(
+            final Chat chat,
+            final String crewName,
+            final Course course,
+            final boolean isAlreadyClickLike
+    ) {
         final List<MessageQueryDto> messages = new ArrayList<>();
         for (final QuestionAndAnswer qna : chat.questionAndAnswers()) {
             messages.add(MessageQueryDto.of(qna.question(), qna.createdAt()));
@@ -30,6 +36,7 @@ public record ChatQueryDto(
                 course,
                 chat.title(),
                 chat.likeCount(),
+                isAlreadyClickLike,
                 chat.createdAt(),
                 messages);
     }
