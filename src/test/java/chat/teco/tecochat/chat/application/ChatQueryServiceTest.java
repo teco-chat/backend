@@ -69,7 +69,7 @@ class ChatQueryServiceTest {
                 .willReturn(Optional.of(new Member("말랑", Course.BACKEND)));
 
         // when
-        final ChatQueryDto chatQueryDto = chatQueryService.findById(1L);
+        final ChatQueryDto chatQueryDto = chatQueryService.findById(1L, 1L);
 
         // then
         assertAll(
