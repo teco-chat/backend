@@ -92,7 +92,7 @@ class PushChatLikeServiceTest {
 
         // then
         verify(chatLikeRepository, times(0)).save(any(ChatLike.class));
-        assertThat(chat.likeCount()).isEqualTo(0);
+        assertThat(chat.likeCount()).isZero();
         assertThat(exceptionType).isEqualTo(NOT_FOUND_CHAT);
     }
 }

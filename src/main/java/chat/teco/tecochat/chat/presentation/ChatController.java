@@ -59,9 +59,10 @@ public class ChatController {
 
     @GetMapping("/chats/{id}")
     ResponseEntity<ChatQueryDto> findById(
-            @PathVariable final Long id
+            @PathVariable final Long id,
+            @Auth final Long memberId
     ) {
-        return ResponseEntity.ok(chatQueryService.findById(id));
+        return ResponseEntity.ok(chatQueryService.findById(id, memberId));
     }
 
     @GetMapping("/chats")

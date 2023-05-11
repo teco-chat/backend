@@ -154,7 +154,7 @@ public class ChatLikeAcceptanceTest {
         좋아요_요청("말랑", 말랑채팅.id());
 
         // when
-        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id());
+        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id(), "말랑");
 
         // then
         assertThat(response.jsonPath().getBoolean("isAlreadyClickLike")).isTrue();
@@ -163,7 +163,7 @@ public class ChatLikeAcceptanceTest {
     @Test
     void 좋아요를_누르지_않은_채팅을_조회한다() {
         // when
-        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id());
+        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(말랑채팅.id(), "말랑");
         좋아요_요청("말랑", 말랑채팅.id());
 
         // then
