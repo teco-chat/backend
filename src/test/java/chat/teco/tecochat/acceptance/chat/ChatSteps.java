@@ -64,8 +64,8 @@ public class ChatSteps {
         assertThat(response.jsonPath().getString("content")).isEqualTo(content);
     }
 
-    public static ExtractableResponse<Response> 단일_채팅_조회_요청(final Long id) {
-        return given()
+    public static ExtractableResponse<Response> 단일_채팅_조회_요청(final Long id, final String name) {
+        return given(name)
                 .when()
                 .get("/chats/{id}", id)
                 .then()

@@ -47,7 +47,6 @@ public class CommentAcceptanceTest {
     @Autowired
     private CommentRepository commentRepository;
 
-
     private Chat chat;
 
     @BeforeEach
@@ -64,7 +63,10 @@ public class CommentAcceptanceTest {
         final ExtractableResponse<Response> response = 댓글_작성_요청("말랑", chat.id(), "댓글 내용입니다.");
 
         // then
+        final String location = response.header("location");
+        final String id = location.substring(location.lastIndexOf("/") + 1);
         assertThat(response.statusCode()).isEqualTo(CREATED.value());
+        assertThat(response.body().jsonPath().getString("id")).isEqualTo(id);
         assertThat(response.header("location")).contains("/comments/");
     }
 
@@ -102,7 +104,7 @@ public class CommentAcceptanceTest {
     }
 
     @Test
-    void 댓글을_제거한다() throws Exception {
+    void 댓글을_제거한다() {
         // given
         댓글_작성_요청("말랑", chat.id(), "댓글 내용입니다.");
 

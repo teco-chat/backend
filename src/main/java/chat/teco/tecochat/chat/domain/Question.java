@@ -4,13 +4,11 @@ import static chat.teco.tecochat.chat.domain.Role.USER;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Lob;
 import java.util.Objects;
 
 @Embeddable
 public class Question implements Message {
 
-    @Lob
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String question;
 

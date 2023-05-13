@@ -34,10 +34,13 @@ class ChatQueryRepositoryTest {
 
     @Autowired
     private EntityManager em;
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private ChatQueryRepository chatQueryRepository;
+
     @Autowired
     private ChatRepository chatRepository;
 

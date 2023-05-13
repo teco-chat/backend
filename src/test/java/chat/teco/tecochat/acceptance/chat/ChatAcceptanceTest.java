@@ -81,7 +81,7 @@ public class ChatAcceptanceTest {
         채팅_이어하기_요청("말랑", "안녕? 2", 1L);
 
         // when
-        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(1L);
+        final ExtractableResponse<Response> response = 단일_채팅_조회_요청(1L, "말랑");
 
         // then
         채팅의_정보가_조회된다(response.jsonPath(), 1L, "말랑", "BACKEND", "안녕?");
@@ -119,7 +119,6 @@ public class ChatAcceptanceTest {
         assertThat(jsonPath.getString("messages[" + index + "].createdAt"))
                 .isNotNull();
     }
-
 
     @Test
     void 이름_과정_제목으로_검색한다() {
