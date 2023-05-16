@@ -5,14 +5,18 @@ import static chat.teco.tecochat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import chat.teco.tecochat.chat.domain.Chat;
 import chat.teco.tecochat.chat.domain.ChatRepository;
 import chat.teco.tecochat.chat.domain.GptClient;
 import chat.teco.tecochat.chat.domain.Question;
 import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
+import chat.teco.tecochat.chat.domain.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.dto.AskCommand;
 import chat.teco.tecochat.chat.dto.MessageDto;
+import chat.teco.tecochat.common.config.MockPublisherConfiguration;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
@@ -26,6 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -33,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("AskChatService 은(는)")
 @Transactional
 @SpringBootTest
+@Import(MockPublisherConfiguration.class)
 class AskChatServiceTest {
 
     final long memberId = 1L;
@@ -48,6 +55,9 @@ class AskChatServiceTest {
 
     @Autowired
     private AskChatService askChatService;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @Autowired
     private EntityManager em;
@@ -74,6 +84,7 @@ class AskChatServiceTest {
         final MessageDto answerResponse = askChatService.createAsk(new AskCommand(memberId, "첫 메세지"));
 
         // then
+        verify(publisher, times(1)).publishEvent(any(ChatCreatedEvent.class));
         assertThat(answerResponse.content()).isEqualTo("답변");
     }
 

@@ -10,12 +10,14 @@ import chat.teco.tecochat.chat.domain.GptModel;
 import chat.teco.tecochat.chat.domain.Question;
 import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.SettingMessage;
+import chat.teco.tecochat.chat.domain.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.dto.AskCommand;
 import chat.teco.tecochat.chat.dto.MessageDto;
 import chat.teco.tecochat.chat.exception.ChatException;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -26,19 +28,24 @@ public class AskChatService {
     private final ChatRepository chatRepository;
     private final GptClient gptClient;
     private final TransactionTemplate transactionTemplate;
+    private final ApplicationEventPublisher publisher;
 
-    public AskChatService(final MemberRepository memberRepository, final ChatRepository chatRepository,
-                          final GptClient gptClient, final TransactionTemplate transactionTemplate) {
+    public AskChatService(final MemberRepository memberRepository,
+                          final ChatRepository chatRepository,
+                          final GptClient gptClient,
+                          final TransactionTemplate transactionTemplate,
+                          final ApplicationEventPublisher publisher) {
         this.memberRepository = memberRepository;
         this.chatRepository = chatRepository;
         this.gptClient = gptClient;
         this.transactionTemplate = transactionTemplate;
+        this.publisher = publisher;
     }
 
     public MessageDto createAsk(final AskCommand command) {
         final Question question = command.question();
         final Member member = findMemberById(command.memberId());
-        Chat chat = new Chat(GptModel.GPT_3_5_TURBO,
+        final Chat chat = new Chat(GptModel.GPT_3_5_TURBO,
                 SettingMessage.byCourse(member.course()),
                 question.content(),
                 command.memberId()
@@ -49,6 +56,7 @@ public class AskChatService {
         return transactionTemplate.execute(status -> {
             chatRepository.save(chat);
             chat.addQuestionAndAnswer(qna);
+            publisher.publishEvent(ChatCreatedEvent.from(chat));
             return new MessageDto(chat.id(), qna.answer().content());
         });
     }

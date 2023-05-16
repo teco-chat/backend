@@ -3,6 +3,7 @@ package chat.teco.tecochat.chat.dto;
 import chat.teco.tecochat.chat.domain.Chat;
 import chat.teco.tecochat.chat.domain.Message;
 import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
+import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.member.domain.Course;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,20 +17,25 @@ public record ChatQueryDto(
         int likeCount,
         boolean isAlreadyClickLike,
         LocalDateTime createdAt,
-        List<MessageQueryDto> messages
+        List<MessageQueryDto> messages,
+        List<KeywordQueryDto> keywords
 ) {
 
     public static ChatQueryDto of(
             final Chat chat,
             final String crewName,
             final Course course,
-            final boolean isAlreadyClickLike
+            final boolean isAlreadyClickLike,
+            final List<Keyword> keywords
     ) {
         final List<MessageQueryDto> messages = new ArrayList<>();
         for (final QuestionAndAnswer qna : chat.questionAndAnswers()) {
             messages.add(MessageQueryDto.of(qna.question(), qna.createdAt()));
             messages.add(MessageQueryDto.of(qna.answer(), qna.createdAt()));
         }
+        final List<KeywordQueryDto> keywordQueryDtos = keywords.stream()
+                .map(KeywordQueryDto::from)
+                .toList();
         return new ChatQueryDto(
                 chat.id(),
                 crewName,
@@ -38,10 +44,10 @@ public record ChatQueryDto(
                 chat.likeCount(),
                 isAlreadyClickLike,
                 chat.createdAt(),
-                messages);
+                messages,
+                keywordQueryDtos);
     }
 
-    // TODO 반환형식 바꿀 수 있으면 QnaDto 만들어서 바꾸기
     public record MessageQueryDto(
             String content,
             String role,
@@ -54,6 +60,14 @@ public record ChatQueryDto(
                     message.roleName(),
                     createdAt
             );
+        }
+    }
+
+    public record KeywordQueryDto(
+            String keyword
+    ) {
+        public static KeywordQueryDto from(final Keyword keyword) {
+            return new KeywordQueryDto(keyword.keyword());
         }
     }
 }
