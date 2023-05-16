@@ -111,6 +111,7 @@ public class ChatAcceptanceTest {
                 .키워드_세팅("인사 안드로이드", "반가움", "안녕")
                 .요청을_보낸다();
 
+        비동기_처리를_위해_잠깐_멈춘다();
         chatBuilder(gptClient)
                 .첫_질문_요청("프론트 허브", "안녕?")
                 .GPT_의_답변_세팅("응 안녕")
@@ -149,8 +150,8 @@ public class ChatAcceptanceTest {
 
     private static void 비동기_처리를_위해_잠깐_멈춘다() {
         try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
+            Thread.sleep(5);
+        } catch (final InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
