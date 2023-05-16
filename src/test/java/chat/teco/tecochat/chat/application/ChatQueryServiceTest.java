@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.application;
 
-
 import static chat.teco.tecochat.chat.domain.Answer.answer;
 import static chat.teco.tecochat.chat.domain.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +15,7 @@ import chat.teco.tecochat.chat.domain.ChatQueryRepository.ChatSearchCond;
 import chat.teco.tecochat.chat.domain.ChatRepository;
 import chat.teco.tecochat.chat.domain.Question;
 import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
+import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.chat.dto.ChatQueryDto;
 import chat.teco.tecochat.chat.dto.ChatQueryDto.MessageQueryDto;
 import chat.teco.tecochat.chat.dto.ChatSearchQueryDto;
@@ -44,10 +44,11 @@ class ChatQueryServiceTest {
     private final MemberRepository memberRepository = mock(MemberRepository.class);
     private final ChatQueryRepository chatQueryRepository = mock(ChatQueryRepository.class);
     private final ChatLikeRepository chatLikeRepository = mock(ChatLikeRepository.class);
+    private final KeywordRepository keywordRepository = mock(KeywordRepository.class);
 
     @InjectMocks
-    private ChatQueryService chatQueryService =
-            new ChatQueryService(memberRepository, chatRepository, chatQueryRepository, chatLikeRepository);
+    private ChatQueryService chatQueryService = new ChatQueryService(
+            memberRepository, chatRepository, chatQueryRepository, chatLikeRepository, keywordRepository);
 
     @Test
     void 단일_채팅_기록을_전부_조회한다() {

@@ -13,9 +13,13 @@ import chat.teco.tecochat.chat.domain.GptClient;
 import chat.teco.tecochat.chat.domain.Question;
 import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
 import chat.teco.tecochat.chat.dto.AskRequest;
+import chat.teco.tecochat.chat.dto.ChatQueryDto;
+import chat.teco.tecochat.chat.dto.ChatQueryDto.KeywordQueryDto;
+import chat.teco.tecochat.chat.dto.ChatQueryDto.MessageQueryDto;
 import chat.teco.tecochat.member.domain.Course;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class ChatSteps {
@@ -32,9 +36,9 @@ public class ChatSteps {
                 .willReturn(qna);
     }
 
-    public static ExtractableResponse<Response> 첫_채팅_요청(final String name, final String question) {
-        return given(name)
-                .body(toJson(new AskRequest(question)))
+    public static ExtractableResponse<Response> 첫_채팅_요청(final String 크루명, final String 질문내용, final String... 질문_키워드들) {
+        return given(크루명)
+                .body(toJson(new AskRequest(질문내용)))
                 .when()
                 .post("/chats")
                 .then()
@@ -83,5 +87,43 @@ public class ChatSteps {
                 .get("/chats" + "?name=" + name + "&course=" + course.name() + "&title=" + title)
                 .then()
                 .extract();
+    }
+
+    public static void 채팅의_정보가_조회된다(
+            final ExtractableResponse<Response> 응답,
+            final Long id,
+            final String crewName,
+            final String course,
+            final String title
+    ) {
+        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
+        assertThat(chatQueryDto.id()).isEqualTo(id);
+        assertThat(chatQueryDto.crewName()).isEqualTo(crewName);
+        assertThat(chatQueryDto.course().name()).isEqualTo(course);
+        assertThat(chatQueryDto.title()).isEqualTo(title);
+    }
+
+    public static void 채팅의_키워드_검증(
+            final ExtractableResponse<Response> 응답,
+            final String... 키워드들
+    ) {
+        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
+        assertThat(chatQueryDto.keywords())
+                .extracting(KeywordQueryDto::keyword)
+                .containsExactly(키워드들);
+    }
+
+    public static void N번째_질문_혹은_답변_내용_검증(
+            final ExtractableResponse<Response> 응답,
+            final int index,
+            final String content,
+            final String role
+    ) {
+        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
+        final List<MessageQueryDto> messages = chatQueryDto.messages();
+        final MessageQueryDto messageQueryDto = messages.get(index);
+        assertThat(messageQueryDto.content()).isEqualTo(content);
+        assertThat(messageQueryDto.role()).isEqualTo(role);
+        assertThat(messageQueryDto.content()).isNotNull();
     }
 }
