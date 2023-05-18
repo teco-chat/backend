@@ -1,4 +1,4 @@
-package chat.teco.tecochat.comment.application.usecase;
+package chat.teco.tecochat.comment.query.usecase;
 
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.member.domain.Course;

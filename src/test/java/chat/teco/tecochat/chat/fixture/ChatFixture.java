@@ -8,14 +8,14 @@ import static chat.teco.tecochat.chat.domain.chat.SettingMessage.FRONT_END_SETTI
 
 import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskCommand;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatCommand;
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
-import chat.teco.tecochat.chat.application.chat.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.chat.application.chat.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.GptModel;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
+import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
+import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
@@ -118,13 +118,6 @@ public class ChatFixture {
                 memberId);
     }
 
-    public static Chat defaultChat(String title, Long memberId) {
-        return new Chat(GPT_3_5_TURBO,
-                BACK_END_SETTING,
-                title,
-                memberId);
-    }
-
     public static Chat chat(QuestionAndAnswer... questionAndAnswers) {
         Chat chat = new Chat(GPT_3_5_TURBO,
                 BACK_END_SETTING,
@@ -139,11 +132,6 @@ public class ChatFixture {
 
     public static Chat chat(List<QuestionAndAnswer> questionAndAnswers) {
         return chatWithModel(GPT_3_5_TURBO, questionAndAnswers);
-    }
-
-    public static Chat chatWithModel(GptModel gptModel,
-                                     QuestionAndAnswer... questionAndAnswers) {
-        return chatWithModel(gptModel, Arrays.asList(questionAndAnswers));
     }
 
     public static Chat chatWithModel(GptModel gptModel,

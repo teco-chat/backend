@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Keyword extends BaseEntity {
+public final class Keyword extends BaseEntity {
 
     private String keyword;
 

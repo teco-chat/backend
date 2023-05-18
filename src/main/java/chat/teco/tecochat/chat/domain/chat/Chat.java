@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Chat extends BaseEntity {
+public final class Chat extends BaseEntity {
 
     public static final int FREE_TOKEN = 2000;
 

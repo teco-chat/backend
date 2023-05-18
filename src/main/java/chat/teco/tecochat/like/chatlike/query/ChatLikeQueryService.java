@@ -1,14 +1,14 @@
-package chat.teco.tecochat.like.chatlike.application.service;
+package chat.teco.tecochat.like.chatlike.query;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.like.chatlike.domain.QChatLike.chatLike;
 import static chat.teco.tecochat.member.domain.QMember.member;
 import static com.querydsl.core.types.Projections.constructor;
 
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikeByChatIdUseCase;
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikedByMemberIdUseCase;
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse.ChatInfo;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse.ChatInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class ChatLikeQueryService implements
 
     private final JPAQueryFactory query;
 
+    @Override
     public List<QueryChatLikeByChatIdResponse> findAllByChatId(Long chatId) {
         return query.select(constructor(QueryChatLikeByChatIdResponse.class,
                                 chatLike.id,
@@ -44,6 +45,7 @@ public class ChatLikeQueryService implements
                 .fetch();
     }
 
+    @Override
     public List<QueryChatLikeByMemberIdResponse> findAllByMemberId(Long memberId) {
         return query.select(constructor(QueryChatLikeByMemberIdResponse.class,
                                 chatLike.id,

@@ -1,4 +1,4 @@
-package chat.teco.tecochat.chat.application.chat.usecase;
+package chat.teco.tecochat.chat.query.usecase;
 
 import chat.teco.tecochat.member.domain.Course;
 import java.time.LocalDateTime;

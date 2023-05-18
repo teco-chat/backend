@@ -7,7 +7,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 
 @Entity
-public class QuestionAndAnswer extends BaseEntity {
+public final class QuestionAndAnswer extends BaseEntity {
 
     @Embedded
     private Question question;

@@ -1,10 +1,10 @@
-package chat.teco.tecochat.comment.application.service;
+package chat.teco.tecochat.comment.query;
 
 import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
 
-import chat.teco.tecochat.comment.application.usecase.QueryAllCommentByChatIdUseCase;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.domain.CommentRepository;
+import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;

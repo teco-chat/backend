@@ -1,4 +1,4 @@
-package chat.teco.tecochat.like.chatlike.application;
+package chat.teco.tecochat.like.chatlike.query;
 
 import static chat.teco.tecochat.member.domain.Course.BACKEND;
 
@@ -7,7 +7,6 @@ import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
-import chat.teco.tecochat.like.chatlike.application.service.ChatLikeQueryService;
 import chat.teco.tecochat.like.chatlike.domain.ChatLike;
 import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Course;

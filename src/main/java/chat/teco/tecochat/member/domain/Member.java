@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 
 @Entity
-public class Member extends BaseEntity {
+public final class Member extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;

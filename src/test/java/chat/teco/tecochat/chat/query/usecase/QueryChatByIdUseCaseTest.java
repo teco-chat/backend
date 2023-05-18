@@ -1,14 +1,13 @@
-package chat.teco.tecochat.chat.application.chat.usecase;
+package chat.teco.tecochat.chat.query.usecase;
 
 import static chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.application.chat.ChatQueryUseCaseTest;
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;

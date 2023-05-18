@@ -8,8 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.application.chat.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.GptClient;
 import chat.teco.tecochat.chat.domain.chat.Question;
@@ -17,6 +15,8 @@ import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
 import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.member.domain.Course;
 import com.jayway.jsonpath.TypeRef;

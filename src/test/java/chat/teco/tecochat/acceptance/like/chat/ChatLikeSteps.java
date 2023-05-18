@@ -4,10 +4,10 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.like.chatlike.application.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
+import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
 import com.jayway.jsonpath.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

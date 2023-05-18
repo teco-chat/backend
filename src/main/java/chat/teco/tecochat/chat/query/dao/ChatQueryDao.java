@@ -1,9 +1,10 @@
-package chat.teco.tecochat.chat.domain.chat;
+package chat.teco.tecochat.chat.query.dao;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.member.domain.QMember.member;
 import static org.springframework.util.StringUtils.hasText;
 
+import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import chat.teco.tecochat.member.domain.Course;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -16,11 +17,11 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ChatQueryRepository {
+public class ChatQueryDao {
 
     private final JPAQueryFactory query;
 
-    public ChatQueryRepository(final JPAQueryFactory query) {
+    public ChatQueryDao(final JPAQueryFactory query) {
         this.query = query;
     }
 

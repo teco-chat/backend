@@ -1,14 +1,14 @@
-package chat.teco.tecochat.comment.application.usecase;
+package chat.teco.tecochat.comment.query.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.comment.application.service.CommentQueryService;
-import chat.teco.tecochat.comment.application.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.domain.CommentRepository;
+import chat.teco.tecochat.comment.query.CommentQueryService;
+import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;

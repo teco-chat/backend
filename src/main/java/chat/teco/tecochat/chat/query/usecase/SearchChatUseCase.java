@@ -1,6 +1,6 @@
-package chat.teco.tecochat.chat.application.chat.usecase;
+package chat.teco.tecochat.chat.query.usecase;
 
-import chat.teco.tecochat.chat.domain.chat.ChatQueryRepository.ChatSearchCond;
+import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.member.domain.Course;
 import java.time.LocalDateTime;
 import java.util.List;

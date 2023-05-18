@@ -15,12 +15,13 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = null;
+    private final Long id;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     protected BaseEntity() {
+        id = null;
     }
 
     public BaseEntity(Long id) {

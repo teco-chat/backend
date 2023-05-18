@@ -24,8 +24,8 @@ import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.mockito.BDDMockito.reset;
 
-import chat.teco.tecochat.chat.application.chat.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.domain.chat.GptClient;
+import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import io.restassured.RestAssured;
 import java.util.ArrayList;
 import java.util.List;

@@ -4,9 +4,9 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.comment.application.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
+import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import com.jayway.jsonpath.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

@@ -1,15 +1,15 @@
-package chat.teco.tecochat.chat.application.chat;
+package chat.teco.tecochat.chat.query.usecase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 
-import chat.teco.tecochat.chat.application.chat.service.ChatQueryService;
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatQueryRepository;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
+import chat.teco.tecochat.chat.query.ChatQueryService;
+import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
 import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
@@ -25,12 +25,12 @@ public class ChatQueryUseCaseTest {
 
     protected final MemberRepository memberRepository = mock(MemberRepository.class);
     protected final ChatRepository chatRepository = mock(ChatRepository.class);
-    protected final ChatQueryRepository chatQueryRepository = mock(ChatQueryRepository.class);
+    protected final ChatQueryDao chatQueryDao = mock(ChatQueryDao.class);
     protected final ChatLikeRepository chatLikeRepository = mock(ChatLikeRepository.class);
     protected final KeywordRepository keywordRepository = mock(KeywordRepository.class);
 
     protected final ChatQueryService chatQueryService = new ChatQueryService(
-            memberRepository, chatRepository, chatQueryRepository, chatLikeRepository, keywordRepository
+            memberRepository, chatRepository, chatQueryDao, chatLikeRepository, keywordRepository
     );
 
     protected void 회원을_저장한다(Member member) {
@@ -47,12 +47,12 @@ public class ChatQueryUseCaseTest {
         Page<Chat> page = PageableExecutionUtils.getPage(Arrays.asList(chats),
                 PageRequest.of(0, 10),
                 () -> 0);
-        given(chatQueryRepository.search(any(), any()))
+        given(chatQueryDao.search(any(), any()))
                 .willReturn(page);
     }
 
     @AfterEach
     void tearDown() {
-        reset(memberRepository, chatRepository, chatQueryRepository, chatRepository, keywordRepository);
+        reset(memberRepository, chatRepository, chatQueryDao, chatRepository, keywordRepository);
     }
 }
