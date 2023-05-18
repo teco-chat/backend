@@ -42,7 +42,7 @@ class SearchChatUseCaseTest extends ChatQueryUseCaseTest {
 
         // when
         Page<SearchChatResponse> search = searchChatUseCase.search(
-                new ChatSearchCond(null, null, null),
+                new ChatSearchCond(null, null, null, null),
                 PageRequest.of(1, 1)
         );
 
