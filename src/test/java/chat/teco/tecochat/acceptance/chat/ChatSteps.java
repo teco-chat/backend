@@ -15,6 +15,7 @@ import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
 import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
@@ -22,7 +23,9 @@ import chat.teco.tecochat.member.domain.Course;
 import com.jayway.jsonpath.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class ChatSteps {
@@ -52,13 +55,15 @@ public class ChatSteps {
             String... 질문_키워드들
     ) {
         GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
-        return given(크루명)
+        var 응답 = given(크루명)
                 .body(toJson(new CreateChatRequest(질문)))
                 .when()
                 .post("/chats")
                 .then()
                 .log().all()
                 .extract();
+        오류_안나게_하려고_잠시_정지();
+        return 응답;
     }
 
     public static Long 첫_채팅_요청후_ID_반환(
@@ -68,14 +73,7 @@ public class ChatSteps {
             String 답변,
             String... 질문_키워드들
     ) {
-        GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
-        var 응답 = given(크루명)
-                .body(toJson(new CreateChatRequest(질문)))
-                .when()
-                .post("/chats")
-                .then()
-                .log().all()
-                .extract();
+        var 응답 = 첫_채팅_요청(gptClient, 크루명, 질문, 답변, 질문_키워드들);
         return 채팅_ID_반환(응답);
     }
 
@@ -129,16 +127,48 @@ public class ChatSteps {
                 .isEqualTo(예상_결과);
     }
 
-    public static ExtractableResponse<Response> 이름_과정_제목으로_검색_요청(
-            String 이름,
-            Course 과정,
-            String 제목
+    public static ExtractableResponse<Response> 이름_과정_제목_좋아요_기간으로_검색_요청(
+            Map<String, Object> 요청_파라미터들
     ) {
         return given()
                 .when()
-                .get("/chats" + "?name=" + 이름 + "&course=" + 과정.name() + "&title=" + 제목)
+                .queryParams(요청_파라미터들)
+
+                .get("/chats")
                 .then().log().all()
                 .extract();
+    }
+
+    public static Map<String, Object> 요청_파라미터들() {
+        return new HashMap<>();
+    }
+
+    public static void 이름_조건(
+            Map<String, Object> 요청_파라미터들,
+            String 이름
+    ) {
+        요청_파라미터들.put("name", 이름);
+    }
+
+    public static void 과정_조건(
+            Map<String, Object> 요청_파라미터들,
+            Course 과정
+    ) {
+        요청_파라미터들.put("course", 과정);
+    }
+
+    public static void 제목_조건(
+            Map<String, Object> 요청_파라미터들,
+            String 제목
+    ) {
+        요청_파라미터들.put("title", 제목);
+    }
+
+    public static void 좋아요_기간_조겅(
+            Map<String, Object> 요청_파라미터들,
+            LikeCond 좋아요_기간
+    ) {
+        요청_파라미터들.put("likeCond", 좋아요_기간);
     }
 
     public static void 검색_결과의_내용_검증(
@@ -162,5 +192,16 @@ public class ChatSteps {
                 new TypeRef<PageResponse<SearchChatResponse>>() {
                 }.getType());
         assertThat(페이지_결과.totalElements()).isEqualTo(0);
+    }
+
+    /**
+     * 없으면 detached entity passed to persist QuestionAnsAnswer 발생함.. ㅠㅠ
+     */
+    private static void 오류_안나게_하려고_잠시_정지() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

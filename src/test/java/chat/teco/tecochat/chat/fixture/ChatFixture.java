@@ -68,13 +68,13 @@ public class ChatFixture {
         return result;
     }
 
-    public static List<SearchChatResponse> 채팅_검색의_예상_결과들(
+    public static List<SearchChatResponse> 채팅_검색_결과들(
             SearchChatResponse... 채팅_검색의_예상_결과들
     ) {
         return List.of(채팅_검색의_예상_결과들);
     }
 
-    public static SearchChatResponse 채팅_검색의_예상_결과(
+    public static SearchChatResponse 채팅_검색_결과(
             Long 채팅_ID,
             Long 채팅한_크루_Id,
             String 채팅한_크루_이름,
