@@ -34,9 +34,6 @@ public class Keyword extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Keyword{" +
-                "keyword='" + keyword + '\'' +
-                ", chat=" + chat +
-                '}';
+        return "Keyword=[" + keyword + "]";
     }
 }

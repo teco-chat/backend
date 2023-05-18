@@ -10,6 +10,8 @@ import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +22,7 @@ public class KeywordExtractor {
                     + " excluding the \" and formatting them with || as a separator."
                     + " For example: ex1||ex2||ex3");
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final GptClient gptClient;
 
     public KeywordExtractor(final GptClient gptClient) {
@@ -42,6 +45,7 @@ public class KeywordExtractor {
 
     private void validateKeyword(final List<Keyword> keywords) {
         if (keywords.size() != 3) {
+            log.info("키워드가 3개가 반환되지 않음 [{}]", keywords);
             throw new KeywordException(CAN_NOT_EXTRACTED_KEYWORD);
         }
     }
