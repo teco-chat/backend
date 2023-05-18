@@ -7,7 +7,7 @@ public class JsonMapper {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String toJson(final Object object) {
+    public static String toJson(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -15,7 +15,7 @@ public class JsonMapper {
         }
     }
 
-    public static <T> T fromJson(final String json, final Class<T> tClass) {
+    public static <T> T fromJson(String json, Class<T> tClass) {
         try {
             return objectMapper.readValue(json, tClass);
         } catch (JsonProcessingException e) {

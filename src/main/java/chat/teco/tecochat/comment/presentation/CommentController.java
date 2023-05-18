@@ -4,79 +4,54 @@ import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
 import chat.teco.tecochat.auth.Auth;
-import chat.teco.tecochat.comment.application.CommentQueryService;
-import chat.teco.tecochat.comment.application.CommentQueryService.CommentQueryDto;
-import chat.teco.tecochat.comment.application.DeleteCommentService;
-import chat.teco.tecochat.comment.application.DeleteCommentService.DeleteCommentCommand;
-import chat.teco.tecochat.comment.application.UpdateCommentService;
-import chat.teco.tecochat.comment.application.UpdateCommentService.UpdateCommentCommand;
-import chat.teco.tecochat.comment.application.WriteCommentService;
-import chat.teco.tecochat.comment.application.WriteCommentService.WriteCommentCommand;
+import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase;
+import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase.DeleteCommentCommand;
+import chat.teco.tecochat.comment.application.usecase.UpdateCommentUseCase;
+import chat.teco.tecochat.comment.application.usecase.UpdateCommentUseCase.UpdateCommentCommand;
+import chat.teco.tecochat.comment.application.usecase.WriteCommentUseCase;
+import chat.teco.tecochat.comment.application.usecase.WriteCommentUseCase.WriteCommentCommand;
 import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
 import chat.teco.tecochat.comment.presentation.response.CreatedIdResponse;
+import chat.teco.tecochat.common.util.UriUtil;
 import java.net.URI;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
 
-    private final WriteCommentService writeCommentService;
-    private final UpdateCommentService updateCommentService;
-    private final DeleteCommentService deleteCommentService;
-    private final CommentQueryService commentQueryService;
-
-    public CommentController(final WriteCommentService writeCommentService,
-                             final UpdateCommentService updateCommentService,
-                             final DeleteCommentService deleteCommentService,
-                             final CommentQueryService commentQueryService) {
-        this.writeCommentService = writeCommentService;
-        this.updateCommentService = updateCommentService;
-        this.deleteCommentService = deleteCommentService;
-        this.commentQueryService = commentQueryService;
-    }
-
-    @GetMapping
-    ResponseEntity<List<CommentQueryDto>> findAllByChatId(
-            @RequestParam("chatId") final Long chatId
-    ) {
-        return ResponseEntity.ok(commentQueryService.findAllByChatId(chatId));
-    }
+    private final WriteCommentUseCase writeCommentUseCase;
+    private final UpdateCommentUseCase updateCommentUseCase;
+    private final DeleteCommentUseCase deleteCommentUseCase;
 
     @PostMapping
     ResponseEntity<CreatedIdResponse> write(
-            @Auth final Long memberId,
-            @RequestBody final WriteCommentRequest request
+            @Auth Long memberId,
+            @RequestBody WriteCommentRequest request
     ) {
-        final Long id = writeCommentService.write(
+        Long id = writeCommentUseCase.write(
                 new WriteCommentCommand(request.chatId(), memberId, request.content())
         );
-        final URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUri();
+        URI uri = UriUtil.buildURI("/{id}", id);
         return created(uri).body(new CreatedIdResponse(id));
     }
 
     @PatchMapping("/{id}")
     ResponseEntity<Void> update(
-            @PathVariable("id") final Long commentId,
-            @Auth final Long memberId,
-            @RequestBody final UpdateCommentRequest request) {
-        updateCommentService.update(
+            @PathVariable("id") Long commentId,
+            @Auth Long memberId,
+            @RequestBody UpdateCommentRequest request) {
+        updateCommentUseCase.update(
                 new UpdateCommentCommand(commentId, memberId, request.content())
         );
         return ok().build();
@@ -84,10 +59,10 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(
-            @PathVariable("id") final Long commentId,
-            @Auth final Long memberId
+            @PathVariable("id") Long commentId,
+            @Auth Long memberId
     ) {
-        deleteCommentService.delete(
+        deleteCommentUseCase.delete(
                 new DeleteCommentCommand(commentId, memberId)
         );
         return ok().build();

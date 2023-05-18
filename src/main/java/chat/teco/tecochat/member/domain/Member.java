@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 
 @Entity
-public class Member extends BaseEntity {
+public final class Member extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -16,6 +16,12 @@ public class Member extends BaseEntity {
     @Enumerated(STRING)
     @Column(nullable = false)
     private Course course;
+
+    public Member(Long id, String name, Course course) {
+        super(id);
+        this.name = name;
+        this.course = course;
+    }
 
     public Member(final String name, final Course course) {
         this.name = name;

@@ -34,13 +34,12 @@ class CommentTest {
     @Test
     void 작성자가_아닌데_수정하려는_경우_예외() {
         // when & then
-        final BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+        BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
                 댓글.update(작성자_ID + 1L, "변경")
         ).exceptionType();
 
         assertThat(exceptionType).isEqualTo(NO_AUTHORITY_UPDATE_COMMENT);
     }
-
 
     @Test
     void 작성자는_제거할_수_있다() {
@@ -51,7 +50,7 @@ class CommentTest {
     @Test
     void 작성자가_아니면_제거할_수_없다() {
         // when
-        final BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+        BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
                 댓글.validateDelete(작성자_ID + 1)
         ).exceptionType();
 

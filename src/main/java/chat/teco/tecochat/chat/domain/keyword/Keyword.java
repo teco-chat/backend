@@ -1,6 +1,6 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import chat.teco.tecochat.chat.domain.Chat;
+import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Keyword extends BaseEntity {
+public final class Keyword extends BaseEntity {
 
     private String keyword;
 
@@ -34,9 +34,6 @@ public class Keyword extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Keyword{" +
-                "keyword='" + keyword + '\'' +
-                ", chat=" + chat +
-                '}';
+        return "Keyword=[" + keyword + "]";
     }
 }

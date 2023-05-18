@@ -16,6 +16,12 @@ public class ChatLike extends BaseEntity {
     protected ChatLike() {
     }
 
+    public ChatLike(Long id, Long memberId, Long chatId) {
+        super(id);
+        this.memberId = memberId;
+        this.chatId = chatId;
+    }
+
     public ChatLike(final Long memberId, final Long chatId) {
         this.memberId = memberId;
         this.chatId = chatId;

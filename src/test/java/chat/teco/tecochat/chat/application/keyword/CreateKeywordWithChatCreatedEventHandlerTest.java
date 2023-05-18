@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import static chat.teco.tecochat.chat.domain.GptModel.GPT_4;
-import static chat.teco.tecochat.chat.domain.SettingMessage.BACK_END_SETTING;
-import static chat.teco.tecochat.chat.exception.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
+import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
+import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
+import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -12,13 +12,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import chat.teco.tecochat.chat.domain.Chat;
-import chat.teco.tecochat.chat.domain.ChatRepository;
-import chat.teco.tecochat.chat.domain.event.ChatCreatedEvent;
+import chat.teco.tecochat.chat.domain.chat.Chat;
+import chat.teco.tecochat.chat.domain.chat.ChatRepository;
+import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
 import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
-import chat.teco.tecochat.chat.exception.KeywordException;
+import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
@@ -42,7 +42,7 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
     private final TransactionTemplate transactionTemplate = FakeTransactionTemplate.spied();
     private final KeywordExtractor keywordExtractor = mock(KeywordExtractor.class);
 
-    private CreateKeywordWithChatCreatedEventHandler handler = new CreateKeywordWithChatCreatedEventHandler(
+    private final CreateKeywordWithChatCreatedEventHandler handler = new CreateKeywordWithChatCreatedEventHandler(
             eventHistoryRepository,
             chatRepository,
             keywordRepository,
@@ -50,7 +50,7 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
             keywordExtractor
     );
 
-    private Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
+    private final Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
 
     @Test
     void 채팅_생성_이벤트를_받아_해당_채팅의_키워드를_추출하여_저장한다() {
@@ -80,7 +80,7 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
                 .willThrow(new KeywordException(CAN_NOT_EXTRACTED_KEYWORD));
 
         // when
-        final BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
+        BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
                 handler.handle(new ChatCreatedEvent(1L, LocalDateTime.MAX))
         ).exceptionType();
 

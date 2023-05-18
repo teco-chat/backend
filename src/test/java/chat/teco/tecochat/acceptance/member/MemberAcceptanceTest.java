@@ -1,13 +1,16 @@
 package chat.teco.tecochat.acceptance.member;
 
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_생성;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
+import static chat.teco.tecochat.member.domain.Course.BACKEND;
+import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -38,10 +41,26 @@ public class MemberAcceptanceTest {
     @Test
     void 회원_가입을_진행한다() {
         // given
-        final ExtractableResponse<Response> response = 회원_가입_요청("말랑", Course.BACKEND);
+        var 회원_가입_응답 = 회원_가입_요청("말랑", BACKEND);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(201);
+        요청_결과의_상태를_검증한다(회원_가입_응답, 정상_생성);
         assertThat(memberRepository.findAll()).hasSize(1);
+    }
+
+    @Test
+    void 이름이_이미_있으면_코스를_변경한다() {
+        // given
+        회원_가입_요청("말랑", BACKEND);
+
+        // when
+        회원_가입_요청("말랑", FRONTEND);
+
+        // then
+        // TODO 나중에 회원가입 제대로 만들고, 조회 기능 만들면 그때 수정
+        List<Member> members = memberRepository.findAll();
+        assertThat(members).hasSize(1);
+        Member member = members.get(0);
+        assertThat(member.course()).isEqualTo(FRONTEND);
     }
 }
