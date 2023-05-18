@@ -23,6 +23,10 @@ public class BaseEntity {
     protected BaseEntity() {
     }
 
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
     public Long id() {
         return id;
     }

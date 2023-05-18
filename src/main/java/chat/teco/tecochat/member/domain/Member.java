@@ -17,6 +17,12 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Course course;
 
+    public Member(Long id, String name, Course course) {
+        super(id);
+        this.name = name;
+        this.course = course;
+    }
+
     public Member(final String name, final Course course) {
         this.name = name;
         this.course = course;

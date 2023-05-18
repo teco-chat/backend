@@ -1,20 +1,20 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.domain.GptModel.GPT_4;
-import static chat.teco.tecochat.chat.domain.SettingMessage.BACK_END_SETTING;
-import static chat.teco.tecochat.chat.exception.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
+import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
+import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
+import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-import chat.teco.tecochat.chat.domain.Answer;
-import chat.teco.tecochat.chat.domain.Chat;
-import chat.teco.tecochat.chat.domain.GptClient;
-import chat.teco.tecochat.chat.domain.Question;
-import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
-import chat.teco.tecochat.chat.exception.KeywordException;
+import chat.teco.tecochat.chat.domain.chat.Answer;
+import chat.teco.tecochat.chat.domain.chat.Chat;
+import chat.teco.tecochat.chat.domain.chat.GptClient;
+import chat.teco.tecochat.chat.domain.chat.Question;
+import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ class KeywordExtractorTest {
                 new QuestionAndAnswer(Question.question("질문"), Answer.answer("답변1||답변2||답변3"), 1));
 
         // when
-        final List<Keyword> keywordList = extractor.extractKeywords(chat);
+        List<Keyword> keywordList = extractor.extractKeywords(chat);
 
         // then
         assertThat(keywordList)
@@ -55,7 +55,7 @@ class KeywordExtractorTest {
                 new QuestionAndAnswer(Question.question("질문"), Answer.answer("답변1||답변2||답변3||답변4"), 1));
 
         // when
-        final BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
+        BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
                 extractor.extractKeywords(chat)
         ).exceptionType();
 

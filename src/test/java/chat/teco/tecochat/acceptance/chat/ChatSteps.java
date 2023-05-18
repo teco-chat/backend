@@ -1,22 +1,25 @@
 package chat.teco.tecochat.acceptance.chat;
 
-import static chat.teco.tecochat.acceptance.AcceptanceTestSteps.given;
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
-import static chat.teco.tecochat.chat.domain.Answer.answer;
-import static chat.teco.tecochat.chat.domain.Question.question;
+import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
+import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import chat.teco.tecochat.chat.domain.Chat;
-import chat.teco.tecochat.chat.domain.GptClient;
-import chat.teco.tecochat.chat.domain.Question;
-import chat.teco.tecochat.chat.domain.QuestionAndAnswer;
-import chat.teco.tecochat.chat.dto.AskRequest;
-import chat.teco.tecochat.chat.dto.ChatQueryDto;
-import chat.teco.tecochat.chat.dto.ChatQueryDto.KeywordQueryDto;
-import chat.teco.tecochat.chat.dto.ChatQueryDto.MessageQueryDto;
+import chat.teco.tecochat.chat.application.chat.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.chat.application.chat.usecase.SearchChatUseCase.SearchChatResponse;
+import chat.teco.tecochat.chat.domain.chat.Chat;
+import chat.teco.tecochat.chat.domain.chat.GptClient;
+import chat.teco.tecochat.chat.domain.chat.Question;
+import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
+import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
+import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.member.domain.Course;
+import com.jayway.jsonpath.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -25,20 +28,32 @@ import java.util.List;
 public class ChatSteps {
 
     public static void GPT_의_응답을_지정한다(
-            final GptClient gptClient,
-            final String question,
-            final String answer,
-            final int token
+            GptClient gptClient,
+            String 질문,
+            String 답변,
+            String... 질문_키워드들
     ) {
-        final QuestionAndAnswer qna =
-                new QuestionAndAnswer(question(question), answer(answer), token);
+        if (질문_키워드들.length == 0) {
+            given(gptClient.ask(any(Chat.class), any(Question.class)))
+                    .willReturn(new QuestionAndAnswer(question(질문), answer(답변), 10));
+            return;
+        }
+        String 키워드들 = String.join("||", 질문_키워드들);
         given(gptClient.ask(any(Chat.class), any(Question.class)))
-                .willReturn(qna);
+                .willReturn(new QuestionAndAnswer(question(질문), answer(답변), 10),
+                        new QuestionAndAnswer(question("키워드 추출"), answer(키워드들), 10));
     }
 
-    public static ExtractableResponse<Response> 첫_채팅_요청(final String 크루명, final String 질문내용, final String... 질문_키워드들) {
+    public static ExtractableResponse<Response> 첫_채팅_요청(
+            GptClient gptClient,
+            String 크루명,
+            String 질문,
+            String 답변,
+            String... 질문_키워드들
+    ) {
+        GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
         return given(크루명)
-                .body(toJson(new AskRequest(질문내용)))
+                .body(toJson(new CreateChatRequest(질문)))
                 .when()
                 .post("/chats")
                 .then()
@@ -46,84 +61,106 @@ public class ChatSteps {
                 .extract();
     }
 
+    public static Long 첫_채팅_요청후_ID_반환(
+            GptClient gptClient,
+            String 크루명,
+            String 질문,
+            String 답변,
+            String... 질문_키워드들
+    ) {
+        GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
+        var 응답 = given(크루명)
+                .body(toJson(new CreateChatRequest(질문)))
+                .when()
+                .post("/chats")
+                .then()
+                .log().all()
+                .extract();
+        return 채팅_ID_반환(응답);
+    }
+
+    public static Long 채팅_ID_반환(ExtractableResponse<Response> 응답) {
+        CreateChatResponse createChatResponse = 응답.as(CreateChatResponse.class);
+        return createChatResponse.chatId();
+    }
+
+    public static void 첫_채팅의_응답을_확인한다(
+            ExtractableResponse<Response> 응답,
+            String 예상_답변
+    ) {
+        CreateChatResponse createChatResponse = 응답.as(CreateChatResponse.class);
+        assertThat(createChatResponse.content()).isEqualTo(예상_답변);
+    }
+
     public static ExtractableResponse<Response> 채팅_이어하기_요청(
-            final String name,
-            final String question,
-            final Long chatId
+            GptClient gptClient,
+            String 이름,
+            String 질문,
+            String 답변,
+            Long 채팅_ID
     ) {
-        return given(name)
-                .body(toJson(new AskRequest(question)))
+        GPT_의_응답을_지정한다(gptClient, 질문, 답변);
+        return given(이름)
+                .body(toJson(new AskRequest(질문)))
                 .when()
-                .post("/chats/{id}", chatId)
+                .post("/chats/{id}", 채팅_ID)
                 .then()
                 .log().all()
                 .extract();
     }
 
-    public static void 질문에_대해_응답됨(
-            final ExtractableResponse<Response> response,
-            final String content
-    ) {
-        assertThat(response.statusCode()).isEqualTo(201);
-        assertThat(response.jsonPath().getString("content")).isEqualTo(content);
-    }
-
-    public static ExtractableResponse<Response> 단일_채팅_조회_요청(final Long id, final String name) {
-        return given(name)
+    public static ExtractableResponse<Response> 단일_채팅_조회_요청(Long 채팅_ID, String 이름) {
+        return given(이름)
                 .when()
-                .get("/chats/{id}", id)
+                .get("/chats/{id}", 채팅_ID)
                 .then()
                 .log().all()
                 .extract();
+    }
+
+    public static void 단일_채팅_조회_결과를_확인한다(
+            ExtractableResponse<Response> 응답,
+            QueryChatByIdResponse 예상_결과
+    ) {
+        QueryChatByIdResponse chatQueryResponse = 응답.as(QueryChatByIdResponse.class);
+        assertThat(chatQueryResponse)
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(예상_결과);
     }
 
     public static ExtractableResponse<Response> 이름_과정_제목으로_검색_요청(
-            final String name,
-            final Course course,
-            final String title
+            String 이름,
+            Course 과정,
+            String 제목
     ) {
         return given()
                 .when()
-                .get("/chats" + "?name=" + name + "&course=" + course.name() + "&title=" + title)
-                .then()
+                .get("/chats" + "?name=" + 이름 + "&course=" + 과정.name() + "&title=" + 제목)
+                .then().log().all()
                 .extract();
     }
 
-    public static void 채팅의_정보가_조회된다(
-            final ExtractableResponse<Response> 응답,
-            final Long id,
-            final String crewName,
-            final String course,
-            final String title
+    public static void 검색_결과의_내용_검증(
+            ExtractableResponse<Response> 응답,
+            List<SearchChatResponse> 예상_결과
     ) {
-        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
-        assertThat(chatQueryDto.id()).isEqualTo(id);
-        assertThat(chatQueryDto.crewName()).isEqualTo(crewName);
-        assertThat(chatQueryDto.course().name()).isEqualTo(course);
-        assertThat(chatQueryDto.title()).isEqualTo(title);
+        PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
+                new TypeRef<PageResponse<SearchChatResponse>>() {
+                }.getType());
+        List<SearchChatResponse> content = 페이지_결과.content();
+        assertThat(content)
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(예상_결과);
     }
 
-    public static void 채팅의_키워드_검증(
-            final ExtractableResponse<Response> 응답,
-            final String... 키워드들
+    public static void 검색_결과_없음(
+            ExtractableResponse<Response> 응답
     ) {
-        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
-        assertThat(chatQueryDto.keywords())
-                .extracting(KeywordQueryDto::keyword)
-                .containsExactly(키워드들);
-    }
-
-    public static void N번째_질문_혹은_답변_내용_검증(
-            final ExtractableResponse<Response> 응답,
-            final int index,
-            final String content,
-            final String role
-    ) {
-        final ChatQueryDto chatQueryDto = 응답.as(ChatQueryDto.class);
-        final List<MessageQueryDto> messages = chatQueryDto.messages();
-        final MessageQueryDto messageQueryDto = messages.get(index);
-        assertThat(messageQueryDto.content()).isEqualTo(content);
-        assertThat(messageQueryDto.role()).isEqualTo(role);
-        assertThat(messageQueryDto.content()).isNotNull();
+        PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
+                new TypeRef<PageResponse<SearchChatResponse>>() {
+                }.getType());
+        assertThat(페이지_결과.totalElements()).isEqualTo(0);
     }
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findAllByChatId(final Long chatId);
+    List<Comment> findAllByChatId(Long chatId);
 }
