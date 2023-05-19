@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 public class KeywordExtractor {
 
     private static final Question EXTRACT_KEYWORD_QUESTION = Question.question(
-            "Except for this question and the first one, "
+            "Except for this message and the first one, "
                     + "I need you to extract 3 technical keywords from the above 2 conversations "
-                    + "in CVS format without \". "
+                    + "in CSV format without \". "
                     + "Please use || as a separator. For example: keyword1||keyword2||keyword3");
 
     private final Logger log = LoggerFactory.getLogger(getClass());
