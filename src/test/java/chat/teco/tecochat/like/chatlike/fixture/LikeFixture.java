@@ -8,7 +8,6 @@ import chat.teco.tecochat.like.chatlike.domain.ChatLike;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse.ChatInfo;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture;
@@ -48,17 +47,14 @@ public class LikeFixture {
             int 전체_질문답변_수
     ) {
         return new QueryChatLikeByMemberIdResponse(
+                채팅_ID,
                 null,
-                null,
-                new ChatInfo(
-                        null,
-                        채팅_ID,
-                        채팅_작성한_크루명,
-                        과정,
-                        제목,
-                        좋아요_수,
-                        전체_질문답변_수,
-                        null));
+                채팅_작성한_크루명,
+                과정,
+                제목,
+                좋아요_수,
+                전체_질문답변_수,
+                null);
     }
 
     public static class 말랑_좋아요 {
