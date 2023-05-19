@@ -14,6 +14,7 @@ import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
+import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
@@ -102,6 +103,20 @@ public class ChatSteps {
                 .body(toJson(new AskRequest(질문)))
                 .when()
                 .post("/chats/{id}", 채팅_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 채팅_제목_수정_요청(
+            Long 채팅_ID,
+            String 이름,
+            String 변경할_제목
+    ) {
+        return given(이름)
+                .body(toJson(new UpdateChatTitleRequest(변경할_제목)))
+                .when()
+                .patch("/chats/{id}", 채팅_ID)
                 .then()
                 .log().all()
                 .extract();

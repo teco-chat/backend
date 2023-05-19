@@ -1,7 +1,9 @@
 package chat.teco.tecochat.chat.domain.chat;
 
+import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NO_AUTHORITY_CHANGE_TITLE;
 import static jakarta.persistence.EnumType.STRING;
 
+import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public final class Chat extends BaseEntity {
+public class Chat extends BaseEntity {
 
     public static final int FREE_TOKEN = 2000;
 
@@ -77,6 +79,13 @@ public final class Chat extends BaseEntity {
         likeCount++;
     }
 
+    public void updateTitle(Long memberId, String title) {
+        if (!this.memberId().equals(memberId)) {
+            throw new ChatException(NO_AUTHORITY_CHANGE_TITLE);
+        }
+        this.title = title;
+    }
+
     public String modelName() {
         return model.modelName();
     }
@@ -100,5 +109,4 @@ public final class Chat extends BaseEntity {
     public int likeCount() {
         return likeCount;
     }
-
 }
