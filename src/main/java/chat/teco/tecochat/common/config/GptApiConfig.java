@@ -17,7 +17,6 @@ public class GptApiConfig {
     @Value("${gpt.url}")
     private String url;
 
-
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

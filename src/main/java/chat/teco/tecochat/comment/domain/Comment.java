@@ -1,6 +1,5 @@
 package chat.teco.tecochat.comment.domain;
 
-
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
 
@@ -22,6 +21,13 @@ public class Comment extends BaseEntity {
     private String content;
 
     protected Comment() {
+    }
+
+    public Comment(Long id, Long chatId, Long memberId, String content) {
+        super(id);
+        this.chatId = chatId;
+        this.memberId = memberId;
+        this.content = content;
     }
 
     public Comment(final Long chatId, final Long memberId, final String content) {

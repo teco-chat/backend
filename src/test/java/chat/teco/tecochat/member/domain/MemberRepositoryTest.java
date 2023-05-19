@@ -23,13 +23,13 @@ class MemberRepositoryTest {
     @Test
     void Member_를_저장할_수_있다() {
         // when
-        final Member 말랑 = memberRepository.save(new Member("말랑", BACKEND));
+        Member 말랑 = memberRepository.save(new Member("말랑_좋아요", BACKEND));
 
         // then
-        final Member member = memberRepository.findById(말랑.id()).get();
+        Member member = memberRepository.findById(말랑.id()).get();
         assertAll(
                 () -> assertThat(member.course()).isEqualTo(BACKEND),
-                () -> assertThat(member.name()).isEqualTo("말랑"),
+                () -> assertThat(member.name()).isEqualTo("말랑_좋아요"),
                 () -> assertThat(member.id()).isNotNull()
         );
     }
