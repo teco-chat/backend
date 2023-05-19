@@ -15,6 +15,11 @@ public enum ChatExceptionType implements BaseExceptionType {
             HttpStatus.BAD_REQUEST,
             "질문하신 내용의 길이가 너무 깁니다. 질문의 길이를 줄여주세요"
     ),
+    NO_AUTHORITY_CHANGE_TITLE(
+            202,
+            HttpStatus.FORBIDDEN,
+            "제목을 수정할 권한이 없습니다"
+    ),
     GPT_API_ERROR(
             203,
             HttpStatus.SERVICE_UNAVAILABLE,
