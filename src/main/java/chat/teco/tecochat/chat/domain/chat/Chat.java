@@ -79,7 +79,7 @@ public class Chat extends BaseEntity {
         likeCount++;
     }
 
-    public void changeTitle(Long memberId, String title) {
+    public void updateTitle(Long memberId, String title) {
         if (!this.memberId().equals(memberId)) {
             throw new ChatException(NO_AUTHORITY_CHANGE_TITLE);
         }

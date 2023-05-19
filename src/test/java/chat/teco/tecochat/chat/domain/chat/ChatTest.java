@@ -12,11 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chat.teco.tecochat.chat.exception.chat.ChatException;
-import chat.teco.tecochat.chat.exception.chat.ChatExceptionType;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import java.util.List;
@@ -133,7 +131,7 @@ class ChatTest {
 
             // when
             BaseExceptionType baseExceptionType = assertThrows(ChatException.class, () ->
-                    chat.changeTitle(other.id(), "변경 제목")
+                    chat.updateTitle(other.id(), "변경 제목")
             ).exceptionType();
 
             // then
@@ -147,7 +145,7 @@ class ChatTest {
             Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.id());
 
             // when
-            chat.changeTitle(member.id(), "변경 제목");
+            chat.updateTitle(member.id(), "변경 제목");
 
             // then
             assertThat(chat.title()).isEqualTo("변경 제목");
