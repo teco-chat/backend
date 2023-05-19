@@ -1,12 +1,15 @@
 package chat.teco.tecochat.like.chatlike.presentation;
 
 import chat.teco.tecochat.auth.Auth;
+import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +32,10 @@ public class ChatLikeQueryController {
     }
 
     @GetMapping
-    ResponseEntity<List<QueryChatLikeByMemberIdResponse>> findAllByMemberId(
-            @Auth Long memberId
+    ResponseEntity<PageResponse<QueryChatLikeByMemberIdResponse>> findAllByMemberId(
+            @Auth Long memberId,
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-        return ResponseEntity.ok(queryAllByMemberIdUseCase.findAllByMemberId(memberId));
+        return ResponseEntity.ok(PageResponse.from(queryAllByMemberIdUseCase.findAllByMemberId(memberId, pageable)));
     }
 }

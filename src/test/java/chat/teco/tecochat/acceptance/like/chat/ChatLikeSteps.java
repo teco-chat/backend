@@ -5,6 +5,7 @@ import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
@@ -59,9 +60,10 @@ public class ChatLikeSteps {
             ExtractableResponse<Response> 응답,
             List<QueryChatLikeByMemberIdResponse> 예상_결과
     ) {
-        var 실제_결과 = 응답.as(new TypeRef<List<QueryChatLikeByMemberIdResponse>>() {
-        }.getType());
-        assertThat(실제_결과).usingRecursiveComparison()
+        PageResponse<QueryChatLikeByMemberIdResponse> 실제_결과 = 응답.as(
+                new TypeRef<PageResponse<QueryChatLikeByMemberIdResponse>>() {
+                }.getType());
+        assertThat(실제_결과.content()).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(예상_결과);
     }
