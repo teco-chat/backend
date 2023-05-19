@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeywordExtractor {
 
-    private static final Question EXTRACT_KEYWORD_QUESTION = Question.question(
+    public static final Question EXTRACT_KEYWORD_QUESTION = Question.question(
             "Except for this message and the first one, "
                     + "I need you to extract 3 technical keywords from the above 2 conversations "
                     + "in CSV format without \". "

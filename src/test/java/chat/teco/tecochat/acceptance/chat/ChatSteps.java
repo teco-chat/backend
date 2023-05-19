@@ -4,14 +4,11 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
+import static chat.teco.tecochat.chat.fixture.MockGptClient.KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.GptClient;
-import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.chat.fixture.MockGptClient;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
@@ -32,43 +29,39 @@ import java.util.Map;
 public class ChatSteps {
 
     public static void GPT_의_응답을_지정한다(
-            GptClient gptClient,
+            MockGptClient gptClient,
             String 질문,
             String 답변,
             String... 질문_키워드들
     ) {
         if (질문_키워드들.length == 0) {
-            given(gptClient.ask(any(Chat.class), any(Question.class)))
-                    .willReturn(new QuestionAndAnswer(question(질문), answer(답변), 10));
+            gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
             return;
         }
         String 키워드들 = String.join("||", 질문_키워드들);
-        given(gptClient.ask(any(Chat.class), any(Question.class)))
-                .willReturn(new QuestionAndAnswer(question(질문), answer(답변), 10),
-                        new QuestionAndAnswer(question("키워드 추출"), answer(키워드들), 10));
+        gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
+        gptClient.addQnA(KEYWORD, new QuestionAndAnswer(question(KEYWORD), answer(키워드들), 10));
     }
 
     public static ExtractableResponse<Response> 첫_채팅_요청(
-            GptClient gptClient,
+            MockGptClient gptClient,
             String 크루명,
             String 질문,
             String 답변,
             String... 질문_키워드들
     ) {
         GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
-        var 응답 = given(크루명)
+        return given(크루명)
                 .body(toJson(new CreateChatRequest(질문)))
                 .when()
                 .post("/chats")
                 .then()
                 .log().all()
                 .extract();
-        오류_안나게_하려고_잠시_정지();
-        return 응답;
     }
 
     public static Long 첫_채팅_요청후_ID_반환(
-            GptClient gptClient,
+            MockGptClient gptClient,
             String 크루명,
             String 질문,
             String 답변,
@@ -92,7 +85,7 @@ public class ChatSteps {
     }
 
     public static ExtractableResponse<Response> 채팅_이어하기_요청(
-            GptClient gptClient,
+            MockGptClient gptClient,
             String 이름,
             String 질문,
             String 답변,
@@ -207,16 +200,5 @@ public class ChatSteps {
                 new TypeRef<PageResponse<SearchChatResponse>>() {
                 }.getType());
         assertThat(페이지_결과.totalElements()).isEqualTo(0);
-    }
-
-    /**
-     * 없으면 detached entity passed to persist QuestionAnsAnswer 발생함.. ㅠㅠ
-     */
-    private static void 오류_안나게_하려고_잠시_정지() {
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
