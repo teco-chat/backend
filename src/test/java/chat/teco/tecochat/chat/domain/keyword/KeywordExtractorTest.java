@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("KeywordExtractor 은(는)")
+@DisplayName("KeywordExtractor(키워드 추출기) 은(는)")
 class KeywordExtractorTest {
 
     private final GptClient gptClient = mock(GptClient.class);

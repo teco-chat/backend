@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DisplayName("QuestionAndAnswers 은(는)")
+@DisplayName("QuestionAndAnswers(질문 답변들) 은(는)")
 class QuestionAndAnswersTest {
 
     @Test
