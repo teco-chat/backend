@@ -5,7 +5,7 @@ import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +32,7 @@ public class ChatLikeQueryController {
     }
 
     @GetMapping
-    ResponseEntity<PageResponse<QueryChatLikeByMemberIdResponse>> findAllByMemberId(
+    ResponseEntity<PageResponse<QueryChatLikedByMemberIdResponse>> findAllByMemberId(
             @Auth Long memberId,
             @PageableDefault(size = 20) Pageable pageable
     ) {

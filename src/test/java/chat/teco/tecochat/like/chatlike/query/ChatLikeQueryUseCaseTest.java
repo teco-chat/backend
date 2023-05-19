@@ -4,6 +4,8 @@ import static chat.teco.tecochat.member.domain.Course.BACKEND;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
+import chat.teco.tecochat.chat.domain.keyword.Keyword;
+import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
@@ -33,6 +35,9 @@ public class ChatLikeQueryUseCaseTest {
     protected ChatLikeRepository chatLikeRepository;
 
     @Autowired
+    protected KeywordRepository keywordRepository;
+
+    @Autowired
     protected EntityManager em;
 
     protected Member 말랑;
@@ -50,6 +55,12 @@ public class ChatLikeQueryUseCaseTest {
     protected ChatLike 말랑_박스터채팅_좋아요;
     protected ChatLike 허브_박스터채팅_좋아요;
     protected ChatLike 박스터_박스터채팅_좋아요;
+    protected String 말랑채팅_키워드1;
+    protected String 말랑채팅_키워드2;
+    protected String 말랑채팅_키워드3;
+    protected String 허브채팅_키워드1;
+    protected String 허브채팅_키워드2;
+    protected String 허브채팅_키워드3;
 
     @BeforeEach
     void setUp() {
@@ -80,6 +91,14 @@ public class ChatLikeQueryUseCaseTest {
         박스터_채팅.increaseLike();
         박스터_채팅.increaseLike();
         박스터_채팅.increaseLike();
+
+        말랑채팅_키워드1 = keywordRepository.save(new Keyword("말랑1", 말랑_채팅)).keyword();
+        말랑채팅_키워드2 = keywordRepository.save(new Keyword("말랑2", 말랑_채팅)).keyword();
+        말랑채팅_키워드3 = keywordRepository.save(new Keyword("말라3", 말랑_채팅)).keyword();
+        허브채팅_키워드1 = keywordRepository.save(new Keyword("허브1", 허브_채팅)).keyword();
+        허브채팅_키워드2 = keywordRepository.save(new Keyword("허브2", 허브_채팅)).keyword();
+        허브채팅_키워드3 = keywordRepository.save(new Keyword("허브3", 허브_채팅)).keyword();
+
         em.flush();
         em.clear();
     }

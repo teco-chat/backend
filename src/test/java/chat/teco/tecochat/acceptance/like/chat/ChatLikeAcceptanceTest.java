@@ -13,8 +13,9 @@ import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.채팅에_�
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.회원이_좋아요_누른_채팅_조회_결과_검증;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.회원이_좋아요_누른_채팅_조회_요청;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
-import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_예상_결과;
-import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_예상_결과들;
+import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_결과;
+import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_결과들;
+import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.조회될_채팅_키워드;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.채팅에_달린_좋아요_조회_예상_결과;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.채팅에_달린_좋아요_조회_예상_결과들;
 import static chat.teco.tecochat.member.domain.Course.ANDROID;
@@ -125,7 +126,9 @@ public class ChatLikeAcceptanceTest {
         회원_가입_요청("말랑", BACKEND);
         회원_가입_요청("허브", FRONTEND);
         회원_가입_요청("박스터", ANDROID);
-        Long 말랑_채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "말랑 질문", "말랑 답변");
+        Long 말랑_채팅_ID = 첫_채팅_요청후_ID_반환(gptClient,
+                "말랑", "말랑 질문", "말랑 답변",
+                "키워드1", "키워드2", "키워드3");
         Long 허브_채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "허브", "허브 질문", "허브 답변");
         첫_채팅_요청후_ID_반환(gptClient, "박스터", "박스터 질문", "박스터 답변");
 
@@ -137,9 +140,25 @@ public class ChatLikeAcceptanceTest {
 
         // then
         요청_결과의_상태를_검증한다(응답, 정상_요청);
-        var 예상_결과 = 내가_좋아요_누른_채팅_조회_예상_결과들(
-                내가_좋아요_누른_채팅_조회_예상_결과(말랑_채팅_ID, "말랑", BACKEND, "말랑 질문", 1, 1),
-                내가_좋아요_누른_채팅_조회_예상_결과(허브_채팅_ID, "허브", FRONTEND, "허브 질문", 1, 1)
+        var 예상_결과 = 내가_좋아요_누른_채팅_조회_결과들(
+                내가_좋아요_누른_채팅_조회_결과(
+                        말랑_채팅_ID,
+                        "말랑",
+                        BACKEND,
+                        "말랑 질문",
+                        1,
+                        1,
+                        조회될_채팅_키워드("키워드1", "키워드2", "키워드3")
+                ),
+                내가_좋아요_누른_채팅_조회_결과(
+                        허브_채팅_ID,
+                        "허브",
+                        FRONTEND,
+                        "허브 질문",
+                        1,
+                        1,
+                        조회될_채팅_키워드()
+                )
         );
         회원이_좋아요_누른_채팅_조회_결과_검증(응답, 예상_결과);
     }
