@@ -25,7 +25,7 @@ class AskUseCaseTest extends ChatCommandUseCaseTest {
     private final AskUseCase askUseCase = chatService;
 
     @Test
-    void 첫_채팅이_아닌_경우_이전_채팅_기록에_추가로_질문과_답변을_반환하며_저장한다() {
+    void 이전_채팅_기록에_추가로_질문과_답변을_반환하며_저장한다() {
         // given
         Chat chat = 말랑_채팅.초기_채팅();
         given(chatRepository.findWithQuestionAndAnswersById(1L))

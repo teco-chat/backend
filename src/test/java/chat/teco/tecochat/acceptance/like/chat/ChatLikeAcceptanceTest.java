@@ -163,7 +163,7 @@ public class ChatLikeAcceptanceTest {
     }
 
     @Test
-    void 좋아요를_누른_채팅을_조회한다() {
+    void 좋아요를_누른_채팅을_조회하면_좋아요를_눌렀는지_알려주는_필드가_참이다() {
         // given
         회원_가입_요청("말랑", BACKEND);
         Long 말랑_채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "말랑 질문", "말랑 답변");
@@ -177,7 +177,7 @@ public class ChatLikeAcceptanceTest {
     }
 
     @Test
-    void 좋아요를_누르지_않은_채팅을_조회한다() {
+    void 좋아요를_누르지_않은_채팅을_조회하면_좋아요를_눌렀는지_알려주는_필드가_거짓이다() {
         // when
         회원_가입_요청("말랑", BACKEND);
         Long 말랑_채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "말랑 질문", "말랑 답변");
