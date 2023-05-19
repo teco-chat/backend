@@ -5,6 +5,7 @@ import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_
 
 import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase;
+import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.GptClient;
@@ -20,11 +21,15 @@ import chat.teco.tecochat.member.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 @RequiredArgsConstructor
 @Service
-public class ChatService implements CreateChatUseCase, AskUseCase {
+public class ChatService implements
+        CreateChatUseCase,
+        AskUseCase,
+        UpdateChatTitleUseCase {
 
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
@@ -62,9 +67,21 @@ public class ChatService implements CreateChatUseCase, AskUseCase {
         });
     }
 
+    @Transactional
+    @Override
+    public void updateTitle(UpdateChatTitleCommand command) {
+        Chat chat = findChatById(command.chatId());
+        chat.updateTitle(command.memberId(), command.title());
+    }
+
     private Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+    }
+
+    private Chat findChatById(Long id) {
+        return chatRepository.findById(id)
+                .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
     }
 
     private Chat findChatWithQuestionAndAnswersById(Long id) {

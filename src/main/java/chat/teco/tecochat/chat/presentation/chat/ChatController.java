@@ -9,12 +9,16 @@ import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskResult;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatCommand;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatResult;
+import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase;
+import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase.UpdateChatTitleCommand;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
+import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.presentation.chat.response.AskResponse;
 import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +32,7 @@ public class ChatController {
 
     private final CreateChatUseCase createChatUseCase;
     private final AskUseCase askUseCase;
+    private final UpdateChatTitleUseCase updateChatTitleUseCase;
 
     @PostMapping
     ResponseEntity<CreateChatResponse> createChat(
@@ -50,5 +55,17 @@ public class ChatController {
         AskResult result = askUseCase.ask(chatId, new AskCommand(memberId, request.message()));
         return ResponseEntity.status(CREATED.value())
                 .body(new AskResponse(chatId, result.answer()));
+    }
+
+    @PatchMapping("/{id}")
+    ResponseEntity<Void> updateTitle(
+            @PathVariable("id") Long chatId,
+            @Auth Long memberId,
+            @RequestBody UpdateChatTitleRequest request
+    ) {
+        updateChatTitleUseCase.updateTitle(
+                new UpdateChatTitleCommand(memberId, chatId, request.title())
+        );
+        return ResponseEntity.ok().build();
     }
 }
