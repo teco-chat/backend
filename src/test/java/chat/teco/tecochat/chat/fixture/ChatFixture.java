@@ -81,7 +81,7 @@ public class ChatFixture {
             Course 과정,
             String 제목,
             int 좋아요_수,
-            int 전체_질문과_답변_수,
+            int 전체_질문답변_수,
             List<SearchKeywordDto> 키워드들
     ) {
         return new SearchChatResponse(채팅_ID,
@@ -90,7 +90,7 @@ public class ChatFixture {
                 과정,
                 제목,
                 좋아요_수,
-                전체_질문과_답변_수,
+                전체_질문답변_수,
                 키워드들,
                 null);
     }

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("Comment 은(는)")
+@DisplayName("Comment(댓글) 은(는)")
 class CommentTest {
 
     private final Long 작성자_ID = 1L;

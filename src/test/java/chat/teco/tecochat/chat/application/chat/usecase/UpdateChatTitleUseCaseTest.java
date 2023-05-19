@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("UpdateChatTitleUseCase 은(는)")
+@DisplayName("UpdateChatTitleUseCase(채팅 제목 수정) 은(는)")
 class UpdateChatTitleUseCaseTest extends ChatCommandUseCaseTest {
 
     private final UpdateChatTitleUseCase updateChatTitleUseCase = chatService;

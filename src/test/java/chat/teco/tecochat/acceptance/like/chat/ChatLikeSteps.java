@@ -8,7 +8,7 @@ import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdR
 import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import com.jayway.jsonpath.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -58,10 +58,10 @@ public class ChatLikeSteps {
 
     public static void 회원이_좋아요_누른_채팅_조회_결과_검증(
             ExtractableResponse<Response> 응답,
-            List<QueryChatLikeByMemberIdResponse> 예상_결과
+            List<QueryChatLikedByMemberIdResponse> 예상_결과
     ) {
-        PageResponse<QueryChatLikeByMemberIdResponse> 실제_결과 = 응답.as(
-                new TypeRef<PageResponse<QueryChatLikeByMemberIdResponse>>() {
+        PageResponse<QueryChatLikedByMemberIdResponse> 실제_결과 = 응답.as(
+                new TypeRef<PageResponse<QueryChatLikedByMemberIdResponse>>() {
                 }.getType());
         assertThat(실제_결과.content()).usingRecursiveComparison()
                 .ignoringExpectedNullFields()

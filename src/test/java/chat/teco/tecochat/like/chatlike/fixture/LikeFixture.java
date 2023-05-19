@@ -7,10 +7,15 @@ import chat.teco.tecochat.like.chatlike.application.usecase.PushChatLikeUseCase.
 import chat.teco.tecochat.like.chatlike.domain.ChatLike;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikeByMemberIdResponse;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse.QueryLikedChatKeywordDto;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -32,29 +37,40 @@ public class LikeFixture {
                 new MemberInfo(null, 이름, 과정));
     }
 
-    public static List<QueryChatLikeByMemberIdResponse> 내가_좋아요_누른_채팅_조회_예상_결과들(
-            QueryChatLikeByMemberIdResponse... 결과들
+    public static List<QueryChatLikedByMemberIdResponse> 내가_좋아요_누른_채팅_조회_결과들(
+            QueryChatLikedByMemberIdResponse... 결과들
     ) {
         return List.of(결과들);
     }
 
-    public static QueryChatLikeByMemberIdResponse 내가_좋아요_누른_채팅_조회_예상_결과(
+    public static QueryChatLikedByMemberIdResponse 내가_좋아요_누른_채팅_조회_결과(
             Long 채팅_ID,
-            String 채팅_작성한_크루명,
+            String 채팅한_크루_이름,
             Course 과정,
             String 제목,
             int 좋아요_수,
-            int 전체_질문답변_수
+            int 전체_질문답변_수,
+            List<QueryLikedChatKeywordDto> 키워드들
     ) {
-        return new QueryChatLikeByMemberIdResponse(
+        return new QueryChatLikedByMemberIdResponse(
                 채팅_ID,
                 null,
-                채팅_작성한_크루명,
+                채팅한_크루_이름,
                 과정,
                 제목,
                 좋아요_수,
                 전체_질문답변_수,
+                키워드들,
                 null);
+    }
+
+    public static List<QueryLikedChatKeywordDto> 조회될_채팅_키워드(String... 키워드들) {
+        Deque<String> deque = new ArrayDeque<>(Arrays.asList(키워드들));
+        List<QueryLikedChatKeywordDto> result = new ArrayList<>();
+        while (!deque.isEmpty()) {
+            result.add(new QueryLikedChatKeywordDto(deque.pollFirst()));
+        }
+        return result;
     }
 
     public static class 말랑_좋아요 {

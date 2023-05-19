@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("QueryAllChatLikeByChatIdUseCase(채팅에 달린 모든 댓글 조회) 은(는)")
+@DisplayName("QueryAllChatLikeByChatIdUseCase(채팅에 달린 모든 좋아요 조회) 은(는)")
 class QueryAllChatLikeByChatIdUseCaseTest extends ChatLikeQueryUseCaseTest {
 
     @Autowired

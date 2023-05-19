@@ -33,7 +33,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("CreateKeywordWithChatCreatedEventHandler 은(는)")
+@DisplayName("CreateKeywordWithChatCreatedEventHandler(채팅 생성 이벤트를 받아 채팅의 키워드 추출) 은(는)")
 class CreateKeywordWithChatCreatedEventHandlerTest {
 
     private final EventHistoryRepository eventHistoryRepository = mock(EventHistoryRepository.class);

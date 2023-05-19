@@ -34,9 +34,8 @@ import static chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond.TODAY;
 import static chat.teco.tecochat.member.domain.Course.ANDROID;
 import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
-import static org.mockito.BDDMockito.reset;
 
-import chat.teco.tecochat.chat.domain.chat.GptClient;
+import chat.teco.tecochat.chat.fixture.MockGptClient;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,9 +43,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -60,8 +59,8 @@ public class ChatAcceptanceTest {
     @LocalServerPort
     private int port;
 
-    @MockBean
-    private GptClient gptClient;
+    @Autowired
+    private MockGptClient gptClient;
 
     @BeforeEach
     void setUp() {
@@ -70,7 +69,7 @@ public class ChatAcceptanceTest {
 
     @AfterEach
     void tearDown() {
-        reset(gptClient);
+        gptClient.clear();
     }
 
     @Test

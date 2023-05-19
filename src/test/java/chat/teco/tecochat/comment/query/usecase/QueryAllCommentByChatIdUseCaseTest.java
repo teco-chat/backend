@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@DisplayName("QueryAllCommentByChatIdUseCase 은(는)")
+@DisplayName("QueryAllCommentByChatIdUseCase(채팅 ID로 모든 댓글 조회) 은(는)")
 @Transactional
 @SpringBootTest
 class QueryAllCommentByChatIdUseCaseTest {

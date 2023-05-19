@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DisplayName("Chat 은")
+@DisplayName("Chat(채팅) 은")
 class ChatTest {
 
     @Test
