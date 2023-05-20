@@ -31,6 +31,7 @@ public class ChatMapper {
                 member.course(),
                 chat.title(),
                 chat.likeCount(),
+                chat.commentCount(),
                 chat.questionAndAnswers().size(),
                 keywordQueryDtos,
                 chat.createdAt()

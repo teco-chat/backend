@@ -31,6 +31,7 @@ class DeleteCommentUseCaseTest extends CommentCommandUseCaseTest {
     @Test
     void 댓글의_작성자는_댓글을_제거할_수_있다() {
         // given
+        채팅을_저장한다(허브_채팅.초기_채팅());
         Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
         댓글을_저장한다(댓글);
         DeleteCommentCommand command = 말랑이_댓글.댓글_제거_명령어();

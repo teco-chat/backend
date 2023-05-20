@@ -196,6 +196,7 @@ public class ChatAcceptanceTest {
                         FRONTEND,
                         "안녕3?",
                         0,
+                        0,
                         1,
                         비어있음()),
                 채팅_검색_결과(
@@ -204,6 +205,7 @@ public class ChatAcceptanceTest {
                         "프론트 말랑",
                         FRONTEND,
                         "안녕2?",
+                        0,
                         0,
                         1,
                         비어있음())
@@ -232,6 +234,7 @@ public class ChatAcceptanceTest {
                         "안드로이드 말랑",
                         ANDROID,
                         "안녕?",
+                        0,
                         0,
                         1,
                         검색시_조회될_채팅_키워드("안드로이드", "인사", "안부")
@@ -283,6 +286,7 @@ public class ChatAcceptanceTest {
                         BACKEND,
                         "안녕? - 좋아요",
                         2,
+                        0,
                         1,
                         검색시_조회될_채팅_키워드()
                 ),
@@ -293,6 +297,7 @@ public class ChatAcceptanceTest {
                         ANDROID,
                         "안녕? - 좋아요",
                         1,
+                        0,
                         1,
                         검색시_조회될_채팅_키워드())
         );

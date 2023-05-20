@@ -18,6 +18,7 @@ public interface SearchChatUseCase {
             Course course,
             String title,
             int likeCount,
+            int commentCount,
             int totalQnaCount,
             List<SearchKeywordDto> keywords,
             LocalDateTime createdAt
