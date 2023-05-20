@@ -43,6 +43,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 박스터_채팅.title(),
                 3,
                 0,
+                0,
                 키워드들());
 
         회원이_좋아요_누른_게시물의_정보를_검증한다(
@@ -53,6 +54,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 FRONTEND,
                 허브_채팅.title(),
                 3,
+                0,
                 0,
                 키워드들(허브채팅_키워드1,
                         허브채팅_키워드2,
@@ -66,6 +68,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 BACKEND,
                 말랑_채팅.title(),
                 3,
+                0,
                 0,
                 키워드들(말랑채팅_키워드1,
                         말랑채팅_키워드2,
@@ -86,6 +89,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
             Course 과정,
             String 제목,
             int 좋아요_수,
+            int 댓글_수,
             int 전체_질문답변_수,
             List<QueryLikedChatKeywordDto> 키워드들
     ) {
@@ -95,6 +99,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
         assertThat(실제_결과.course()).isEqualTo(과정);
         assertThat(실제_결과.title()).isEqualTo(제목);
         assertThat(실제_결과.likeCount()).isEqualTo(좋아요_수);
+        assertThat(실제_결과.commentCount()).isEqualTo(댓글_수);
         assertThat(실제_결과.totalQnaCount()).isEqualTo(전체_질문답변_수);
         assertThat(실제_결과.keywords()).usingRecursiveComparison()
                 .ignoringExpectedNullFields()

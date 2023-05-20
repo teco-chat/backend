@@ -21,6 +21,7 @@ public interface QueryAllChatLikedByMemberIdUseCase {
             Course course,
             String title,
             int likeCount,
+            int commentCount,
             int totalQnaCount,
             List<QueryLikedChatKeywordDto> keywords,
             LocalDateTime createdAt
@@ -28,10 +29,10 @@ public interface QueryAllChatLikedByMemberIdUseCase {
         public QueryChatLikedByMemberIdResponse(
                 Long id,
                 Long crewId, String crewName, Course course,
-                String title, int likeCount, int totalQnaCount,
-                LocalDateTime createdAt
+                String title, int likeCount, int commentCount,
+                int totalQnaCount, LocalDateTime createdAt
         ) {
-            this(id, crewId, crewName, course, title, likeCount, totalQnaCount, new ArrayList<>(), createdAt);
+            this(id, crewId, crewName, course, title, likeCount, commentCount, totalQnaCount, new ArrayList<>(), createdAt);
         }
 
         public void addKeywords(List<QueryLikedChatKeywordDto> queryLikedChatKeywordDtos) {

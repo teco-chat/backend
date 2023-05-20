@@ -49,6 +49,7 @@ public class LikeFixture {
             Course 과정,
             String 제목,
             int 좋아요_수,
+            int 댓글_수,
             int 전체_질문답변_수,
             List<QueryLikedChatKeywordDto> 키워드들
     ) {
@@ -59,6 +60,7 @@ public class LikeFixture {
                 과정,
                 제목,
                 좋아요_수,
+                댓글_수,
                 전체_질문답변_수,
                 키워드들,
                 null);

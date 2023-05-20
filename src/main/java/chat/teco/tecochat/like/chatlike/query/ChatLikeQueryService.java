@@ -55,7 +55,7 @@ public class ChatLikeQueryService implements
                         constructor(QueryChatLikedByMemberIdResponse.class,
                                 chat.id,
                                 member.id, member.name, member.course,
-                                chat.title, chat.likeCount,
+                                chat.title, chat.likeCount, chat.commentCount,
                                 chat.questionAndAnswers.questionAndAnswers.size(),
                                 chat.createdAt
                         )

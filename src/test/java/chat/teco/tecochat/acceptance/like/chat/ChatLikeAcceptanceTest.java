@@ -146,6 +146,7 @@ public class ChatLikeAcceptanceTest {
                         BACKEND,
                         "말랑 질문",
                         1,
+                        0,
                         1,
                         조회될_채팅_키워드("키워드1", "키워드2", "키워드3")
                 ),
@@ -155,6 +156,7 @@ public class ChatLikeAcceptanceTest {
                         FRONTEND,
                         "허브 질문",
                         1,
+                        0,
                         1,
                         조회될_채팅_키워드()
                 )
