@@ -32,6 +32,8 @@ public class Chat extends BaseEntity {
 
     private int likeCount;
 
+    private int commentCount;
+
     @Embedded
     private QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers();
 
@@ -79,6 +81,14 @@ public class Chat extends BaseEntity {
         likeCount++;
     }
 
+    public void decreaseComment() {
+        commentCount--;
+    }
+
+    public void increaseComment() {
+        commentCount++;
+    }
+
     public void updateTitle(Long memberId, String title) {
         if (!this.memberId().equals(memberId)) {
             throw new ChatException(NO_AUTHORITY_CHANGE_TITLE);
@@ -108,5 +118,9 @@ public class Chat extends BaseEntity {
 
     public int likeCount() {
         return likeCount;
+    }
+
+    public int commentCount() {
+        return commentCount;
     }
 }

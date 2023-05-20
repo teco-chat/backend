@@ -4,6 +4,7 @@ import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NOT_FOUND_COMMENT;
 import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
 
+import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase;
@@ -30,8 +31,9 @@ public class CommentService implements WriteCommentUseCase, UpdateCommentUseCase
     @Override
     public Long write(WriteCommentCommand command) {
         validateMemberExist(command.memberId());
-        validateChatExist(command.chatId());
         Comment comment = command.toDomain();
+        Chat chat = findChatByChatId(command.chatId());
+        chat.increaseComment();
         return commentRepository.save(comment).id();
     }
 
@@ -40,8 +42,8 @@ public class CommentService implements WriteCommentUseCase, UpdateCommentUseCase
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 
-    private void validateChatExist(Long chatId) {
-        chatRepository.findById(chatId)
+    private Chat findChatByChatId(Long chatId) {
+        return chatRepository.findById(chatId)
                 .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
     }
 
@@ -60,6 +62,8 @@ public class CommentService implements WriteCommentUseCase, UpdateCommentUseCase
     public void delete(DeleteCommentCommand command) {
         Comment comment = findCommentById(command.commentId());
         comment.validateDelete(command.memberId());
+        Chat chat = findChatByChatId(comment.chatId());
+        chat.decreaseComment();
         commentRepository.delete(comment);
     }
 }
