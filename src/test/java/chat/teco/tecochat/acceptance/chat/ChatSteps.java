@@ -1,7 +1,6 @@
 package chat.teco.tecochat.acceptance.chat;
 
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
-import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.fixture.MockGptClient.KEYWORD;
@@ -20,7 +19,7 @@ import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdR
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.member.domain.Course;
-import com.jayway.jsonpath.TypeRef;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class ChatSteps {
     ) {
         GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
         return given(크루명)
-                .body(toJson(new CreateChatRequest(질문)))
+                .body(new CreateChatRequest(질문))
                 .when()
                 .post("/chats")
                 .then()
@@ -95,7 +94,7 @@ public class ChatSteps {
     ) {
         GPT_의_응답을_지정한다(gptClient, 질문, 답변);
         return given(이름)
-                .body(toJson(new AskRequest(질문)))
+                .body(new AskRequest(질문))
                 .when()
                 .post("/chats/{id}", 채팅_ID)
                 .then()
@@ -117,7 +116,7 @@ public class ChatSteps {
             String 변경할_제목
     ) {
         return given(이름)
-                .body(toJson(new UpdateChatTitleRequest(변경할_제목)))
+                .body(new UpdateChatTitleRequest(변경할_제목))
                 .when()
                 .patch("/chats/{id}", 채팅_ID)
                 .then()
@@ -208,8 +207,8 @@ public class ChatSteps {
             List<SearchChatResponse> 예상_결과
     ) {
         PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
-                new TypeRef<PageResponse<SearchChatResponse>>() {
-                }.getType());
+                new TypeRef<>() {
+                });
         List<SearchChatResponse> content = 페이지_결과.content();
         assertThat(content)
                 .usingRecursiveComparison()
@@ -221,8 +220,8 @@ public class ChatSteps {
             ExtractableResponse<Response> 응답
     ) {
         PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
-                new TypeRef<PageResponse<SearchChatResponse>>() {
-                }.getType());
+                new TypeRef<>() {
+                });
         assertThat(페이지_결과.totalElements()).isEqualTo(0);
     }
 }

@@ -1,13 +1,12 @@
 package chat.teco.tecochat.acceptance.comment;
 
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
-import static chat.teco.tecochat.acceptance.util.JsonMapper.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
-import com.jayway.jsonpath.TypeRef;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -18,7 +17,7 @@ public class CommentSteps {
     public static ExtractableResponse<Response> 댓글_작성_요청(String 크루명, Long 채팅_ID, String 내용) {
         WriteCommentRequest request = new WriteCommentRequest(채팅_ID, 내용);
         return given(크루명)
-                .body(toJson(request))
+                .body(request)
                 .when()
                 .post("/comments")
                 .then()
@@ -29,7 +28,7 @@ public class CommentSteps {
     public static Long 댓글_작성후_댓글_ID_반환(String 크루명, Long 채팅_ID, String 내용) {
         WriteCommentRequest request = new WriteCommentRequest(채팅_ID, 내용);
         var 응답 = given(크루명)
-                .body(toJson(request))
+                .body(request)
                 .when()
                 .post("/comments")
                 .then()
@@ -50,7 +49,7 @@ public class CommentSteps {
             String 내용
     ) {
         UpdateCommentRequest request = new UpdateCommentRequest(내용);
-        return given(크루명).body(toJson(request))
+        return given(크루명).body(request)
                 .when()
                 .patch("/comments/{id}", 댓글_ID)
                 .then()
@@ -80,8 +79,8 @@ public class CommentSteps {
             ExtractableResponse<Response> 응답,
             List<CommentQueryDto> 예상_결과
     ) {
-        List<CommentQueryDto> 내용들 = 응답.as(new TypeRef<List<CommentQueryDto>>() {
-        }.getType());
+        List<CommentQueryDto> 내용들 = 응답.as(new TypeRef<>() {
+        });
         assertThat(내용들).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(예상_결과);
