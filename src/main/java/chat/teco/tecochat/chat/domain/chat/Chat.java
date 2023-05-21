@@ -103,7 +103,7 @@ public class Chat extends BaseEntity {
     public Chat copy(Long memberId) {
         Chat copied = new Chat(this.model, this.settingMessage, this.title, memberId);
         for (QuestionAndAnswer questionAndAnswer : questionAndAnswers()) {
-            copied.addQuestionAndAnswer(questionAndAnswer);
+            copied.addQuestionAndAnswer(questionAndAnswer.copy());
         }
         return copied;
     }
