@@ -4,6 +4,7 @@ import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND
 import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
 
 import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase;
+import chat.teco.tecochat.chat.application.chat.usecase.CopyChatUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase;
 import chat.teco.tecochat.chat.domain.chat.Chat;
@@ -13,6 +14,7 @@ import chat.teco.tecochat.chat.domain.chat.GptModel;
 import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.chat.SettingMessage;
+import chat.teco.tecochat.chat.domain.chat.event.ChatCopiedEvent;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.member.domain.Member;
@@ -29,7 +31,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class ChatService implements
         CreateChatUseCase,
         AskUseCase,
-        UpdateChatTitleUseCase {
+        UpdateChatTitleUseCase,
+        CopyChatUseCase {
 
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
@@ -72,6 +75,16 @@ public class ChatService implements
     public void updateTitle(UpdateChatTitleCommand command) {
         Chat chat = findChatById(command.chatId());
         chat.updateTitle(command.memberId(), command.title());
+    }
+
+    @Transactional
+    @Override
+    public Long copy(CopyCommand command) {
+        Chat chat = findChatById(command.chatId());
+        Chat copied = chat.copy(command.memberId());
+        Long copiedChatId = chatRepository.save(copied).id();
+        publisher.publishEvent(new ChatCopiedEvent(chat.id(), copiedChatId));
+        return copiedChatId;
     }
 
     private Member findMemberById(Long memberId) {
