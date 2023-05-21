@@ -101,6 +101,15 @@ public class ChatSteps {
                 .extract();
     }
 
+    public static void 채팅_이어하기의_응답을_확인한다(
+            ExtractableResponse<Response> 응답,
+            String 예상_답변
+    ) {
+        AskResponse askResponse = 응답.as(AskResponse.class);
+        assertThat(askResponse.content()).isEqualTo(예상_답변);
+    }
+
+
     public static ExtractableResponse<Response> 채팅_제목_수정_요청(
             Long 채팅_ID,
             String 이름,
