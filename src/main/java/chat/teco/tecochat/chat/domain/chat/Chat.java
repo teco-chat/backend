@@ -40,11 +40,13 @@ public class Chat extends BaseEntity {
     protected Chat() {
     }
 
-    public Chat(Long id,
-                GptModel model,
-                SettingMessage settingMessage,
-                String title,
-                Long memberId) {
+    public Chat(
+            Long id,
+            GptModel model,
+            SettingMessage settingMessage,
+            String title,
+            Long memberId
+    ) {
         super(id);
         this.model = model;
         this.settingMessage = settingMessage;
@@ -52,17 +54,19 @@ public class Chat extends BaseEntity {
         this.memberId = memberId;
     }
 
-    public Chat(final GptModel model,
-                final SettingMessage settingMessage,
-                final String title,
-                final Long memberId) {
+    public Chat(
+            GptModel model,
+            SettingMessage settingMessage,
+            String title,
+            Long memberId
+    ) {
         this.model = model;
         this.settingMessage = settingMessage;
         this.title = title;
         this.memberId = memberId;
     }
 
-    public void addQuestionAndAnswer(final QuestionAndAnswer questionAndAnswer) {
+    public void addQuestionAndAnswer(QuestionAndAnswer questionAndAnswer) {
         this.questionAndAnswers.add(questionAndAnswer);
     }
 
@@ -94,6 +98,14 @@ public class Chat extends BaseEntity {
             throw new ChatException(NO_AUTHORITY_CHANGE_TITLE);
         }
         this.title = title;
+    }
+
+    public Chat copy(Long memberId) {
+        Chat copied = new Chat(this.model, this.settingMessage, this.title, memberId);
+        for (QuestionAndAnswer questionAndAnswer : questionAndAnswers()) {
+            copied.addQuestionAndAnswer(questionAndAnswer);
+        }
+        return copied;
     }
 
     public String modelName() {

@@ -18,6 +18,7 @@ import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -149,6 +150,57 @@ class ChatTest {
 
             // then
             assertThat(chat.title()).isEqualTo("변경 제목");
+        }
+    }
+
+    @Nested
+    class 채팅_복사_시 {
+
+        private Chat chat;
+
+        @BeforeEach
+        void setUp() {
+            chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            chat.increaseLike();
+            chat.increaseLike();
+            chat.increaseComment();
+        }
+
+        @Test
+        void 진행한_채팅을_모두_복사한다() {
+            // given
+            Long memberId = 100L;
+
+            // when
+            Chat copy = chat.copy(memberId);
+
+            // then
+            Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", memberId);
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+
+            // 좋아요 수와 댓글 수는 복사되지 않는다
+
+            assertThat(copy)
+                    .usingRecursiveComparison()
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        void 자신의_채팅도_복사가_가능하다() {
+            // when
+            Chat copy = chat.copy(1L);
+
+            // then
+            Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+
+            assertThat(copy)
+                    .usingRecursiveComparison()
+                    .isEqualTo(expected);
         }
     }
 }
