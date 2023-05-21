@@ -5,12 +5,15 @@ import static chat.teco.tecochat.acceptance.chat.ChatSteps.검색_결과의_내�
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.과정_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.단일_채팅_조회_결과를_확인한다;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.단일_채팅_조회_요청;
+import static chat.teco.tecochat.acceptance.chat.ChatSteps.복제된_채팅_ID_반환;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.요청_파라미터들;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.이름_과정_제목_좋아요_기간으로_검색_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.이름_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.제목_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.좋아요_기간_조겅;
+import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_복제_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_이어하기_요청;
+import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_이어하기의_응답을_확인한다;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_제목_수정_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅_요청후_ID_반환;
@@ -145,6 +148,46 @@ public class ChatAcceptanceTest {
                 단일_채팅_키워드()
         );
         단일_채팅_조회_결과를_확인한다(채팅_조회_결과, 단일_채팅_조회의_예상_결과);
+    }
+
+    @Test
+    void 상대방의_채팅을_복사하여_내_채팅으로_가져온다() {
+        // given
+        회원_가입_요청("말랑", BACKEND);
+        회원_가입_요청("허브", FRONTEND);
+        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?", "인사", "반가움", "안녕");
+        채팅_이어하기_요청(gptClient, "말랑", "말랑이 첫 질문", "답변이야!", 채팅_ID);
+        좋아요_요청("말랑", 채팅_ID);
+
+        // when
+        var 응답 = 채팅_복제_요청("허브", 채팅_ID);
+        Long 복제된_채팅_ID = 복제된_채팅_ID_반환(응답);
+        채팅_이어하기_요청(gptClient, "허브", "허브 이어하기 질문", "이어하기 답변", 복제된_채팅_ID);
+
+        // then
+        var 원본_채팅_조회의_예상_결과 = 단일_채팅_조회의_예상_결과(
+                채팅_ID,
+                "말랑",
+                BACKEND,
+                "안녕?",
+                1, true,
+                대화_내용("안녕?", "응 안녕?", "말랑이 첫 질문", "답변이야!"),
+                단일_채팅_키워드("인사", "반가움", "안녕")
+        );
+        var 원본 = 단일_채팅_조회_요청(채팅_ID, "말랑");
+        단일_채팅_조회_결과를_확인한다(원본, 원본_채팅_조회의_예상_결과);
+
+        var 복제본_채팅_조회의_예상_결과 = 단일_채팅_조회의_예상_결과(
+                복제된_채팅_ID,
+                "허브",
+                FRONTEND,
+                "안녕?",
+                0, false,
+                대화_내용("안녕?", "응 안녕?", "말랑이 첫 질문", "답변이야!", "허브 이어하기 질문", "이어하기 답변"),
+                단일_채팅_키워드("인사", "반가움", "안녕")
+        );
+        var 복제본 = 단일_채팅_조회_요청(복제된_채팅_ID, "말랑");
+        단일_채팅_조회_결과를_확인한다(복제본, 복제본_채팅_조회의_예상_결과);
     }
 
     @Test

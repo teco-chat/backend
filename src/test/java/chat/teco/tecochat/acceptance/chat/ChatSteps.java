@@ -12,6 +12,8 @@ import chat.teco.tecochat.chat.fixture.MockGptClient;
 import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
 import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.chat.presentation.chat.response.AskResponse;
+import chat.teco.tecochat.chat.presentation.chat.response.CopyChatResponse;
 import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
@@ -109,7 +111,6 @@ public class ChatSteps {
         assertThat(askResponse.content()).isEqualTo(예상_답변);
     }
 
-
     public static ExtractableResponse<Response> 채팅_제목_수정_요청(
             Long 채팅_ID,
             String 이름,
@@ -122,6 +123,20 @@ public class ChatSteps {
                 .then()
                 .log().all()
                 .extract();
+    }
+
+    public static ExtractableResponse<Response> 채팅_복제_요청(String 이름, Long 채팅_ID) {
+        return given(이름)
+                .when()
+                .post("/chats/copy/{id}", 채팅_ID)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static Long 복제된_채팅_ID_반환(ExtractableResponse<Response> 응답) {
+        CopyChatResponse response = 응답.as(CopyChatResponse.class);
+        return response.copiedChatId();
     }
 
     public static ExtractableResponse<Response> 단일_채팅_조회_요청(Long 채팅_ID, String 이름) {
