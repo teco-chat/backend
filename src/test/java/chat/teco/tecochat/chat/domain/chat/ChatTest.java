@@ -169,7 +169,7 @@ class ChatTest {
         }
 
         @Test
-        void 진행한_채팅을_모두_복사한다() {
+        void 진행한_채팅을_모두_복사한다_이때_좋아요_수와_댓글_수는_복사되지_않는다() {
             // given
             Long memberId = 100L;
 
@@ -180,8 +180,6 @@ class ChatTest {
             Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", memberId);
             expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
             expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
-
-            // 좋아요 수와 댓글 수는 복사되지 않는다
 
             assertThat(copy)
                     .usingRecursiveComparison()
