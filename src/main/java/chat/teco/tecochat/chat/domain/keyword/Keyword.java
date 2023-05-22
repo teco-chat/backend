@@ -36,4 +36,8 @@ public class Keyword extends BaseEntity {
     public String toString() {
         return "Keyword=[" + keyword + "]";
     }
+
+    public Keyword copy(Chat copiedChat) {
+        return new Keyword(keyword, copiedChat);
+    }
 }

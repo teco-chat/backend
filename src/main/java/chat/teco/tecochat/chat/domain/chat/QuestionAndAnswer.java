@@ -30,6 +30,10 @@ public class QuestionAndAnswer extends BaseEntity {
         this.token = token;
     }
 
+    public QuestionAndAnswer copy() {
+        return new QuestionAndAnswer(question, answer, token);
+    }
+
     public Question question() {
         return question;
     }
