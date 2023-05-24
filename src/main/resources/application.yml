@@ -3,5 +3,5 @@ spring:
     open-in-view: false
 
 gpt:
-  key: 1
-  url: 2
+  key: ${GPT_API_KEY}
+  url: ${GPT_API_URL}
