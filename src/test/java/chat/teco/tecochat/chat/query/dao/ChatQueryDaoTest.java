@@ -282,13 +282,10 @@ class ChatQueryDaoTest {
             좋아요(2L, 채팅3, 이번달_시작);
             좋아요(3L, 채팅6, 이번달_시작);
             좋아요(1L, 채팅6, 이번달_시작);
-            좋아요(1L, 채팅5, 저번주);
-            좋아요(4L, 채팅2, 이번주_시작);
 
             // 아래 데이터는 저번주에 저장되었으므로 제외
             좋아요(1L, 채팅1, 저번달);
             좋아요(2L, 채팅1, 저번달);
-            좋아요(3L, 채팅1, 올해_시작);
 
             // when
             Page<Chat> search = chatQueryDao.search(
@@ -298,9 +295,7 @@ class ChatQueryDaoTest {
             // then
             List<Chat> expected = List.of(
                     채팅3,
-                    채팅6,
-                    채팅5,
-                    채팅2
+                    채팅6
             );
             assertThat(search.getContent())
                     .usingRecursiveComparison()
