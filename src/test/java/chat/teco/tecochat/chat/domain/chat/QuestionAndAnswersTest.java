@@ -32,54 +32,56 @@ class QuestionAndAnswersTest {
     }
 
     @Test
-    void 입력받은_토큰보다_메시지의_토큰_총합이_같거나_낮도록_오래된_순으로_메시지를_제외한_후_반환한다() {
+    void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
-        final int token = 2000;
         final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
                 new QuestionAndAnswer(
-                        question("질문1"),
-                        answer("답변1"),
-                        1500
+                        "질문1",
+                        "답변1"
                 ),
                 new QuestionAndAnswer(
-                        question("질문2"),
-                        answer("답변2"),
-                        200
+                        "질문2",
+                        "답변2"
                 ),
                 new QuestionAndAnswer(
-                        question("질문3"),
-                        answer("답변3"),
-                        1500
+                        "질문3",
+                        "답변3"
+                ),
+                new QuestionAndAnswer(
+                        "질문4",
+                        "답변4"
                 )
         );
 
         // when
-        final QuestionAndAnswers result = questionAndAnswers.lessOrEqualThan(token);
+        QuestionAndAnswers last3 = questionAndAnswers.last3QuestionAndAnswers();
 
         // then
-        assertThat(result.questionAndAnswers())
+        assertThat(last3.questionAndAnswers())
                 .extracting(QuestionAndAnswer::question)
-                .containsExactly(question("질문2"), question("질문3"));
+                .containsExactly(question("질문2"), question("질문3"), question("질문4"));
     }
 
     @Test
-    void 입력받은_토큰보다_메시지의_토큰_총합이_낮도록_오래된_순으로_메시지를_제외한_후_반환한다_엣지_케이스() {
+    void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        final int token = 1000;
         final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
                 new QuestionAndAnswer(
-                        question("질문1"),
-                        answer("답변1"),
-                        token
+                        "질문1",
+                        "답변1"
+                ),
+                new QuestionAndAnswer(
+                        "질문2",
+                        "답변2"
                 )
-        );
+                );
 
         // when
-        final QuestionAndAnswers result = questionAndAnswers.lessOrEqualThan(token);
+        QuestionAndAnswers last3 = questionAndAnswers.last3QuestionAndAnswers();
 
         // then
-        assertThat(result.questionAndAnswers())
+        assertThat(last3.questionAndAnswers())
                 .extracting(QuestionAndAnswer::question)
-                .containsExactly(question("질문1"));
+                .containsExactly(question("질문1"), question("질문2"));
     }
 }

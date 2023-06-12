@@ -39,7 +39,7 @@ public class GptClient {
             return new QuestionAndAnswer(
                     question,
                     Answer.answer(response.answer()),
-                    response.totalTokens() - chat.qnaWithFreeToken().calculateTokenSum()
+                    response.totalTokens() - chat.last3QuestionAndAnswers().calculateTokenSum()
             );
         } catch (final Exception e) {
             if (e.getMessage().contains("context_length_exceeded")) {
@@ -55,7 +55,7 @@ public class GptClient {
     ) {
         public static ChatCompletionRequest of(final Chat chat, final Question question) {
             final List<MessageRequest> messageRequests = new ArrayList<>();
-            final QuestionAndAnswers questionAndAnswers = chat.qnaWithFreeToken();
+            final QuestionAndAnswers questionAndAnswers = chat.last3QuestionAndAnswers();
 
             final List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
             messages.add(question);

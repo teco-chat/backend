@@ -1,8 +1,6 @@
 package chat.teco.tecochat.chat.domain.chat;
 
 import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.Chat.FREE_TOKEN;
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
@@ -53,71 +51,42 @@ class ChatTest {
     }
 
     @Test
-    void 주어진_가용_토큰만큼의_공간_이상을_확보하도록_오래된_순으로_메시지를_제외한_후_세팅_메세지를_포함하여_반환한다() {
+    void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
-        final List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer(
-                        question("Q1"),
-                        answer("A1"),
-                        1500
-                ),
-                new QuestionAndAnswer(
-                        question("Q2"),
-                        answer("A2"),
-                        200
-                ),
-                new QuestionAndAnswer(
-                        question("Q3"),
-                        answer("A3"),
-                        1500
-                ));
-        final Chat chat = ChatFixture.chat(messages);
+        List<QuestionAndAnswer> questionAndAnswers = List.of(
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2"),
+                new QuestionAndAnswer("질문3", "답변3"),
+                new QuestionAndAnswer("질문4", "답변4")
+        );
+        Chat chat = ChatFixture.chat(questionAndAnswers);
 
         // when
-        final List<Message> messageInterfaces = chat.qnaWithFreeToken()
-                .messagesWithSettingMessage(chat.settingMessage());
+        QuestionAndAnswers result = chat.last3QuestionAndAnswers();
+
 
         // then
-        assertThat(messageInterfaces).extracting(Message::content)
-                .containsExactly(
-                        chat.settingMessage().message(),
-                        "Q2",
-                        "A2",
-                        "Q3",
-                        "A3");
+        assertThat(result.questionAndAnswers())
+                .extracting(QuestionAndAnswer::question)
+                .containsExactly(question("질문2"), question("질문3"), question("질문4"));
     }
 
     @Test
-    void 주어진_가용_토큰만큼의_공간_이상을_확보하도록_오래된_순으로_메시지를_제외한_후_세팅_메세지를_포함하여_반환한다_엣지_케이스() {
+    void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        final List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer(
-                        question("Q1"),
-                        answer("A1"),
-                        1500
-                ),
-                new QuestionAndAnswer(
-                        question("Q2"),
-                        answer("A2"),
-                        200
-                ),
-                new QuestionAndAnswer(
-                        question("Q3"),
-                        answer("A3"),
-                        GPT_3_5_TURBO.maxTokens() - FREE_TOKEN
-                ));
-        final Chat chat = ChatFixture.chat(messages);
+        final List<QuestionAndAnswer> questionAndAnswers = List.of(
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2")
+        );
+        Chat chat = ChatFixture.chat(questionAndAnswers);
 
         // when
-        final List<Message> result = chat.qnaWithFreeToken()
-                .messagesWithSettingMessage(chat.settingMessage());
+        QuestionAndAnswers result = chat.last3QuestionAndAnswers();
 
         // then
-        assertThat(result).extracting(Message::content)
-                .containsExactly(chat.settingMessage().message(),
-                        "Q3",
-                        "A3"
-                );
+        assertThat(result.questionAndAnswers())
+                .extracting(QuestionAndAnswer::question)
+                .containsExactly(question("질문1"), question("질문2"));
     }
 
     @Nested

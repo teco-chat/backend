@@ -15,8 +15,6 @@ import java.util.List;
 @Entity
 public class Chat extends BaseEntity {
 
-    public static final int FREE_TOKEN = 2000;
-
     @Enumerated(STRING)
     @Column(nullable = false)
     private GptModel model;
@@ -70,11 +68,8 @@ public class Chat extends BaseEntity {
         this.questionAndAnswers.add(questionAndAnswer);
     }
 
-    /**
-     * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
-     */
-    public QuestionAndAnswers qnaWithFreeToken() {
-        return questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
+    public QuestionAndAnswers last3QuestionAndAnswers() {
+        return questionAndAnswers.last3QuestionAndAnswers();
     }
 
     public void decreaseLike() {

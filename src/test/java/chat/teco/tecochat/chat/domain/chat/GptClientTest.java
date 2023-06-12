@@ -113,34 +113,14 @@ class GptClientTest {
     }
 
     @Test
-    void 최대_토큰에서_채팅의_총합_토큰을_뺐을_때_2000이상_남지_않는다면_이에_맞추어_메세지를_제외한다() {
+    void 최근_3개의_질문답변만을_함께_전송한다() {
         // given
         final List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer(  // 제외
-                        question("Q1"),
-                        answer("A1"),
-                        1000
-                ),
-                new QuestionAndAnswer(  // 제외
-                        question("Q2"),
-                        answer("A2"),
-                        1000
-                ),
-                new QuestionAndAnswer(  // 제외
-                        question("Q3"),
-                        answer("A3"),
-                        1000
-                ),
-                new QuestionAndAnswer(
-                        question("Q4"),
-                        answer("A4"),
-                        1000
-                ),
-                new QuestionAndAnswer(
-                        question("Q5"),
-                        answer("A5"),
-                        1000
-                )
+                new QuestionAndAnswer("Q1", "A1"),
+                new QuestionAndAnswer("Q2", "A2"),
+                new QuestionAndAnswer("Q3", "A3"),
+                new QuestionAndAnswer("Q4", "A4"),
+                new QuestionAndAnswer("Q5", "A5")
         );
         final Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO, messages);
 
@@ -151,10 +131,9 @@ class GptClientTest {
         assertThat(from.messages()).extracting(MessageRequest::content)
                 .containsExactly(
                         SettingMessage.BACK_END_SETTING.message(),
-                        "Q4",
-                        "A4",
-                        "Q5",
-                        "A5",
+                        "Q3", "A3",
+                        "Q4", "A4",
+                        "Q5", "A5",
                         "질문");
     }
 }

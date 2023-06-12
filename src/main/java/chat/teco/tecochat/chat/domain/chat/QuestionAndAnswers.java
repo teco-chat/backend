@@ -6,10 +6,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.List;
 
 @Embeddable
@@ -34,16 +32,12 @@ public class QuestionAndAnswers {
         questionAndAnswers.add(questionAndAnswer);
     }
 
-    public QuestionAndAnswers lessOrEqualThan(final int token) {
-        final Deque<QuestionAndAnswer> result = new ArrayDeque<>(this.questionAndAnswers);
-        int tokenSum = calculateTokenSum();
-
-        while (tokenSum > token) {
-            final QuestionAndAnswer message = result.removeFirst();
-            tokenSum -= message.token();
+    public QuestionAndAnswers last3QuestionAndAnswers() {
+        int size = questionAndAnswers.size();
+        if (size < 3) {
+            return this;
         }
-
-        return new QuestionAndAnswers(new ArrayList<>(result));
+        return new QuestionAndAnswers(questionAndAnswers.subList(size - 3, size));
     }
 
     public List<Message> messagesWithSettingMessage(final SettingMessage settingMessage) {
