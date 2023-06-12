@@ -50,12 +50,6 @@ public class QuestionAndAnswers {
         return result;
     }
 
-    public int calculateTokenSum() {
-        return questionAndAnswers.stream()
-                .mapToInt(QuestionAndAnswer::token)
-                .sum();
-    }
-
     public List<QuestionAndAnswer> questionAndAnswers() {
         return new ArrayList<>(questionAndAnswers);
     }

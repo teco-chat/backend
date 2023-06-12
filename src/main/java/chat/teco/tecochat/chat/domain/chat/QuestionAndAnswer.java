@@ -15,27 +15,20 @@ public class QuestionAndAnswer extends BaseEntity {
     @Embedded
     private Answer answer;
 
-    private int token;
-
     protected QuestionAndAnswer() {
     }
 
-    public QuestionAndAnswer(final String question, final String answer, final int token) {
-        this(Question.question(question), Answer.answer(answer), token);
+    public QuestionAndAnswer(final String question, final String answer) {
+        this(Question.question(question), Answer.answer(answer));
     }
 
-    public QuestionAndAnswer(final Question question, final Answer answer, final int token) {
+    public QuestionAndAnswer(final Question question, final Answer answer) {
         this.question = requireNonNull(question);
         this.answer = requireNonNull(answer);
-        this.token = token;
-    }
-
-    public QuestionAndAnswer(String question, String answer) {
-       this(question, answer, 1);
     }
 
     public QuestionAndAnswer copy() {
-        return new QuestionAndAnswer(question, answer, token);
+        return new QuestionAndAnswer(question, answer);
     }
 
     public Question question() {
@@ -44,9 +37,5 @@ public class QuestionAndAnswer extends BaseEntity {
 
     public Answer answer() {
         return answer;
-    }
-
-    public int token() {
-        return token;
     }
 }

@@ -29,19 +29,15 @@ public class GptClient {
     }
 
     public QuestionAndAnswer ask(final Chat chat, final Question question) {
-        final ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
+        ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
         try {
-            final ChatCompletionResponse response = restTemplate.postForEntity(gptApiUrl,
+            ChatCompletionResponse response = restTemplate.postForEntity(gptApiUrl,
                     new HttpEntity<>(request, apiKeySettingHeader),
                     ChatCompletionResponse.class
             ).getBody();
             Objects.requireNonNull(response);
-            return new QuestionAndAnswer(
-                    question,
-                    Answer.answer(response.answer()),
-                    response.totalTokens() - chat.last3QuestionAndAnswers().calculateTokenSum()
-            );
-        } catch (final Exception e) {
+            return new QuestionAndAnswer(question, Answer.answer(response.answer()));
+        } catch (Exception e) {
             if (e.getMessage().contains("context_length_exceeded")) {
                 throw new ChatException(QUESTION_SIZE_TOO_BIG);
             }
@@ -53,13 +49,13 @@ public class GptClient {
             String model,
             List<MessageRequest> messages
     ) {
-        public static ChatCompletionRequest of(final Chat chat, final Question question) {
-            final List<MessageRequest> messageRequests = new ArrayList<>();
-            final QuestionAndAnswers questionAndAnswers = chat.last3QuestionAndAnswers();
+        public static ChatCompletionRequest of(Chat chat, Question question) {
+            List<MessageRequest> messageRequests = new ArrayList<>();
+            QuestionAndAnswers questionAndAnswers = chat.last3QuestionAndAnswers();
 
-            final List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
+            List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
             messages.add(question);
-            for (final Message message : messages) {
+            for (Message message : messages) {
                 messageRequests.add(new MessageRequest(message.roleName(), message.content()));
             }
             return new ChatCompletionRequest(chat.modelName(), messageRequests);
@@ -81,10 +77,6 @@ public class GptClient {
     ) {
         public String answer() {
             return choices.get(0).message().content();
-        }
-
-        public int totalTokens() {
-            return usage().totalTokens();
         }
 
         public record ChoiceResponse(

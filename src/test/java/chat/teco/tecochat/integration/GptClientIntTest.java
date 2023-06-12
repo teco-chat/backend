@@ -2,7 +2,6 @@ package chat.teco.tecochat.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.domain.chat.Answer;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.GptClient;
 import chat.teco.tecochat.chat.domain.chat.Question;
@@ -29,14 +28,7 @@ class GptClientIntTest {
     @Test
     void Chat_Completion_API_에_질문을_보내고_답변을_받아온다() {
         // given
-        final Chat chat =
-                ChatFixture.chat(
-                        new QuestionAndAnswer(
-                                Question.question("안녕?"),
-                                Answer.answer("네. 안녕하세요"),
-                                100
-                        )
-                );
+        final Chat chat = ChatFixture.chat(new QuestionAndAnswer("안녕?", "네. 안녕하세요"));
 
         // when
         final QuestionAndAnswer ask = client.ask(chat, Question.question("다음 단어를 똑같이 말해봐. 안녕"));

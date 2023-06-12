@@ -39,7 +39,7 @@ class KeywordExtractorTest {
     void 채팅_생성_이벤트를_받아_해당_채팅의_키워드를_추출하여_저장한다() {
         // given
         given(gptClient.ask(any(), any())).willReturn(
-                new QuestionAndAnswer(Question.question("질문"), Answer.answer("답변1||답변2||답변3"), 1));
+                new QuestionAndAnswer("질문", "답변1||답변2||답변3"));
 
         // when
         List<Keyword> keywordList = extractor.extractKeywords(chat);
@@ -55,7 +55,7 @@ class KeywordExtractorTest {
     void 키워드가_3개가_나오지_않느다면_예외처리한다(String keywords) {
         // given
         given(gptClient.ask(any(), any())).willReturn(
-                new QuestionAndAnswer(Question.question("질문"), Answer.answer(keywords), 1));
+                new QuestionAndAnswer(Question.question("질문"), Answer.answer(keywords)));
 
         // when
         BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->

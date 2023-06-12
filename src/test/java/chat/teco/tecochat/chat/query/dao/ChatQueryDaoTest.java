@@ -10,10 +10,8 @@ import static java.time.temporal.TemporalAdjusters.previousOrSame;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.domain.chat.Answer;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
-import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.chat.SettingMessage;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
@@ -88,10 +86,8 @@ class ChatQueryDaoTest {
                 member.id());
 
         QuestionAndAnswer qna = new QuestionAndAnswer(
-                Question.question(member.name() + "의 Title"),
-                Answer.answer("안녕하세요"),
-                7
-        );
+                member.name() + "의 Title",
+                "안녕하세요");
         chat.addQuestionAndAnswer(qna);
         return chatRepository.save(chat);
     }

@@ -45,10 +45,10 @@ class AskUseCaseTest extends ChatCommandUseCaseTest {
     void 누적_메세지의_총_토큰_합이_모델의_최대_토큰_수를_넘어도_저장은_계속_누적된다() {
         // given
         Chat chat = new Chat(GPT_3_5_TURBO, BACK_END_SETTING, "제목", 1L);
-        QuestionAndAnswer qna1 = new QuestionAndAnswer("질문1", "답변1", 2000);
-        QuestionAndAnswer qna2 = new QuestionAndAnswer("질문2", "답변2", 2000);
-        QuestionAndAnswer qna3 = new QuestionAndAnswer("질문3", "답변3", 2000);
-        QuestionAndAnswer qna4 = new QuestionAndAnswer("질문4", "답변4", 2000);
+        QuestionAndAnswer qna1 = new QuestionAndAnswer("질문1", "답변1");
+        QuestionAndAnswer qna2 = new QuestionAndAnswer("질문2", "답변2");
+        QuestionAndAnswer qna3 = new QuestionAndAnswer("질문3", "답변3");
+        QuestionAndAnswer qna4 = new QuestionAndAnswer("질문4", "답변4");
         GPT_의_응답을_지정한다(qna1, qna2, qna3, qna4);
         given(chatRepository.findWithQuestionAndAnswersById(1L))
                 .willReturn(Optional.of(chat));

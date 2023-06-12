@@ -153,9 +153,9 @@ public class ChatFixture {
         public static final Long ID = 1L;
         public static final CreateChatCommand 채팅_생성_명령어 = new CreateChatCommand(1L, "질문2");
         public static final AskCommand 채팅_이어가기_명령어 = new AskCommand(1L, "질문2");
-        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1", 10);
-        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2", 30);
-        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3", 20);
+        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1");
+        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2");
+        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3");
 
         public static Chat 초기_채팅() {
             return new Chat(ID, GPT_3_5_TURBO, BACK_END_SETTING, "질문1", MemberFixture.말랑.ID);
@@ -166,9 +166,9 @@ public class ChatFixture {
         public static final Long ID = 2L;
         public static final CreateChatCommand 채팅_생성_명령어 = new CreateChatCommand(2L, "질문2");
         public static final AskCommand 채팅_이어가기_명령어 = new AskCommand(2L, "질문2");
-        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1", 10);
-        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2", 30);
-        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3", 20);
+        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1");
+        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2");
+        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3");
 
         public static Chat 초기_채팅() {
             return new Chat(ID, GPT_3_5_TURBO, FRONT_END_SETTING, "질문1", 허브.ID);

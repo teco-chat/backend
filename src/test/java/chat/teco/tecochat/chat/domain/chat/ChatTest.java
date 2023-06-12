@@ -31,17 +31,14 @@ class ChatTest {
     @Test
     void QnA를_추가할_수_있다() {
         // given
-        final Chat chat = ChatFixture.defaultChat();
+        Chat chat = ChatFixture.defaultChat();
 
         // when
         chat.addQuestionAndAnswer(new QuestionAndAnswer(
-                question("안녕"),
-                answer("응 안녕"),
-                1
-        ));
+                "안녕", "응 안녕"));
 
         // then
-        final QuestionAndAnswer qna = chat.questionAndAnswers().get(0);
+        QuestionAndAnswer qna = chat.questionAndAnswers().get(0);
         assertAll(
                 () -> assertThat(qna.answer())
                         .isEqualTo(answer("응 안녕")),
@@ -64,7 +61,6 @@ class ChatTest {
         // when
         QuestionAndAnswers result = chat.last3QuestionAndAnswers();
 
-
         // then
         assertThat(result.questionAndAnswers())
                 .extracting(QuestionAndAnswer::question)
@@ -74,7 +70,7 @@ class ChatTest {
     @Test
     void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        final List<QuestionAndAnswer> questionAndAnswers = List.of(
+        List<QuestionAndAnswer> questionAndAnswers = List.of(
                 new QuestionAndAnswer("질문1", "답변1"),
                 new QuestionAndAnswer("질문2", "답변2")
         );
@@ -130,8 +126,8 @@ class ChatTest {
         @BeforeEach
         void setUp() {
             chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
-            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
             chat.increaseLike();
             chat.increaseLike();
             chat.increaseComment();
@@ -147,8 +143,8 @@ class ChatTest {
 
             // then
             Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", memberId);
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
 
             assertThat(copy)
                     .usingRecursiveComparison()
@@ -162,8 +158,8 @@ class ChatTest {
 
             // then
             Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
 
             assertThat(copy)
                     .usingRecursiveComparison()

@@ -1,8 +1,6 @@
 package chat.teco.tecochat.acceptance.chat;
 
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
-import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.fixture.MockGptClient.KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,12 +34,12 @@ public class ChatSteps {
             String... 질문_키워드들
     ) {
         if (질문_키워드들.length == 0) {
-            gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
+            gptClient.addQnA(질문, new QuestionAndAnswer(질문, 답변));
             return;
         }
         String 키워드들 = String.join("||", 질문_키워드들);
-        gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
-        gptClient.addQnA(KEYWORD, new QuestionAndAnswer(question(KEYWORD), answer(키워드들), 10));
+        gptClient.addQnA(질문, new QuestionAndAnswer(질문, 답변));
+        gptClient.addQnA(KEYWORD, new QuestionAndAnswer(KEYWORD, 키워드들));
     }
 
     public static ExtractableResponse<Response> 첫_채팅_요청(

@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.domain.chat;
 
-import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,11 +19,7 @@ class QuestionAndAnswersTest {
         QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers();
 
         // when
-        questionAndAnswers.add(new QuestionAndAnswer(
-                question("질문"),
-                answer("답변"),
-                1
-        ));
+        questionAndAnswers.add(new QuestionAndAnswer("질문", "답변"));
 
         // then
         assertThat(questionAndAnswers.questionAndAnswers())
@@ -35,22 +30,10 @@ class QuestionAndAnswersTest {
     void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
         final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
-                new QuestionAndAnswer(
-                        "질문1",
-                        "답변1"
-                ),
-                new QuestionAndAnswer(
-                        "질문2",
-                        "답변2"
-                ),
-                new QuestionAndAnswer(
-                        "질문3",
-                        "답변3"
-                ),
-                new QuestionAndAnswer(
-                        "질문4",
-                        "답변4"
-                )
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2"),
+                new QuestionAndAnswer("질문3", "답변3"),
+                new QuestionAndAnswer("질문4", "답변4")
         );
 
         // when
@@ -66,15 +49,9 @@ class QuestionAndAnswersTest {
     void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
         final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
-                new QuestionAndAnswer(
-                        "질문1",
-                        "답변1"
-                ),
-                new QuestionAndAnswer(
-                        "질문2",
-                        "답변2"
-                )
-                );
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2")
+        );
 
         // when
         QuestionAndAnswers last3 = questionAndAnswers.last3QuestionAndAnswers();
