@@ -24,7 +24,7 @@ public class GptApiConfig {
 
     @Bean
     public HttpHeaders httpHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
         headers.setBearerAuth(key);
         return headers;

@@ -12,14 +12,14 @@ public class Answer implements Message {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String answer;
 
-    private Answer(final String content) {
+    private Answer(String content) {
         this.answer = content;
     }
 
     protected Answer() {
     }
 
-    public static Answer answer(final String content) {
+    public static Answer answer(String content) {
         return new Answer(content);
     }
 
@@ -34,11 +34,11 @@ public class Answer implements Message {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof final Answer answer)) {
+        if (!(o instanceof Answer answer)) {
             return false;
         }
         return this.answer.equals(answer.answer);

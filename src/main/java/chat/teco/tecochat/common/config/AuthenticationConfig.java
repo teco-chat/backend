@@ -11,12 +11,12 @@ public class AuthenticationConfig implements WebMvcConfigurer {
 
     private final AuthArgumentResolver authArgumentResolver;
 
-    public AuthenticationConfig(final AuthArgumentResolver authArgumentResolver) {
+    public AuthenticationConfig(AuthArgumentResolver authArgumentResolver) {
         this.authArgumentResolver = authArgumentResolver;
     }
 
     @Override
-    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authArgumentResolver);
     }
 }

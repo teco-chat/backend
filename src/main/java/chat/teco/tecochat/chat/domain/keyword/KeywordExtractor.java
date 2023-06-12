@@ -26,25 +26,25 @@ public class KeywordExtractor {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final GptClient gptClient;
 
-    public KeywordExtractor(final GptClient gptClient) {
+    public KeywordExtractor(GptClient gptClient) {
         this.gptClient = gptClient;
     }
 
-    public List<Keyword> extractKeywords(final Chat chat) {
-        final QuestionAndAnswer ask = gptClient.ask(chat, EXTRACT_KEYWORD_QUESTION);
-        final List<Keyword> keywords = extractKeywords(chat, ask.answer());
+    public List<Keyword> extractKeywords(Chat chat) {
+        QuestionAndAnswer ask = gptClient.ask(chat, EXTRACT_KEYWORD_QUESTION);
+        List<Keyword> keywords = extractKeywords(chat, ask.answer());
         validateKeyword(keywords);
         return keywords;
     }
 
-    private List<Keyword> extractKeywords(final Chat chat, final Answer answer) {
+    private List<Keyword> extractKeywords(Chat chat, Answer answer) {
         return Arrays.stream(answer.content().split("\\|\\|"))
                 .map(String::strip)
                 .map(it -> new Keyword(it, chat))
                 .toList();
     }
 
-    private void validateKeyword(final List<Keyword> keywords) {
+    private void validateKeyword(List<Keyword> keywords) {
         if (keywords.size() != 3) {
             log.info("키워드가 3개가 반환되지 않음 [{}]", keywords);
             throw new KeywordException(CAN_NOT_EXTRACTED_KEYWORD);

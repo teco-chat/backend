@@ -19,7 +19,7 @@ public class Keyword extends BaseEntity {
     protected Keyword() {
     }
 
-    public Keyword(final String keyword, final Chat chat) {
+    public Keyword(String keyword, Chat chat) {
         this.keyword = keyword;
         this.chat = chat;
     }

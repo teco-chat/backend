@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatLikeRepository extends JpaRepository<ChatLike, Long> {
 
-    Optional<ChatLike> findByMemberIdAndChatId(final Long memberId, final Long chatId);
+    Optional<ChatLike> findByMemberIdAndChatId(Long memberId, Long chatId);
 }

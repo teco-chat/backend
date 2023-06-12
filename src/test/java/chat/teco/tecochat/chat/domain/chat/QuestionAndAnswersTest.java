@@ -29,7 +29,7 @@ class QuestionAndAnswersTest {
     @Test
     void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
-        final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
+        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
                 new QuestionAndAnswer("질문1", "답변1"),
                 new QuestionAndAnswer("질문2", "답변2"),
                 new QuestionAndAnswer("질문3", "답변3"),
@@ -48,7 +48,7 @@ class QuestionAndAnswersTest {
     @Test
     void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        final QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
+        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
                 new QuestionAndAnswer("질문1", "답변1"),
                 new QuestionAndAnswer("질문2", "답변2")
         );

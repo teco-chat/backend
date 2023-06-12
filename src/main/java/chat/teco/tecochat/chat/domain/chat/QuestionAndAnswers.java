@@ -20,15 +20,15 @@ public class QuestionAndAnswers {
     protected QuestionAndAnswers() {
     }
 
-    public QuestionAndAnswers(final QuestionAndAnswer... questionAndAnswers) {
+    public QuestionAndAnswers(QuestionAndAnswer... questionAndAnswers) {
         this(Arrays.asList(questionAndAnswers));
     }
 
-    public QuestionAndAnswers(final List<QuestionAndAnswer> questionAndAnswers) {
+    public QuestionAndAnswers(List<QuestionAndAnswer> questionAndAnswers) {
         this.questionAndAnswers.addAll(questionAndAnswers);
     }
 
-    public void add(final QuestionAndAnswer questionAndAnswer) {
+    public void add(QuestionAndAnswer questionAndAnswer) {
         questionAndAnswers.add(questionAndAnswer);
     }
 
@@ -40,10 +40,10 @@ public class QuestionAndAnswers {
         return new QuestionAndAnswers(questionAndAnswers.subList(size - 3, size));
     }
 
-    public List<Message> messagesWithSettingMessage(final SettingMessage settingMessage) {
-        final List<Message> result = new ArrayList<>();
+    public List<Message> messagesWithSettingMessage(SettingMessage settingMessage) {
+        List<Message> result = new ArrayList<>();
         result.add(settingMessage);
-        for (final QuestionAndAnswer qna : questionAndAnswers) {
+        for (QuestionAndAnswer qna : questionAndAnswers) {
             result.add(qna.question());
             result.add(qna.answer());
         }

@@ -20,32 +20,36 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final MemberRepository memberRepository;
 
-    public AuthArgumentResolver(final MemberRepository memberRepository) {
+    public AuthArgumentResolver(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     @Override
-    public boolean supportsParameter(final MethodParameter parameter) {
+    public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(Auth.class);
     }
 
     @Override
-    public Long resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
-                                final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
-        final String name = decodeName(webRequest);
-        final Member member = memberRepository.findByName(name)
+    public Long resolveArgument(
+            MethodParameter parameter,
+            ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory
+    ) {
+        String name = decodeName(webRequest);
+        Member member = memberRepository.findByName(name)
                 .orElseThrow(() -> new AuthenticationException(NO_REGISTERED_MEMBER));
         return member.id();
     }
 
-    private String decodeName(final NativeWebRequest webRequest) {
-        final byte[] names = Base64.getDecoder()
+    private String decodeName(NativeWebRequest webRequest) {
+        byte[] names = Base64.getDecoder()
                 .decode(getNameHeader(webRequest));
         return new String(names).intern();
     }
 
-    private String getNameHeader(final NativeWebRequest webRequest) {
-        final String name = webRequest.getHeader("name");
+    private String getNameHeader(NativeWebRequest webRequest) {
+        String name = webRequest.getHeader("name");
         if (name == null) {
             throw new AuthenticationException(NO_NAME_HEADER);
         }

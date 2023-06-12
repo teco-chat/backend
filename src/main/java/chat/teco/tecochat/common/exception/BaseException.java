@@ -5,15 +5,15 @@ public abstract class BaseException extends RuntimeException {
     public BaseException() {
     }
 
-    public BaseException(final String message) {
+    public BaseException(String message) {
         super(message);
     }
 
-    public BaseException(final Throwable cause) {
+    public BaseException(Throwable cause) {
         super(cause);
     }
 
-    public BaseException(final String message, final Throwable cause) {
+    public BaseException(String message, Throwable cause) {
         super(message, cause);
     }
 

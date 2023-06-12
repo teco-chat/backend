@@ -16,7 +16,7 @@ public enum KeywordExceptionType implements BaseExceptionType {
     private final HttpStatus httpStatus;
     private final String errorMessage;
 
-    KeywordExceptionType(final int errorCode, final HttpStatus httpStatus, final String errorMessage) {
+    KeywordExceptionType(int errorCode, HttpStatus httpStatus, String errorMessage) {
         this.errorCode = errorCode;
         this.httpStatus = httpStatus;
         this.errorMessage = errorMessage;

@@ -30,7 +30,7 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    public Comment(final Long chatId, final Long memberId, final String content) {
+    public Comment(Long chatId, Long memberId, String content) {
         this.chatId = chatId;
         this.memberId = memberId;
         this.content = content;
@@ -48,7 +48,7 @@ public class Comment extends BaseEntity {
         return content;
     }
 
-    public void update(final Long memberId, final String content) {
+    public void update(Long memberId, String content) {
         if (!this.memberId.equals(memberId)) {
             throw new CommentException(NO_AUTHORITY_UPDATE_COMMENT);
         }
@@ -56,7 +56,7 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    public void validateDelete(final Long memberId) {
+    public void validateDelete(Long memberId) {
         if (!this.memberId.equals(memberId)) {
             throw new CommentException(NO_AUTHORITY_DELETE_COMMENT);
         }

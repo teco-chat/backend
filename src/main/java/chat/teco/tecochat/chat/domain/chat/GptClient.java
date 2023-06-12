@@ -20,15 +20,17 @@ public class GptClient {
     private final HttpHeaders apiKeySettingHeader;
     private final String gptApiUrl;
 
-    public GptClient(final RestTemplate restTemplate,
-                     final HttpHeaders apiKeySettingHeader,
-                     final String gptApiUrl) {
+    public GptClient(
+            RestTemplate restTemplate,
+            HttpHeaders apiKeySettingHeader,
+            String gptApiUrl
+    ) {
         this.restTemplate = restTemplate;
         this.apiKeySettingHeader = apiKeySettingHeader;
         this.gptApiUrl = gptApiUrl;
     }
 
-    public QuestionAndAnswer ask(final Chat chat, final Question question) {
+    public QuestionAndAnswer ask(Chat chat, Question question) {
         ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
         try {
             ChatCompletionResponse response = restTemplate.postForEntity(gptApiUrl,

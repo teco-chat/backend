@@ -18,11 +18,11 @@ public class QuestionAndAnswer extends BaseEntity {
     protected QuestionAndAnswer() {
     }
 
-    public QuestionAndAnswer(final String question, final String answer) {
+    public QuestionAndAnswer(String question, String answer) {
         this(Question.question(question), Answer.answer(answer));
     }
 
-    public QuestionAndAnswer(final Question question, final Answer answer) {
+    public QuestionAndAnswer(Question question, Answer answer) {
         this.question = requireNonNull(question);
         this.answer = requireNonNull(answer);
     }

@@ -28,10 +28,10 @@ class GptClientIntTest {
     @Test
     void Chat_Completion_API_에_질문을_보내고_답변을_받아온다() {
         // given
-        final Chat chat = ChatFixture.chat(new QuestionAndAnswer("안녕?", "네. 안녕하세요"));
+        Chat chat = ChatFixture.chat(new QuestionAndAnswer("안녕?", "네. 안녕하세요"));
 
         // when
-        final QuestionAndAnswer ask = client.ask(chat, Question.question("다음 단어를 똑같이 말해봐. 안녕"));
+        QuestionAndAnswer ask = client.ask(chat, Question.question("다음 단어를 똑같이 말해봐. 안녕"));
 
         // then
         assertThat(ask.answer().content())

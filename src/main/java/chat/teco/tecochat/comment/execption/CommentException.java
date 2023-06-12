@@ -7,12 +7,12 @@ public class CommentException extends BaseException {
 
     private final CommentExceptionType exceptionType;
 
-    public CommentException(final CommentExceptionType exceptionType) {
+    public CommentException(CommentExceptionType exceptionType) {
         super(exceptionType.errorMessage());
         this.exceptionType = exceptionType;
     }
 
-    public CommentException(final CommentExceptionType exceptionType, final Throwable cause) {
+    public CommentException(CommentExceptionType exceptionType, Throwable cause) {
         super(exceptionType.errorMessage(), cause);
         this.exceptionType = exceptionType;
     }

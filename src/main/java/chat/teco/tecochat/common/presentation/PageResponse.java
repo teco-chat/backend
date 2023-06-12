@@ -14,7 +14,7 @@ public record PageResponse<T>(
         int numberOfElements
 ) {
 
-    public static <T> PageResponse<T> from(final Page<T> response) {
+    public static <T> PageResponse<T> from(Page<T> response) {
         return new PageResponse<T>(
                 response.getContent(),
                 response.isLast(),
