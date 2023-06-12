@@ -2,6 +2,8 @@ package chat.teco.tecochat.common.config;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+import com.theokanning.openai.service.OpenAiService;
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,5 +35,10 @@ public class GptApiConfig {
     @Bean
     public String gptApiUrl() {
         return url;
+    }
+
+    @Bean
+    public OpenAiService openAiService() {
+        return new OpenAiService(key, Duration.ofSeconds(10));
     }
 }

@@ -6,7 +6,6 @@ import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.auth.domain.Authenticator;
 import chat.teco.tecochat.auth.exception.AuthenticationException;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -37,8 +36,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                 .id();
     }
 
-    @NotNull
-    private static String extractName(WebRequest webRequest) {
+    private String extractName(WebRequest webRequest) {
         String name = webRequest.getHeader("name");
         if (name == null) {
             throw new AuthenticationException(NO_NAME_HEADER);
