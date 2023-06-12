@@ -1,27 +1,25 @@
-package chat.teco.tecochat.auth.argumentresolver;
+package chat.teco.tecochat.auth.presentation.argumentresolver;
 
 import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_NAME_HEADER;
 
 import chat.teco.tecochat.auth.Auth;
+import chat.teco.tecochat.auth.domain.Authenticator;
 import chat.teco.tecochat.auth.exception.AuthenticationException;
-import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
-import java.util.Base64;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+@RequiredArgsConstructor
 @Component
 public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final MemberRepository memberRepository;
-
-    public AuthArgumentResolver(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final Authenticator authenticator;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -35,18 +33,12 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
-        String name = decodeName(webRequest);
-        Member member = memberRepository.getByName(name);
-        return member.id();
+        return authenticator.authenticateWithBase64(extractName(webRequest))
+                .id();
     }
 
-    private String decodeName(NativeWebRequest webRequest) {
-        byte[] names = Base64.getDecoder()
-                .decode(getNameHeader(webRequest));
-        return new String(names).intern();
-    }
-
-    private String getNameHeader(NativeWebRequest webRequest) {
+    @NotNull
+    private static String extractName(WebRequest webRequest) {
         String name = webRequest.getHeader("name");
         if (name == null) {
             throw new AuthenticationException(NO_NAME_HEADER);
