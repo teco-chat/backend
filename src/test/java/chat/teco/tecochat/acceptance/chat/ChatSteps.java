@@ -6,12 +6,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.fixture.MockGptClient;
-import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
-import chat.teco.tecochat.chat.presentation.chat.response.AskResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CopyChatResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.request.AskRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.request.CreateChatRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.response.AskResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.response.CreateChatResponse;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;

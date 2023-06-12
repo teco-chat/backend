@@ -1,4 +1,4 @@
-package chat.teco.tecochat.chat.presentation.chat;
+package chat.teco.tecochat.chat.presentation.chat.api;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -13,12 +13,12 @@ import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.Create
 import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatResult;
 import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase.UpdateChatTitleCommand;
-import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
-import chat.teco.tecochat.chat.presentation.chat.response.AskResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CopyChatResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.request.AskRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.request.CreateChatRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.response.AskResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.response.CreateChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;

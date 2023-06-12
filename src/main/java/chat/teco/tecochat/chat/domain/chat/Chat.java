@@ -5,6 +5,7 @@ import static jakarta.persistence.EnumType.STRING;
 
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -62,6 +63,15 @@ public class Chat extends BaseEntity {
         this.settingMessage = settingMessage;
         this.title = title;
         this.memberId = memberId;
+    }
+
+    public static Chat defaultChat(Member member, String title) {
+        return new Chat(
+                GptModel.GPT_3_5_TURBO,
+                SettingMessage.byCourse(member.course()),
+                title,
+                member.id()
+        );
     }
 
     public void addQuestionAndAnswer(QuestionAndAnswer questionAndAnswer) {

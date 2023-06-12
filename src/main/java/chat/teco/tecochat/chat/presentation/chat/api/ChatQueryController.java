@@ -1,4 +1,4 @@
-package chat.teco.tecochat.chat.presentation.chat;
+package chat.teco.tecochat.chat.presentation.chat.api;
 
 import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
