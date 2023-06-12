@@ -1,6 +1,6 @@
-package chat.teco.tecochat.chat.domain.chat;
+package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
+import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.GPT_API_ERROR;
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
@@ -10,14 +10,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionRequest;
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionRequest.MessageRequest;
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionResponse;
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionResponse.ChoiceResponse;
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionResponse.MessageResponse;
-import chat.teco.tecochat.chat.domain.chat.GptClient.ChatCompletionResponse.UsageResponse;
+import chat.teco.tecochat.chat.domain.chat.Answer;
+import chat.teco.tecochat.chat.domain.chat.Message;
+import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse;
+import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.ChoiceResponse;
+import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.MessageResponse;
+import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.UsageResponse;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
-import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -45,10 +44,7 @@ class GptClientTest {
     @Test
     void 질문에_대해_응답_반환() {
         // given
-        List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer("Q1", "A1")
-        );
-        Chat chat = ChatFixture.chat(messages);
+        List<Message> messages = List.of(question("Q1"), answer("A1"));
         ChatCompletionResponse response = new ChatCompletionResponse("", "", "",
                 List.of(new ChoiceResponse(1L,
                         new MessageResponse("assistant", "답변"),
@@ -59,68 +55,36 @@ class GptClientTest {
                 .willReturn(ResponseEntity.status(200).body(response));
 
         // when
-        QuestionAndAnswer qna = client.ask(chat, question("질문"));
+        Answer answer = client.ask(messages);
 
         // then
-        assertThat(qna.question().content()).isEqualTo("질문");
-        assertThat(qna.answer().content()).isEqualTo("답변");
+        assertThat(answer.content()).isEqualTo("답변");
     }
 
     @Test
     void 질문의_토큰이_허용치를_넘어_GPT_API_에서_오류가_반환된다면_이를_처리한다() {
         // given
-        List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer("Q1", "A1")
-        );
-        Chat chat = ChatFixture.chat(messages);
+        List<Message> messages = List.of(question("Q1"), answer("A1"));
         given(restTemplate.postForEntity(any(String.class), any(), any()))
                 .willThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, OVER_MAX_TOKEN_CODE));
 
         // when & then
         BaseExceptionType exceptionType = assertThrows(ChatException.class,
-                () -> client.ask(chat, question("질문"))
+                () -> client.ask(messages)
         ).exceptionType();
         assertThat(exceptionType).isEqualTo(QUESTION_SIZE_TOO_BIG);
     }
 
     @Test
     void GPT_API_에_문제가_있는_경우_예외처리() {
-        List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer("Q1", "A1")
-        );
-        Chat chat = ChatFixture.chat(messages);
+        List<Message> messages = List.of(question("Q1"), answer("A1"));
         given(restTemplate.postForEntity(any(String.class), any(), any()))
                 .willThrow(new RestClientException("some problem"));
 
         // when & then
         BaseExceptionType exceptionType = assertThrows(ChatException.class,
-                () -> client.ask(chat, question("질문"))
+                () -> client.ask(messages)
         ).exceptionType();
         assertThat(exceptionType).isEqualTo(GPT_API_ERROR);
-    }
-
-    @Test
-    void 최근_3개의_질문답변만을_함께_전송한다() {
-        // given
-        List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer("Q1", "A1"),
-                new QuestionAndAnswer("Q2", "A2"),
-                new QuestionAndAnswer("Q3", "A3"),
-                new QuestionAndAnswer("Q4", "A4"),
-                new QuestionAndAnswer("Q5", "A5")
-        );
-        Chat chat = ChatFixture.chatWithModel(GPT_3_5_TURBO, messages);
-
-        // when
-        ChatCompletionRequest from = ChatCompletionRequest.of(chat, question("질문"));
-
-        // then
-        assertThat(from.messages()).extracting(MessageRequest::content)
-                .containsExactly(
-                        SettingMessage.BACK_END_SETTING.message(),
-                        "Q3", "A3",
-                        "Q4", "A4",
-                        "Q5", "A5",
-                        "질문");
     }
 }

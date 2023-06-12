@@ -5,18 +5,17 @@ import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTIN
 import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 import chat.teco.tecochat.chat.domain.chat.Answer;
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.GptClient;
-import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -30,16 +29,20 @@ import org.junit.jupiter.params.provider.ValueSource;
 class KeywordExtractorTest {
 
     private final GptClient gptClient = mock(GptClient.class);
+    private final KeywordExtractor extractor = new KeywordExtractor(gptClient);
+    private final Chat chat =
+            new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
 
-    private KeywordExtractor extractor = new KeywordExtractor(gptClient);
-
-    private Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
+    @BeforeEach
+    void setUp() {
+        chat.addQuestionAndAnswer(new QuestionAndAnswer("q", "a"));
+    }
 
     @Test
     void 채팅_생성_이벤트를_받아_해당_채팅의_키워드를_추출하여_저장한다() {
         // given
-        given(gptClient.ask(any(), any())).willReturn(
-                new QuestionAndAnswer("질문", "답변1||답변2||답변3"));
+        given(gptClient.ask(anyList())).willReturn(
+                Answer.answer("답변1||답변2||답변3"));
 
         // when
         List<Keyword> keywordList = extractor.extractKeywords(chat);
@@ -54,8 +57,8 @@ class KeywordExtractorTest {
     @ValueSource(strings = {"답변1||답변2||답변3||답변4", "안녕하세요 말랑 !"})
     void 키워드가_3개가_나오지_않느다면_예외처리한다(String keywords) {
         // given
-        given(gptClient.ask(any(), any())).willReturn(
-                new QuestionAndAnswer(Question.question("질문"), Answer.answer(keywords)));
+        given(gptClient.ask(anyList()))
+                .willReturn(Answer.answer(keywords));
 
         // when
         BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->

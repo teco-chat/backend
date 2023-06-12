@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import chat.teco.tecochat.chat.application.chat.service.ChatService;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
-import chat.teco.tecochat.chat.domain.chat.GptClient;
+import chat.teco.tecochat.chat.domain.keyword.GptClient;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import org.junit.jupiter.api.AfterEach;

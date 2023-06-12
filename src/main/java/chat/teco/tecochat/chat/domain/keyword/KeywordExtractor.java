@@ -4,7 +4,6 @@ import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN
 
 import chat.teco.tecochat.chat.domain.chat.Answer;
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.GptClient;
 import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
@@ -18,8 +17,8 @@ import org.springframework.stereotype.Component;
 public class KeywordExtractor {
 
     public static final Question EXTRACT_KEYWORD_QUESTION = Question.question(
-            "Except for this message and the first one, "
-                    + "I need you to extract 3 technical keywords from the above 2 conversations "
+            "Except for this message, "
+                    + "I need you to extract 3 technical keywords "
                     + "in CSV format without \". "
                     + "Please use || as a separator. For example: keyword1||keyword2||keyword3");
 
@@ -31,8 +30,12 @@ public class KeywordExtractor {
     }
 
     public List<Keyword> extractKeywords(Chat chat) {
-        QuestionAndAnswer ask = gptClient.ask(chat, EXTRACT_KEYWORD_QUESTION);
-        List<Keyword> keywords = extractKeywords(chat, ask.answer());
+        QuestionAndAnswer questionAndAnswer = chat.questionAndAnswers().get(0);
+        Answer answer = gptClient.ask(List.of(
+                questionAndAnswer.question(),
+                questionAndAnswer.answer(),
+                EXTRACT_KEYWORD_QUESTION));
+        List<Keyword> keywords = extractKeywords(chat, answer);
         validateKeyword(keywords);
         return keywords;
     }

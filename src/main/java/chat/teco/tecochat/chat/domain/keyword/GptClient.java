@@ -1,13 +1,16 @@
-package chat.teco.tecochat.chat.domain.chat;
+package chat.teco.tecochat.chat.domain.keyword;
 
+import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.GPT_API_ERROR;
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
+import static java.util.Objects.requireNonNull;
 
+import chat.teco.tecochat.chat.domain.chat.Answer;
+import chat.teco.tecochat.chat.domain.chat.Message;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -30,15 +33,15 @@ public class GptClient {
         this.gptApiUrl = gptApiUrl;
     }
 
-    public QuestionAndAnswer ask(Chat chat, Question question) {
-        ChatCompletionRequest request = ChatCompletionRequest.of(chat, question);
+    public Answer ask(List<Message> messages) {
+        ChatCompletionRequest request = ChatCompletionRequest.of(messages);
         try {
             ChatCompletionResponse response = restTemplate.postForEntity(gptApiUrl,
                     new HttpEntity<>(request, apiKeySettingHeader),
                     ChatCompletionResponse.class
             ).getBody();
-            Objects.requireNonNull(response);
-            return new QuestionAndAnswer(question, Answer.answer(response.answer()));
+            requireNonNull(response);
+            return Answer.answer(response.answer());
         } catch (Exception e) {
             if (e.getMessage().contains("context_length_exceeded")) {
                 throw new ChatException(QUESTION_SIZE_TOO_BIG);
@@ -51,16 +54,12 @@ public class GptClient {
             String model,
             List<MessageRequest> messages
     ) {
-        public static ChatCompletionRequest of(Chat chat, Question question) {
+        public static ChatCompletionRequest of(List<Message> messages) {
             List<MessageRequest> messageRequests = new ArrayList<>();
-            QuestionAndAnswers questionAndAnswers = chat.last3QuestionAndAnswers();
-
-            List<Message> messages = questionAndAnswers.messagesWithSettingMessage(chat.settingMessage());
-            messages.add(question);
             for (Message message : messages) {
                 messageRequests.add(new MessageRequest(message.roleName(), message.content()));
             }
-            return new ChatCompletionRequest(chat.modelName(), messageRequests);
+            return new ChatCompletionRequest(GPT_3_5_TURBO.modelName(), messageRequests);
         }
 
         public record MessageRequest(
