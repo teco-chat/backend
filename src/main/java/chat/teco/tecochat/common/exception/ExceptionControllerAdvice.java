@@ -22,11 +22,11 @@ public class ExceptionControllerAdvice {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ExceptionResponse> handleException(MethodArgumentNotValidException e) {
-        final String errorMessage = e.getFieldErrors().stream()
+        String errorMessage = e.getFieldErrors().stream()
                 .map(it -> it.getField() + " : " + it.getDefaultMessage())
                 .collect(Collectors.joining("\n"));
         log.error("요청 필드의 형식이 올바르지 않습니다. [%s]".formatted(errorMessage));
-        final ExceptionResponse exceptionResponse = new ExceptionResponse(BAD_REQUEST_ERROR_CODE,
+        ExceptionResponse exceptionResponse = new ExceptionResponse(BAD_REQUEST_ERROR_CODE,
                 "요청 필드의 형식이 올바르지 않습니다. [%s]".formatted(errorMessage));
         return ResponseEntity.badRequest().body(exceptionResponse);
     }

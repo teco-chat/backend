@@ -17,18 +17,18 @@ public final class Member extends BaseEntity {
     @Column(nullable = false)
     private Course course;
 
+    protected Member() {
+    }
+
     public Member(Long id, String name, Course course) {
         super(id);
         this.name = name;
         this.course = course;
     }
 
-    public Member(final String name, final Course course) {
+    public Member(String name, Course course) {
         this.name = name;
         this.course = course;
-    }
-
-    protected Member() {
     }
 
     public String name() {

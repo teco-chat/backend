@@ -13,14 +13,14 @@ public class Question implements Message {
     private String question;
 
     // TODO 빈값 검증
-    private Question(final String content) {
+    private Question(String content) {
         this.question = content;
     }
 
     protected Question() {
     }
 
-    public static Question question(final String content) {
+    public static Question question(String content) {
         return new Question(content);
     }
 
@@ -35,11 +35,11 @@ public class Question implements Message {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof final Question question)) {
+        if (!(o instanceof Question question)) {
             return false;
         }
         return this.question.equals(question.question);

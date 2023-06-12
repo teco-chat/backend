@@ -6,8 +6,6 @@ import static chat.teco.tecochat.chat.domain.chat.Role.USER;
 import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static chat.teco.tecochat.chat.domain.chat.SettingMessage.FRONT_END_SETTING;
 
-import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskCommand;
-import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatCommand;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.GptModel;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
@@ -151,11 +149,9 @@ public class ChatFixture {
 
     public static class 말랑_채팅 {
         public static final Long ID = 1L;
-        public static final CreateChatCommand 채팅_생성_명령어 = new CreateChatCommand(1L, "질문2");
-        public static final AskCommand 채팅_이어가기_명령어 = new AskCommand(1L, "질문2");
-        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1", 10);
-        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2", 30);
-        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3", 20);
+        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1");
+        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2");
+        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3");
 
         public static Chat 초기_채팅() {
             return new Chat(ID, GPT_3_5_TURBO, BACK_END_SETTING, "질문1", MemberFixture.말랑.ID);
@@ -164,11 +160,9 @@ public class ChatFixture {
 
     public static class 허브_채팅 {
         public static final Long ID = 2L;
-        public static final CreateChatCommand 채팅_생성_명령어 = new CreateChatCommand(2L, "질문2");
-        public static final AskCommand 채팅_이어가기_명령어 = new AskCommand(2L, "질문2");
-        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1", 10);
-        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2", 30);
-        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3", 20);
+        public static final QuestionAndAnswer QNA_1 = new QuestionAndAnswer("질문1", "답변1");
+        public static final QuestionAndAnswer QNA_2 = new QuestionAndAnswer("질문2", "답변2");
+        public static final QuestionAndAnswer QNA_3 = new QuestionAndAnswer("질문3", "답변3");
 
         public static Chat 초기_채팅() {
             return new Chat(ID, GPT_3_5_TURBO, FRONT_END_SETTING, "질문1", 허브.ID);

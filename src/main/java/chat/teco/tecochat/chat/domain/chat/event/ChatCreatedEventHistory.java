@@ -14,8 +14,10 @@ public class ChatCreatedEventHistory extends BaseEventHistory {
     protected ChatCreatedEventHistory() {
     }
 
-    public ChatCreatedEventHistory(final LocalDateTime eventDateTime,
-                                   final Long chatId) {
+    public ChatCreatedEventHistory(
+            LocalDateTime eventDateTime,
+            Long chatId
+    ) {
         super(eventDateTime);
         this.chatId = chatId;
     }

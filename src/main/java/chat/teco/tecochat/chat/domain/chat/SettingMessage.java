@@ -26,11 +26,11 @@ public enum SettingMessage implements Message {
 
     private final String content;
 
-    SettingMessage(final String message) {
+    SettingMessage(String message) {
         this.content = message + DEFAULT_LANGUAGE_SETTING;
     }
 
-    public static SettingMessage byCourse(final Course course) {
+    public static SettingMessage byCourse(Course course) {
         return byCourseMap.get(course);
     }
 

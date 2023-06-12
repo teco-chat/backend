@@ -21,7 +21,7 @@ public abstract class BaseEventHistory extends BaseEntity {
     protected BaseEventHistory() {
     }
 
-    public BaseEventHistory(final LocalDateTime eventDateTime) {
+    public BaseEventHistory(LocalDateTime eventDateTime) {
         this.eventDateTime = eventDateTime;
     }
 

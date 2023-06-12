@@ -21,7 +21,7 @@ public enum AuthenticationExceptionType implements BaseExceptionType {
     private final HttpStatus httpStatus;
     private final String errorMessage;
 
-    AuthenticationExceptionType(final int errorCode, final HttpStatus httpStatus, final String errorMessage) {
+    AuthenticationExceptionType(int errorCode, HttpStatus httpStatus, String errorMessage) {
         this.errorCode = errorCode;
         this.httpStatus = httpStatus;
         this.errorMessage = errorMessage;

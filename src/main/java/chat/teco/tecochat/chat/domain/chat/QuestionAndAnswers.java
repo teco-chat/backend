@@ -6,10 +6,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.List;
 
 @Embeddable
@@ -22,44 +20,34 @@ public class QuestionAndAnswers {
     protected QuestionAndAnswers() {
     }
 
-    public QuestionAndAnswers(final QuestionAndAnswer... questionAndAnswers) {
+    public QuestionAndAnswers(QuestionAndAnswer... questionAndAnswers) {
         this(Arrays.asList(questionAndAnswers));
     }
 
-    public QuestionAndAnswers(final List<QuestionAndAnswer> questionAndAnswers) {
+    public QuestionAndAnswers(List<QuestionAndAnswer> questionAndAnswers) {
         this.questionAndAnswers.addAll(questionAndAnswers);
     }
 
-    public void add(final QuestionAndAnswer questionAndAnswer) {
+    public void add(QuestionAndAnswer questionAndAnswer) {
         questionAndAnswers.add(questionAndAnswer);
     }
 
-    public QuestionAndAnswers lessOrEqualThan(final int token) {
-        final Deque<QuestionAndAnswer> result = new ArrayDeque<>(this.questionAndAnswers);
-        int tokenSum = calculateTokenSum();
-
-        while (tokenSum > token) {
-            final QuestionAndAnswer message = result.removeFirst();
-            tokenSum -= message.token();
+    public QuestionAndAnswers last3QuestionAndAnswers() {
+        int size = questionAndAnswers.size();
+        if (size < 3) {
+            return this;
         }
-
-        return new QuestionAndAnswers(new ArrayList<>(result));
+        return new QuestionAndAnswers(questionAndAnswers.subList(size - 3, size));
     }
 
-    public List<Message> messagesWithSettingMessage(final SettingMessage settingMessage) {
-        final List<Message> result = new ArrayList<>();
+    public List<Message> messagesWithSettingMessage(SettingMessage settingMessage) {
+        List<Message> result = new ArrayList<>();
         result.add(settingMessage);
-        for (final QuestionAndAnswer qna : questionAndAnswers) {
+        for (QuestionAndAnswer qna : questionAndAnswers) {
             result.add(qna.question());
             result.add(qna.answer());
         }
         return result;
-    }
-
-    public int calculateTokenSum() {
-        return questionAndAnswers.stream()
-                .mapToInt(QuestionAndAnswer::token)
-                .sum();
     }
 
     public List<QuestionAndAnswer> questionAndAnswers() {

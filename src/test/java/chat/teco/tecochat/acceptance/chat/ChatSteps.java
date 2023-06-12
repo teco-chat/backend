@@ -1,19 +1,10 @@
 package chat.teco.tecochat.acceptance.chat;
 
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
-import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
-import static chat.teco.tecochat.chat.fixture.MockGptClient.KEYWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
-import chat.teco.tecochat.chat.fixture.MockGptClient;
-import chat.teco.tecochat.chat.presentation.chat.request.AskRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.CreateChatRequest;
-import chat.teco.tecochat.chat.presentation.chat.request.UpdateChatTitleRequest;
-import chat.teco.tecochat.chat.presentation.chat.response.AskResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CopyChatResponse;
-import chat.teco.tecochat.chat.presentation.chat.response.CreateChatResponse;
+import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
@@ -28,87 +19,6 @@ import java.util.Map;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class ChatSteps {
-
-    public static void GPT_의_응답을_지정한다(
-            MockGptClient gptClient,
-            String 질문,
-            String 답변,
-            String... 질문_키워드들
-    ) {
-        if (질문_키워드들.length == 0) {
-            gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
-            return;
-        }
-        String 키워드들 = String.join("||", 질문_키워드들);
-        gptClient.addQnA(질문, new QuestionAndAnswer(question(질문), answer(답변), 10));
-        gptClient.addQnA(KEYWORD, new QuestionAndAnswer(question(KEYWORD), answer(키워드들), 10));
-    }
-
-    public static ExtractableResponse<Response> 첫_채팅_요청(
-            MockGptClient gptClient,
-            String 크루명,
-            String 질문,
-            String 답변,
-            String... 질문_키워드들
-    ) {
-        GPT_의_응답을_지정한다(gptClient, 질문, 답변, 질문_키워드들);
-        return given(크루명)
-                .body(new CreateChatRequest(질문))
-                .when()
-                .post("/chats")
-                .then()
-                .log().all()
-                .extract();
-    }
-
-    public static Long 첫_채팅_요청후_ID_반환(
-            MockGptClient gptClient,
-            String 크루명,
-            String 질문,
-            String 답변,
-            String... 질문_키워드들
-    ) {
-        var 응답 = 첫_채팅_요청(gptClient, 크루명, 질문, 답변, 질문_키워드들);
-        return 채팅_ID_반환(응답);
-    }
-
-    public static Long 채팅_ID_반환(ExtractableResponse<Response> 응답) {
-        CreateChatResponse createChatResponse = 응답.as(CreateChatResponse.class);
-        return createChatResponse.chatId();
-    }
-
-    public static void 첫_채팅의_응답을_확인한다(
-            ExtractableResponse<Response> 응답,
-            String 예상_답변
-    ) {
-        CreateChatResponse createChatResponse = 응답.as(CreateChatResponse.class);
-        assertThat(createChatResponse.content()).isEqualTo(예상_답변);
-    }
-
-    public static ExtractableResponse<Response> 채팅_이어하기_요청(
-            MockGptClient gptClient,
-            String 이름,
-            String 질문,
-            String 답변,
-            Long 채팅_ID
-    ) {
-        GPT_의_응답을_지정한다(gptClient, 질문, 답변);
-        return given(이름)
-                .body(new AskRequest(질문))
-                .when()
-                .post("/chats/{id}", 채팅_ID)
-                .then()
-                .log().all()
-                .extract();
-    }
-
-    public static void 채팅_이어하기의_응답을_확인한다(
-            ExtractableResponse<Response> 응답,
-            String 예상_답변
-    ) {
-        AskResponse askResponse = 응답.as(AskResponse.class);
-        assertThat(askResponse.content()).isEqualTo(예상_답변);
-    }
 
     public static ExtractableResponse<Response> 채팅_제목_수정_요청(
             Long 채팅_ID,

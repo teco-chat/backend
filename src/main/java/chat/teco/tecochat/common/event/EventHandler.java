@@ -4,9 +4,9 @@ public abstract class EventHandler<EVENT extends BaseEvent> {
 
     protected final EventHistoryRepository eventHistoryRepository;
 
-    protected EventHandler(final EventHistoryRepository eventHistoryRepository) {
+    protected EventHandler(EventHistoryRepository eventHistoryRepository) {
         this.eventHistoryRepository = eventHistoryRepository;
     }
 
-    public abstract void handle(final EVENT event);
+    public abstract void handle(EVENT event);
 }

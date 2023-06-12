@@ -10,7 +10,7 @@ public enum GptModel {
     private final String modelName;
     private final int maxTokens;
 
-    GptModel(final String modelName, final int maxTokens) {
+    GptModel(String modelName, int maxTokens) {
         this.modelName = modelName;
         this.maxTokens = maxTokens;
     }

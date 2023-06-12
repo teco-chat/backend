@@ -22,7 +22,7 @@ public class ChatLike extends BaseEntity {
         this.chatId = chatId;
     }
 
-    public ChatLike(final Long memberId, final Long chatId) {
+    public ChatLike(Long memberId, Long chatId) {
         this.memberId = memberId;
         this.chatId = chatId;
     }

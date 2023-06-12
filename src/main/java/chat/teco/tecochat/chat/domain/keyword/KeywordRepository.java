@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface KeywordRepository extends JpaRepository<Keyword, Long> {
 
-    List<Keyword> findAllByChatId(final Long chatId);
+    List<Keyword> findAllByChatId(Long chatId);
 
     @Query("select k from Keyword k where k.chat.id in (:chatIds)")
-    List<Keyword> findAllInChatIds(@Param("chatIds") final List<Long> chatIds);
+    List<Keyword> findAllInChatIds(@Param("chatIds") List<Long> chatIds);
 }

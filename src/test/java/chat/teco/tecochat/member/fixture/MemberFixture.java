@@ -1,9 +1,9 @@
 package chat.teco.tecochat.member.fixture;
 
-import chat.teco.tecochat.member.application.usecase.SignUpUseCase.SignUpCommand;
+import chat.teco.tecochat.member.application.dto.SignUpCommand;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.presentation.controller.request.SignUpRequest;
+import chat.teco.tecochat.member.presentation.request.SignUpRequest;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberFixture {

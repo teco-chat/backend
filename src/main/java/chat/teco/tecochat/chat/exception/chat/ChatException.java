@@ -7,12 +7,12 @@ public class ChatException extends BaseException {
 
     private final ChatExceptionType exceptionType;
 
-    public ChatException(final ChatExceptionType exceptionType) {
+    public ChatException(ChatExceptionType exceptionType) {
         super(exceptionType.errorMessage());
         this.exceptionType = exceptionType;
     }
 
-    public ChatException(final ChatExceptionType exceptionType, final Throwable cause) {
+    public ChatException(ChatExceptionType exceptionType, Throwable cause) {
         super(exceptionType.errorMessage(), cause);
         this.exceptionType = exceptionType;
     }

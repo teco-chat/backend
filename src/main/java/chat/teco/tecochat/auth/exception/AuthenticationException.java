@@ -7,12 +7,12 @@ public class AuthenticationException extends BaseException {
 
     private final AuthenticationExceptionType exceptionType;
 
-    public AuthenticationException(final AuthenticationExceptionType exceptionType) {
+    public AuthenticationException(AuthenticationExceptionType exceptionType) {
         super(exceptionType.errorMessage());
         this.exceptionType = exceptionType;
     }
 
-    public AuthenticationException(final AuthenticationExceptionType exceptionType, final Throwable cause) {
+    public AuthenticationException(AuthenticationExceptionType exceptionType, Throwable cause) {
         super(exceptionType.errorMessage(), cause);
         this.exceptionType = exceptionType;
     }

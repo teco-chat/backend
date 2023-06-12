@@ -1,8 +1,6 @@
 package chat.teco.tecochat.chat.domain.chat;
 
 import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.Chat.FREE_TOKEN;
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
@@ -33,17 +31,14 @@ class ChatTest {
     @Test
     void QnA를_추가할_수_있다() {
         // given
-        final Chat chat = ChatFixture.defaultChat();
+        Chat chat = ChatFixture.defaultChat();
 
         // when
         chat.addQuestionAndAnswer(new QuestionAndAnswer(
-                question("안녕"),
-                answer("응 안녕"),
-                1
-        ));
+                "안녕", "응 안녕"));
 
         // then
-        final QuestionAndAnswer qna = chat.questionAndAnswers().get(0);
+        QuestionAndAnswer qna = chat.questionAndAnswers().get(0);
         assertAll(
                 () -> assertThat(qna.answer())
                         .isEqualTo(answer("응 안녕")),
@@ -53,71 +48,41 @@ class ChatTest {
     }
 
     @Test
-    void 주어진_가용_토큰만큼의_공간_이상을_확보하도록_오래된_순으로_메시지를_제외한_후_세팅_메세지를_포함하여_반환한다() {
+    void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
-        final List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer(
-                        question("Q1"),
-                        answer("A1"),
-                        1500
-                ),
-                new QuestionAndAnswer(
-                        question("Q2"),
-                        answer("A2"),
-                        200
-                ),
-                new QuestionAndAnswer(
-                        question("Q3"),
-                        answer("A3"),
-                        1500
-                ));
-        final Chat chat = ChatFixture.chat(messages);
+        List<QuestionAndAnswer> questionAndAnswers = List.of(
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2"),
+                new QuestionAndAnswer("질문3", "답변3"),
+                new QuestionAndAnswer("질문4", "답변4")
+        );
+        Chat chat = ChatFixture.chat(questionAndAnswers);
 
         // when
-        final List<Message> messageInterfaces = chat.qnaWithFreeToken()
-                .messagesWithSettingMessage(chat.settingMessage());
+        QuestionAndAnswers result = chat.last3QuestionAndAnswers();
 
         // then
-        assertThat(messageInterfaces).extracting(Message::content)
-                .containsExactly(
-                        chat.settingMessage().message(),
-                        "Q2",
-                        "A2",
-                        "Q3",
-                        "A3");
+        assertThat(result.questionAndAnswers())
+                .extracting(QuestionAndAnswer::question)
+                .containsExactly(question("질문2"), question("질문3"), question("질문4"));
     }
 
     @Test
-    void 주어진_가용_토큰만큼의_공간_이상을_확보하도록_오래된_순으로_메시지를_제외한_후_세팅_메세지를_포함하여_반환한다_엣지_케이스() {
+    void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        final List<QuestionAndAnswer> messages = List.of(
-                new QuestionAndAnswer(
-                        question("Q1"),
-                        answer("A1"),
-                        1500
-                ),
-                new QuestionAndAnswer(
-                        question("Q2"),
-                        answer("A2"),
-                        200
-                ),
-                new QuestionAndAnswer(
-                        question("Q3"),
-                        answer("A3"),
-                        GPT_3_5_TURBO.maxTokens() - FREE_TOKEN
-                ));
-        final Chat chat = ChatFixture.chat(messages);
+        List<QuestionAndAnswer> questionAndAnswers = List.of(
+                new QuestionAndAnswer("질문1", "답변1"),
+                new QuestionAndAnswer("질문2", "답변2")
+        );
+        Chat chat = ChatFixture.chat(questionAndAnswers);
 
         // when
-        final List<Message> result = chat.qnaWithFreeToken()
-                .messagesWithSettingMessage(chat.settingMessage());
+        QuestionAndAnswers result = chat.last3QuestionAndAnswers();
 
         // then
-        assertThat(result).extracting(Message::content)
-                .containsExactly(chat.settingMessage().message(),
-                        "Q3",
-                        "A3"
-                );
+        assertThat(result.questionAndAnswers())
+                .extracting(QuestionAndAnswer::question)
+                .containsExactly(question("질문1"), question("질문2"));
     }
 
     @Nested
@@ -161,8 +126,8 @@ class ChatTest {
         @BeforeEach
         void setUp() {
             chat = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
-            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            chat.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
             chat.increaseLike();
             chat.increaseLike();
             chat.increaseComment();
@@ -178,8 +143,8 @@ class ChatTest {
 
             // then
             Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", memberId);
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
 
             assertThat(copy)
                     .usingRecursiveComparison()
@@ -193,8 +158,8 @@ class ChatTest {
 
             // then
             Chat expected = new Chat(GPT_4, BACK_END_SETTING, "제목", 1L);
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1", 10));
-            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2", 20));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문1", "답변1"));
+            expected.addQuestionAndAnswer(new QuestionAndAnswer("질문2", "답변2"));
 
             assertThat(copy)
                     .usingRecursiveComparison()

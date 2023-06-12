@@ -31,7 +31,7 @@ public enum ChatExceptionType implements BaseExceptionType {
     private final HttpStatus httpStatus;
     private final String errorMessage;
 
-    ChatExceptionType(final int errorCode, final HttpStatus httpStatus, final String errorMessage) {
+    ChatExceptionType(int errorCode, HttpStatus httpStatus, String errorMessage) {
         this.errorCode = errorCode;
         this.httpStatus = httpStatus;
         this.errorMessage = errorMessage;

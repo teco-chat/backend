@@ -7,12 +7,12 @@ public class KeywordException extends BaseException {
 
     private final KeywordExceptionType exceptionType;
 
-    public KeywordException(final KeywordExceptionType exceptionType) {
+    public KeywordException(KeywordExceptionType exceptionType) {
         super(exceptionType.errorMessage());
         this.exceptionType = exceptionType;
     }
 
-    public KeywordException(final KeywordExceptionType exceptionType, final Throwable cause) {
+    public KeywordException(KeywordExceptionType exceptionType, Throwable cause) {
         super(exceptionType.errorMessage(), cause);
         this.exceptionType = exceptionType;
     }

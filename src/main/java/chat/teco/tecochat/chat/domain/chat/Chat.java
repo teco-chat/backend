@@ -5,6 +5,7 @@ import static jakarta.persistence.EnumType.STRING;
 
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -14,8 +15,6 @@ import java.util.List;
 
 @Entity
 public class Chat extends BaseEntity {
-
-    public static final int FREE_TOKEN = 2000;
 
     @Enumerated(STRING)
     @Column(nullable = false)
@@ -66,15 +65,21 @@ public class Chat extends BaseEntity {
         this.memberId = memberId;
     }
 
+    public static Chat defaultChat(Member member, String title) {
+        return new Chat(
+                GptModel.GPT_3_5_TURBO,
+                SettingMessage.byCourse(member.course()),
+                title,
+                member.id()
+        );
+    }
+
     public void addQuestionAndAnswer(QuestionAndAnswer questionAndAnswer) {
         this.questionAndAnswers.add(questionAndAnswer);
     }
 
-    /**
-     * [모델의 최대 토큰 - FREE_TOKEN(2000)] 반환
-     */
-    public QuestionAndAnswers qnaWithFreeToken() {
-        return questionAndAnswers.lessOrEqualThan(model.maxTokens() - FREE_TOKEN);
+    public QuestionAndAnswers last3QuestionAndAnswers() {
+        return questionAndAnswers.last3QuestionAndAnswers();
     }
 
     public void decreaseLike() {

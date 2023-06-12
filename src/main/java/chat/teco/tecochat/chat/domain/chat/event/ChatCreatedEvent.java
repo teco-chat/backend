@@ -10,13 +10,15 @@ public class ChatCreatedEvent extends BaseEvent {
     private final Long chatId;
     private final LocalDateTime localDateTime;
 
-    public ChatCreatedEvent(final Long chatId,
-                            final LocalDateTime localDateTime) {
+    public ChatCreatedEvent(
+            Long chatId,
+            LocalDateTime localDateTime
+    ) {
         this.chatId = chatId;
         this.localDateTime = localDateTime;
     }
 
-    public static ChatCreatedEvent from(final Chat chat) {
+    public static ChatCreatedEvent from(Chat chat) {
         return new ChatCreatedEvent(chat.id(), LocalDateTime.now());
     }
 
