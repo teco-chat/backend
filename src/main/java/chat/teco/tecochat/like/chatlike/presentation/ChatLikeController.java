@@ -1,8 +1,8 @@
 package chat.teco.tecochat.like.chatlike.presentation;
 
 import chat.teco.tecochat.auth.Auth;
-import chat.teco.tecochat.like.chatlike.application.usecase.PushChatLikeUseCase;
-import chat.teco.tecochat.like.chatlike.application.usecase.PushChatLikeUseCase.PushChatLikeCommand;
+import chat.teco.tecochat.like.chatlike.application.ChatLikeService;
+import chat.teco.tecochat.like.chatlike.application.dto.PushChatLikeCommand;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chat-likes")
 public class ChatLikeController {
 
-    private final PushChatLikeUseCase pushUseCase;
+    private final ChatLikeService chatLikeService;
 
     @PostMapping
     ResponseEntity<Void> pushLike(
             @Auth Long memberId,
             @RequestBody PushChatLikeRequest request
     ) {
-        pushUseCase.pushLike(new PushChatLikeCommand(memberId, request.chatId()));
+        chatLikeService.pushLike(new PushChatLikeCommand(memberId, request.chatId()));
         return ResponseEntity.ok().build();
     }
 }

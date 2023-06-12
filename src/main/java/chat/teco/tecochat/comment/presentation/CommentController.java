@@ -4,12 +4,10 @@ import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
 import chat.teco.tecochat.auth.Auth;
-import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase;
-import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase.DeleteCommentCommand;
-import chat.teco.tecochat.comment.application.usecase.UpdateCommentUseCase;
-import chat.teco.tecochat.comment.application.usecase.UpdateCommentUseCase.UpdateCommentCommand;
-import chat.teco.tecochat.comment.application.usecase.WriteCommentUseCase;
-import chat.teco.tecochat.comment.application.usecase.WriteCommentUseCase.WriteCommentCommand;
+import chat.teco.tecochat.comment.application.CommentService;
+import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
+import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
+import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
 import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
 import chat.teco.tecochat.comment.presentation.response.CreatedIdResponse;
@@ -30,16 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/comments")
 public class CommentController {
 
-    private final WriteCommentUseCase writeCommentUseCase;
-    private final UpdateCommentUseCase updateCommentUseCase;
-    private final DeleteCommentUseCase deleteCommentUseCase;
+    private final CommentService commentService;
 
     @PostMapping
     ResponseEntity<CreatedIdResponse> write(
             @Auth Long memberId,
             @RequestBody WriteCommentRequest request
     ) {
-        Long id = writeCommentUseCase.write(
+        Long id = commentService.write(
                 new WriteCommentCommand(request.chatId(), memberId, request.content())
         );
         URI uri = UriUtil.buildURI("/{id}", id);
@@ -51,7 +47,7 @@ public class CommentController {
             @PathVariable("id") Long commentId,
             @Auth Long memberId,
             @RequestBody UpdateCommentRequest request) {
-        updateCommentUseCase.update(
+        commentService.update(
                 new UpdateCommentCommand(commentId, memberId, request.content())
         );
         return ok().build();
@@ -62,7 +58,7 @@ public class CommentController {
             @PathVariable("id") Long commentId,
             @Auth Long memberId
     ) {
-        deleteCommentUseCase.delete(
+        commentService.delete(
                 new DeleteCommentCommand(commentId, memberId)
         );
         return ok().build();

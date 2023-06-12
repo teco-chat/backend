@@ -1,8 +1,8 @@
 package chat.teco.tecochat.comment.fixture;
 
-import chat.teco.tecochat.comment.application.usecase.DeleteCommentUseCase.DeleteCommentCommand;
-import chat.teco.tecochat.comment.application.usecase.UpdateCommentUseCase.UpdateCommentCommand;
-import chat.teco.tecochat.comment.application.usecase.WriteCommentUseCase.WriteCommentCommand;
+import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
+import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
+import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.member.domain.Course;

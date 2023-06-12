@@ -8,7 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    boolean existsByName(String name);
+    default Member getById(Long id) {
+        return findById(id)
+                .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+    }
 
     Optional<Member> findByName(String name);
 

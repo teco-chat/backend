@@ -18,6 +18,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private static final String AUTH_HEADER_NAME = "name";
+
     private final Authenticator authenticator;
 
     @Override
@@ -37,7 +39,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private String extractName(WebRequest webRequest) {
-        String name = webRequest.getHeader("name");
+        String name = webRequest.getHeader(AUTH_HEADER_NAME);
         if (name == null) {
             throw new AuthenticationException(NO_NAME_HEADER);
         }
