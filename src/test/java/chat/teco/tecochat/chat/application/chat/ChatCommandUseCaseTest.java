@@ -16,7 +16,6 @@ import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.ApplicationEventPublisher;
@@ -46,8 +45,8 @@ public class ChatCommandUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        given(memberRepository.findById(any()))
-                .willReturn(Optional.of(말랑.회원()));
+        given(memberRepository.getById(any()))
+                .willReturn(말랑.회원());
     }
 
     @AfterEach

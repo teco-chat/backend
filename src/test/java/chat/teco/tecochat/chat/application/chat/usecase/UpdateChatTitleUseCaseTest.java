@@ -15,7 +15,6 @@ import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -34,7 +33,7 @@ class UpdateChatTitleUseCaseTest extends ChatCommandUseCaseTest {
     @Test
     void 채팅의_제목을_수정한다() {
         // given
-        given(chatRepository.findById(chat.id())).willReturn(Optional.of(chat));
+        given(chatRepository.getById(chat.id())).willReturn(chat);
         String 변경할_제목 = "변경제목";
 
         // when
@@ -49,7 +48,7 @@ class UpdateChatTitleUseCaseTest extends ChatCommandUseCaseTest {
     @Test
     void 채팅을_진행한_사람이_아닌경우_수정할_수_없다() {
         // given
-        given(chatRepository.findById(chat.id())).willReturn(Optional.of(chat));
+        given(chatRepository.getById(chat.id())).willReturn(chat);
         String 변경할_제목 = "변경제목";
 
         // when
@@ -66,7 +65,7 @@ class UpdateChatTitleUseCaseTest extends ChatCommandUseCaseTest {
     @Test
     void 채팅의_없으면_오류() {
         // given
-        given(chatRepository.findById(chat.id())).willReturn(Optional.empty());
+        given(chatRepository.getById(chat.id())).willThrow(new ChatException(NOT_FOUND_CHAT));
         String 변경할_제목 = "변경제목";
 
         // when

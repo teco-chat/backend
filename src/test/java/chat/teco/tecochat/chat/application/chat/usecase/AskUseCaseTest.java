@@ -11,7 +11,6 @@ import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskResult;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -28,8 +27,8 @@ class AskUseCaseTest extends ChatCommandUseCaseTest {
     void 이전_채팅_기록에_추가로_질문과_답변을_반환하며_저장한다() {
         // given
         Chat chat = 말랑_채팅.초기_채팅();
-        given(chatRepository.findWithQuestionAndAnswersById(1L))
-                .willReturn(Optional.of(chat));
+        given(chatRepository.getWithQuestionAndAnswersById(1L))
+                .willReturn(chat);
 
         QuestionAndAnswer qna2 = 말랑_채팅.QNA_2;
         GPT_의_응답을_지정한다(qna2);
@@ -50,8 +49,8 @@ class AskUseCaseTest extends ChatCommandUseCaseTest {
         QuestionAndAnswer qna3 = new QuestionAndAnswer("질문3", "답변3");
         QuestionAndAnswer qna4 = new QuestionAndAnswer("질문4", "답변4");
         GPT_의_응답을_지정한다(qna1, qna2, qna3, qna4);
-        given(chatRepository.findWithQuestionAndAnswersById(1L))
-                .willReturn(Optional.of(chat));
+        given(chatRepository.getWithQuestionAndAnswersById(1L))
+                .willReturn(chat);
 
         // when
         askUseCase.ask(1L, new AskCommand(1L, "질문1"));

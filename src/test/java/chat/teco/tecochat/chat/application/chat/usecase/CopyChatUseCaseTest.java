@@ -13,7 +13,6 @@ import chat.teco.tecochat.chat.application.chat.usecase.CopyChatUseCase.CopyComm
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCopiedEvent;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -32,7 +31,7 @@ class CopyChatUseCaseTest extends ChatCommandUseCaseTest {
         Chat chat = 말랑_채팅.초기_채팅();
         chat.addQuestionAndAnswer(말랑_채팅.QNA_1);
         chat.addQuestionAndAnswer(말랑_채팅.QNA_2);
-        given(chatRepository.findById(chat.id())).willReturn(Optional.of(chat));
+        given(chatRepository.getById(chat.id())).willReturn(chat);
 
         Chat copied = new Chat(2L, GPT_4, BACK_END_SETTING, "제목", 100L);
         copied.addQuestionAndAnswer(말랑_채팅.QNA_1);
@@ -53,7 +52,7 @@ class CopyChatUseCaseTest extends ChatCommandUseCaseTest {
         Chat chat = 말랑_채팅.초기_채팅();
         chat.addQuestionAndAnswer(말랑_채팅.QNA_1);
         chat.addQuestionAndAnswer(말랑_채팅.QNA_2);
-        given(chatRepository.findById(chat.id())).willReturn(Optional.of(chat));
+        given(chatRepository.getById(chat.id())).willReturn(chat);
 
         Chat copied = new Chat(2L, GPT_4, BACK_END_SETTING, "제목", 100L);
         copied.addQuestionAndAnswer(말랑_채팅.QNA_1);

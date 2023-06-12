@@ -20,9 +20,7 @@ import static chat.teco.tecochat.comment.fixture.CommentFixture.댓글_검색의
 import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.reset;
 
-import chat.teco.tecochat.chat.domain.chat.GptClient;
 import chat.teco.tecochat.chat.fixture.MockGptClient;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 

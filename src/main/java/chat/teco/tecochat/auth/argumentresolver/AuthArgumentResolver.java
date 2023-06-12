@@ -1,7 +1,6 @@
 package chat.teco.tecochat.auth.argumentresolver;
 
 import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_NAME_HEADER;
-import static chat.teco.tecochat.auth.exception.AuthenticationExceptionType.NO_REGISTERED_MEMBER;
 
 import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.auth.exception.AuthenticationException;
@@ -37,8 +36,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
             WebDataBinderFactory binderFactory
     ) {
         String name = decodeName(webRequest);
-        Member member = memberRepository.findByName(name)
-                .orElseThrow(() -> new AuthenticationException(NO_REGISTERED_MEMBER));
+        Member member = memberRepository.getByName(name);
         return member.id();
     }
 
