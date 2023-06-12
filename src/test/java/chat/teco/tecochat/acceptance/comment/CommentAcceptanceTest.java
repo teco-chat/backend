@@ -1,6 +1,5 @@
 package chat.teco.tecochat.acceptance.comment;
 
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅_요청후_ID_반환;
 import static chat.teco.tecochat.acceptance.comment.CommentSteps.댓글_수정_요청;
 import static chat.teco.tecochat.acceptance.comment.CommentSteps.댓글_작성_요청;
 import static chat.teco.tecochat.acceptance.comment.CommentSteps.댓글_작성후_댓글_ID_반환;
@@ -21,48 +20,22 @@ import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.fixture.MockGptClient;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import chat.teco.tecochat.acceptance.common.AcceptanceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.jdbc.Sql;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("CommentController 인수 테스트")
-@Sql("/sql/h2ChatTruncate.sql")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CommentAcceptanceTest {
-
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private MockGptClient gptClient;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void tearDown() {
-        gptClient.clear();
-    }
+public class CommentAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 댓글을_단다() {
         // when
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         var 응답 = 댓글_작성_요청("말랑", 채팅_ID, "댓글 내용입니다.");
 
         // then
@@ -85,7 +58,7 @@ public class CommentAcceptanceTest {
     void 댓글을_이어서_단다() {
         // given
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         댓글_작성_요청("말랑", 채팅_ID, "1 댓글 내용입니다.");
         var 응답 = 댓글_작성_요청("말랑", 채팅_ID, "2 댓글 내용입니다.");
 
@@ -99,7 +72,7 @@ public class CommentAcceptanceTest {
     void 댓글을_수정한다() {
         // given
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         Long 댓글_ID = 댓글_작성후_댓글_ID_반환("말랑", 채팅_ID, "댓글 내용입니다.");
 
         // when
@@ -118,7 +91,7 @@ public class CommentAcceptanceTest {
     void 댓글을_제거한다() {
         // given
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         Long 댓글_ID = 댓글_작성후_댓글_ID_반환("말랑", 채팅_ID, "댓글 내용입니다.");
 
         // when
@@ -135,7 +108,7 @@ public class CommentAcceptanceTest {
         // given
         회원_가입_요청("허브", FRONTEND);
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         Long 댓글_ID = 댓글_작성후_댓글_ID_반환("말랑", 채팅_ID, "댓글 내용입니다.");
 
         // when
@@ -155,7 +128,7 @@ public class CommentAcceptanceTest {
         // given
         회원_가입_요청("허브", FRONTEND);
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "질문1", "답변1");
+        Long 채팅_ID = 채팅_생성("말랑", "질문1", "답변1");
         Long 댓글1_ID = 댓글_작성후_댓글_ID_반환("말랑", 채팅_ID, "댓글 내용입니다.");
         Long 댓글2_ID = 댓글_작성후_댓글_ID_반환("말랑", 채팅_ID, "나는 말랑");
         Long 댓글3_ID = 댓글_작성후_댓글_ID_반환("허브", 채팅_ID, "나는 허브");

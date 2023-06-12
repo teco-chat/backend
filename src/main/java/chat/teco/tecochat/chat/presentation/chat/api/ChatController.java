@@ -3,22 +3,12 @@ package chat.teco.tecochat.chat.presentation.chat.api;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import chat.teco.tecochat.auth.Auth;
-import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase;
-import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskCommand;
-import chat.teco.tecochat.chat.application.chat.usecase.AskUseCase.AskResult;
 import chat.teco.tecochat.chat.application.chat.usecase.CopyChatUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.CopyChatUseCase.CopyCommand;
-import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase;
-import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatCommand;
-import chat.teco.tecochat.chat.application.chat.usecase.CreateChatUseCase.CreateChatResult;
 import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase;
 import chat.teco.tecochat.chat.application.chat.usecase.UpdateChatTitleUseCase.UpdateChatTitleCommand;
-import chat.teco.tecochat.chat.presentation.chat.api.request.AskRequest;
-import chat.teco.tecochat.chat.presentation.chat.api.request.CreateChatRequest;
 import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
-import chat.teco.tecochat.chat.presentation.chat.api.response.AskResponse;
 import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
-import chat.teco.tecochat.chat.presentation.chat.api.response.CreateChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,33 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChatController {
 
-    private final CreateChatUseCase createChatUseCase;
-    private final AskUseCase askUseCase;
     private final UpdateChatTitleUseCase updateChatTitleUseCase;
     private final CopyChatUseCase copyChatUseCase;
-
-    @PostMapping
-    ResponseEntity<CreateChatResponse> createChat(
-            @Auth Long memberId,
-            @RequestBody CreateChatRequest request
-    ) {
-        CreateChatResult answer = createChatUseCase.createChat(
-                new CreateChatCommand(memberId, request.message())
-        );
-        return ResponseEntity.status(CREATED.value())
-                .body(new CreateChatResponse(answer.chatId(), answer.answer()));
-    }
-
-    @PostMapping("/{id}")
-    ResponseEntity<AskResponse> ask(
-            @PathVariable("id") Long chatId,
-            @Auth Long memberId,
-            @RequestBody AskRequest request
-    ) {
-        AskResult result = askUseCase.ask(chatId, new AskCommand(memberId, request.message()));
-        return ResponseEntity.status(CREATED.value())
-                .body(new AskResponse(chatId, result.answer()));
-    }
 
     @PatchMapping("/{id}")
     ResponseEntity<Void> updateTitle(

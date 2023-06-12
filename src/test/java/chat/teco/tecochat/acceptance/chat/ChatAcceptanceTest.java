@@ -12,17 +12,11 @@ import static chat.teco.tecochat.acceptance.chat.ChatSteps.이름_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.제목_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.좋아요_기간_조겅;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_복제_요청;
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_이어하기_요청;
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_이어하기의_응답을_확인한다;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_제목_수정_요청;
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅_요청;
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅_요청후_ID_반환;
-import static chat.teco.tecochat.acceptance.chat.ChatSteps.첫_채팅의_응답을_확인한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.권한_없음;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.발생한_예외를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비어있음;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
-import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_생성;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.좋아요_요청;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
@@ -38,75 +32,22 @@ import static chat.teco.tecochat.member.domain.Course.ANDROID;
 import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 
-import chat.teco.tecochat.chat.fixture.MockGptClient;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import chat.teco.tecochat.acceptance.common.AcceptanceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.jdbc.Sql;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("ChatController 인수 테스트")
-@Sql("/sql/h2ChatTruncate.sql")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ChatAcceptanceTest {
-
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private MockGptClient gptClient;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void tearDown() {
-        gptClient.clear();
-    }
-
-    @Test
-    void 첫_질문을_한다() {
-        // given
-        회원_가입_요청("말랑", BACKEND);
-
-        // when
-        var 응답 = 첫_채팅_요청(gptClient, "말랑", "안녕?", "응 안녕", "인사", "안녕", "키워드");
-
-        // then
-        요청_결과의_상태를_검증한다(응답, 정상_생성);
-        첫_채팅의_응답을_확인한다(응답, "응 안녕");
-    }
-
-    @Test
-    void 질문을_이어서_한다() {
-        // given
-        회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?");
-
-        // when
-        var 응답 = 채팅_이어하기_요청(gptClient, "말랑", "안녕? 2", "응 안녕 2", 채팅_ID);
-
-        // then
-        요청_결과의_상태를_검증한다(응답, 정상_생성);
-        채팅_이어하기의_응답을_확인한다(응답, "응 안녕 2");
-    }
+public class ChatAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 채팅_제목을_수정한다() {
         // given
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?");
+        Long 채팅_ID = 채팅_생성("말랑", "안녕?", "응 안녕?");
 
         // when
         var 응답 = 채팅_제목_수정_요청(채팅_ID, "말랑", "변경할 제목");
@@ -130,7 +71,7 @@ public class ChatAcceptanceTest {
         // given
         회원_가입_요청("허브", BACKEND);
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?");
+        Long 채팅_ID = 채팅_생성("말랑", "안녕?", "응 안녕?");
 
         // when
         var 응답 = 채팅_제목_수정_요청(채팅_ID, "허브", "변경할 제목");
@@ -155,14 +96,14 @@ public class ChatAcceptanceTest {
         // given
         회원_가입_요청("말랑", BACKEND);
         회원_가입_요청("허브", FRONTEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?", "인사", "반가움", "안녕");
-        채팅_이어하기_요청(gptClient, "말랑", "말랑이 첫 질문", "답변이야!", 채팅_ID);
+        Long 채팅_ID = 채팅_생성("말랑", "안녕?", "응 안녕?", "인사", "반가움", "안녕");
+        채팅_이어하기("말랑이 첫 질문", "답변이야!", 채팅_ID);
         좋아요_요청("말랑", 채팅_ID);
 
         // when
         var 응답 = 채팅_복제_요청("허브", 채팅_ID);
         Long 복제된_채팅_ID = 복제된_채팅_ID_반환(응답);
-        채팅_이어하기_요청(gptClient, "허브", "허브 이어하기 질문", "이어하기 답변", 복제된_채팅_ID);
+        채팅_이어하기("허브 이어하기 질문", "이어하기 답변", 복제된_채팅_ID);
 
         // then
         var 원본_채팅_조회의_예상_결과 = 단일_채팅_조회의_예상_결과(
@@ -194,7 +135,7 @@ public class ChatAcceptanceTest {
     void 채팅_기록을_조회한다() {
         // given
         회원_가입_요청("말랑", BACKEND);
-        Long 채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕?", "응 안녕?", "인사", "반가움", "안녕");
+        Long 채팅_ID = 채팅_생성("말랑", "안녕?", "응 안녕?", "인사", "반가움", "안녕");
 
         // when
         var 응답 = 단일_채팅_조회_요청(채팅_ID, "말랑");
@@ -220,9 +161,9 @@ public class ChatAcceptanceTest {
         회원_가입_요청("프론트 말랑", FRONTEND);
         회원_가입_요청("프론트2 말랑", FRONTEND);
 
-        첫_채팅_요청(gptClient, "안드로이드 말랑", "안녕1?", "응 안녕1");
-        첫_채팅_요청(gptClient, "프론트 말랑", "안녕2?", "응 안녕2");
-        첫_채팅_요청(gptClient, "프론트2 말랑", "안녕3?", "응 안녕3");
+        채팅_생성("안드로이드 말랑", "안녕1?", "응 안녕1");
+        채팅_생성("프론트 말랑", "안녕2?", "응 안녕2");
+        채팅_생성("프론트2 말랑", "안녕3?", "응 안녕3");
 
         // when & then
         var 요청_파라미터들 = 요청_파라미터들();
@@ -261,7 +202,7 @@ public class ChatAcceptanceTest {
         // given
         회원_가입_요청("안드로이드 말랑", ANDROID);
 
-        첫_채팅_요청(gptClient, "안드로이드 말랑", "안녕?", "응 안녕", "안드로이드", "인사", "안부");
+        채팅_생성("안드로이드 말랑", "안녕?", "응 안녕", "안드로이드", "인사", "안부");
 
         // when & then
         var 요청_파라미터들 = 요청_파라미터들();
@@ -291,7 +232,7 @@ public class ChatAcceptanceTest {
         // given
         회원_가입_요청("안드로이드 허브", ANDROID);
 
-        첫_채팅_요청(gptClient, "안드로이드 허브", "안녕?", "응 안녕");
+        채팅_생성("안드로이드 허브", "안녕?", "응 안녕");
 
         // when & then
         var 요청_파라미터들 = 요청_파라미터들();
@@ -308,10 +249,10 @@ public class ChatAcceptanceTest {
         회원_가입_요청("말랑", BACKEND);
         회원_가입_요청("허브", ANDROID);
 
-        첫_채팅_요청(gptClient, "말랑", "안녕?", "응 안녕");
-        Long 말랑채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "말랑", "안녕? - 좋아요", "응 안녕");
-        Long 허브채팅_ID = 첫_채팅_요청후_ID_반환(gptClient, "허브", "안녕? - 좋아요", "응 안녕");
-        첫_채팅_요청(gptClient, "허브", "안녕?", "응 안녕");
+        채팅_생성("말랑", "안녕?", "응 안녕");
+        Long 말랑채팅_ID = 채팅_생성("말랑", "안녕? - 좋아요", "응 안녕");
+        Long 허브채팅_ID = 채팅_생성("허브", "안녕? - 좋아요", "응 안녕");
+        채팅_생성("허브", "안녕?", "응 안녕");
 
         좋아요_요청("말랑", 말랑채팅_ID);
         좋아요_요청("허브", 말랑채팅_ID);
