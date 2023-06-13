@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.presentation.chat.socket;
 
+import static chat.teco.tecochat.auth.presentation.socket.WebSocketAuthHandShakeInterceptor.AUTH_SESSION_NAME;
 import static java.util.Objects.requireNonNull;
 
-import chat.teco.tecochat.auth.presentation.socket.SocketAuthenticator;
 import chat.teco.tecochat.chat.application.chat.ChatStreamService;
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext;
 import chat.teco.tecochat.member.domain.Member;
@@ -26,11 +26,9 @@ public class ChatSocketHandler extends TextWebSocketHandler {
     private final ChatStreamService chatStreamService;
     private final Map<String, ChatSocketContext> socketContextMap = new HashMap<>();
 
-    private final SocketAuthenticator socketAuthenticator;
-
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        Member member = socketAuthenticator.authenticate(session);
+        Member member = (Member) session.getAttributes().get(AUTH_SESSION_NAME);
         socketContextMap.put(session.getId(), new ChatSocketContext(session, member, parseChatId(session)));
     }
 
