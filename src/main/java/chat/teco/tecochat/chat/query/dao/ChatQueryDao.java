@@ -37,7 +37,9 @@ public class ChatQueryDao {
     public Page<Chat> search(ChatSearchCond cond, Pageable pageable) {
         List<Long> longs = nameAndCourseMatchMemberIds(cond);
         List<Chat> contents = query.selectFrom(chat)
-                .leftJoin(chatLike).on(chatLike.chatId.eq(chat.id))
+                .leftJoin(chatLike)
+                .on(chatLike.chatId.eq(chat.id))
+                .distinct()
                 .where(
                         likeCondition(cond.likeCond()),
                         titleLikeIgnoreCase(cond.title),
