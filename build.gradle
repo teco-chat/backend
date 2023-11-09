@@ -8,11 +8,13 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm' version "1.9.20"
 }
 
 archivesBaseName = "tecochat"
 group = 'chat.teco'
-sourceCompatibility = '17'
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -42,6 +44,8 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20'
 
     // QueryDSL 설정
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
