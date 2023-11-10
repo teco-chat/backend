@@ -3,7 +3,6 @@ package chat.teco.tecochat.comment.presentation;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
-import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.comment.application.CommentService;
 import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
 import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
@@ -12,6 +11,7 @@ import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
 import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
 import chat.teco.tecochat.comment.presentation.response.CreatedIdResponse;
 import chat.teco.tecochat.common.util.UriUtil;
+import chat.teco.tecochat.security.Auth;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

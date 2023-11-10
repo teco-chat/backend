@@ -1,12 +1,13 @@
 package chat.teco.tecochat.auth.domain
 
 import chat.teco.tecochat.createMember
+import chat.teco.tecochat.domain.Authenticator
 import chat.teco.tecochat.member.domain.MemberRepository
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.assertThrows
 import java.util.*
 
 class AuthenticatorTest : StringSpec({
@@ -26,7 +27,7 @@ class AuthenticatorTest : StringSpec({
     "닉네임에 해당하는 회원이 존재하지 않는다면 예외를 던진다" {
         every { memberRepository.findByName(any()) } returns Optional.empty()
 
-        assertThrows<IllegalArgumentException> {
+        shouldThrow<IllegalArgumentException> {
             authenticator.authenticateWithBase64("mallang")
         }
     }
