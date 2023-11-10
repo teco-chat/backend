@@ -1,9 +1,9 @@
 package chat.teco.tecochat.like.chatlike.presentation;
 
-import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.like.chatlike.application.ChatLikeService;
 import chat.teco.tecochat.like.chatlike.application.dto.PushChatLikeCommand;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
+import chat.teco.tecochat.security.Auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

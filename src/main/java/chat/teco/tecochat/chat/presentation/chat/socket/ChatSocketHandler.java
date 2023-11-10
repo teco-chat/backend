@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.presentation.chat.socket;
 
-import static chat.teco.tecochat.auth.presentation.socket.WebSocketAuthHandShakeInterceptor.AUTH_SESSION_NAME;
 import static java.util.Objects.requireNonNull;
 
 import chat.teco.tecochat.chat.application.chat.ChatStreamService;
@@ -22,6 +21,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class ChatSocketHandler extends TextWebSocketHandler {
 
     private static final String DEFAULT_CHAT_SOCKET_URI = "/stream/chats";
+    private static final String AUTH_SESSION_NAME = "auth";
 
     private final ChatStreamService chatStreamService;
     private final Map<String, ChatSocketContext> socketContextMap = new HashMap<>();

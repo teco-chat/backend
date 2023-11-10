@@ -2,12 +2,12 @@ package chat.teco.tecochat.chat.presentation.chat.api;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-import chat.teco.tecochat.auth.Auth;
 import chat.teco.tecochat.chat.application.chat.ChatService;
 import chat.teco.tecochat.chat.application.chat.dto.CopyCommand;
 import chat.teco.tecochat.chat.application.chat.dto.UpdateChatTitleCommand;
 import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
+import chat.teco.tecochat.security.Auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
