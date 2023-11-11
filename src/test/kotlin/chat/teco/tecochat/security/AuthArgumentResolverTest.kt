@@ -1,6 +1,6 @@
 package chat.teco.tecochat.security
 
-import chat.teco.tecochat.domain.Authenticator
+import chat.teco.tecochat.domain.auth.Authenticator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.every

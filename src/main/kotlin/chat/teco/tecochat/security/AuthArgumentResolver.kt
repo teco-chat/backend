@@ -1,6 +1,6 @@
 package chat.teco.tecochat.security
 
-import chat.teco.tecochat.domain.Authenticator
+import chat.teco.tecochat.domain.auth.Authenticator
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -30,4 +30,3 @@ class AuthArgumentResolver(
         return authenticator.authenticateWithBase64(name).id()
     }
 }
-

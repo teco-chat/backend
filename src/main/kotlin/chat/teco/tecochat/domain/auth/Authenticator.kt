@@ -1,4 +1,4 @@
-package chat.teco.tecochat.domain
+package chat.teco.tecochat.domain.auth
 
 import chat.teco.tecochat.common.util.Base64Util
 import chat.teco.tecochat.member.domain.Member
