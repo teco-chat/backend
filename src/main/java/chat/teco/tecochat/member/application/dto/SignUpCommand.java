@@ -7,7 +7,7 @@ public record SignUpCommand(
         String name,
         Course course
 ) {
-    public Member toDomain() {
+    public Member toMember() {
         return new Member(name, course);
     }
 }

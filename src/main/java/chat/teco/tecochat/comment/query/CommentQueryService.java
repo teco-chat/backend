@@ -5,8 +5,8 @@ import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.domain.CommentRepository;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

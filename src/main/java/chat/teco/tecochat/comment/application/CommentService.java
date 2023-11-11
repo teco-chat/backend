@@ -9,7 +9,7 @@ import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
 import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.domain.CommentRepository;
-import chat.teco.tecochat.member.domain.MemberRepository;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

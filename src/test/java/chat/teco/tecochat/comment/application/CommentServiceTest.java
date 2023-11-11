@@ -27,8 +27,8 @@ import chat.teco.tecochat.comment.domain.CommentRepository;
 import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.comment.fixture.CommentFixture.말랑이_댓글;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
 import chat.teco.tecochat.member.exception.MemberException;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
@@ -54,7 +54,7 @@ class CommentServiceTest {
 
     @Nested
     class 댓글_작성_시 {
-        
+
         @Test
         void 댓글을_작성한다() {
             // given
