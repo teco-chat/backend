@@ -34,8 +34,8 @@ public class ChatQueryUseCaseTest {
     );
 
     protected void 회원을_저장한다(Member member) {
-        given(memberRepository.findById(member.id()))
-                .willReturn(Optional.of(member));
+        given(memberRepository.getById(member.id()))
+                .willReturn(member);
     }
 
     protected void 채팅을_저장한다(Chat chat) {
