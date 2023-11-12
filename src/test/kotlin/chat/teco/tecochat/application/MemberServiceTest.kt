@@ -1,9 +1,9 @@
 package chat.teco.tecochat.application
 
+import chat.teco.tecochat.createMember
+import chat.teco.tecochat.createSignUpRequest
 import chat.teco.tecochat.domain.member.MemberRepository
 import chat.teco.tecochat.member.domain.Course
-import createMember
-import createMemberData
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -17,7 +17,7 @@ class MemberServiceTest : BehaviorSpec({
     val memberService = MemberService(memberRepository)
 
     Given("이미 닉네임에 해당하는 회원이 존재하는 경우") {
-        val signUpCommand = createMemberData(Course.ANDROID, "mallang")
+        val signUpCommand = createSignUpRequest(Course.ANDROID, "mallang")
         val member = createMember()
         every { memberRepository.findByName(any()) } returns member
 
@@ -31,7 +31,7 @@ class MemberServiceTest : BehaviorSpec({
     }
 
     Given("닉네임에 해당하는 회원이 존재하지 않는 경우") {
-        val signUpCommand = createMemberData(Course.ANDROID, "mallang")
+        val signUpCommand = createSignUpRequest(Course.ANDROID, "mallang")
         every { memberRepository.findByName(any()) } returns null
         every { memberRepository.save(any()) } returns createMember()
 

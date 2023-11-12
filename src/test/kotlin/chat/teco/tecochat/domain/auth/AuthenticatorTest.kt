@@ -1,7 +1,7 @@
 package chat.teco.tecochat.domain.auth
 
+import chat.teco.tecochat.createMember
 import chat.teco.tecochat.domain.member.MemberRepository
-import createMember
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
