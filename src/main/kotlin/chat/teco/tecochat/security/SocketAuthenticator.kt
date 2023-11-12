@@ -1,6 +1,6 @@
 package chat.teco.tecochat.security
 
-import chat.teco.tecochat.domain.Authenticator
+import chat.teco.tecochat.domain.auth.Authenticator
 import chat.teco.tecochat.member.domain.Member
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServletServerHttpRequest
@@ -24,5 +24,3 @@ class SocketAuthenticator(
         return queryString.replace(AUTH_QUERY_STRING_NAME, "")
     }
 }
-
-

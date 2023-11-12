@@ -10,9 +10,9 @@ import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.chat.query.ChatQueryService;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
 import java.util.Arrays;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -34,8 +34,8 @@ public class ChatQueryUseCaseTest {
     );
 
     protected void 회원을_저장한다(Member member) {
-        given(memberRepository.findById(member.id()))
-                .willReturn(Optional.of(member));
+        given(memberRepository.getById(member.id()))
+                .willReturn(member);
     }
 
     protected void 채팅을_저장한다(Chat chat) {

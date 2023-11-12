@@ -1,13 +1,9 @@
 package chat.teco.tecochat.comment.query;
 
-import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
-
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.domain.CommentRepository;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase;
-import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
-import chat.teco.tecochat.member.exception.MemberException;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,12 +32,7 @@ public class CommentQueryService implements QueryAllCommentByChatIdUseCase {
 
     private List<CommentQueryDto> mapToCommentQueryDtos(List<Comment> comments) {
         return comments.stream()
-                .map(comment -> CommentQueryDto.of(comment, findMemberById(comment.memberId())))
+                .map(comment -> CommentQueryDto.of(comment, memberRepository.getById(comment.memberId())))
                 .toList();
-    }
-
-    private Member findMemberById(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 }

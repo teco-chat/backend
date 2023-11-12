@@ -4,7 +4,6 @@ import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NOT_FOUND_COMMENT;
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
 import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
-import static chat.teco.tecochat.member.exception.MemberExceptionType.NOT_FOUND_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,11 +26,11 @@ import chat.teco.tecochat.comment.domain.CommentRepository;
 import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.comment.fixture.CommentFixture.말랑이_댓글;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
-import chat.teco.tecochat.member.exception.MemberException;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -54,7 +53,7 @@ class CommentServiceTest {
 
     @Nested
     class 댓글_작성_시 {
-        
+
         @Test
         void 댓글을_작성한다() {
             // given
@@ -80,10 +79,9 @@ class CommentServiceTest {
             WriteCommentCommand command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
 
             // when & then
-            BaseExceptionType exceptionType = assertThrows(MemberException.class, () ->
+            assertThrows(NoSuchElementException.class, () ->
                     commentService.write(command)
-            ).exceptionType();
-            assertThat(exceptionType).isEqualTo(NOT_FOUND_MEMBER);
+            );
         }
 
         @Test
@@ -212,7 +210,7 @@ class CommentServiceTest {
     }
 
     private void 회원이_저장되지_않았다(Member 회원) {
-        given(memberRepository.findById(회원.id())).willReturn(Optional.empty());
+        given(chatRepository.getById(회원.id())).willThrow(new NoSuchElementException());
     }
 
     private void 채팅을_저장한다(Chat 채팅) {

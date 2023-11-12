@@ -1,5 +1,6 @@
 package chat.teco.tecochat
 
+import chat.teco.tecochat.application.SignUpRequest
 import chat.teco.tecochat.member.domain.Course
 import chat.teco.tecochat.member.domain.Member
 
@@ -12,4 +13,11 @@ fun createMember(
     id: Long = 0L
 ): Member {
     return Member(id, name, course)
+}
+
+fun createSignUpRequest(
+    course: Course = COURSE,
+    name: String = NAME,
+): SignUpRequest {
+    return SignUpRequest(name, course)
 }

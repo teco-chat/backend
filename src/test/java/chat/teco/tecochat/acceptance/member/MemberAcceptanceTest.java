@@ -7,8 +7,8 @@ import static chat.teco.tecochat.member.domain.Course.BACKEND;
 import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
-import chat.teco.tecochat.member.domain.MemberRepository;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

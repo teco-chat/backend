@@ -2,8 +2,8 @@ package chat.teco.tecochat.acceptance.member;
 
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 
+import chat.teco.tecochat.application.SignUpRequest;
 import chat.teco.tecochat.member.domain.Course;
-import chat.teco.tecochat.member.presentation.request.SignUpRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
