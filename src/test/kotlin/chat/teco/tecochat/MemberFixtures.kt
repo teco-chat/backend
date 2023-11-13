@@ -8,8 +8,8 @@ const val NAME = "mallang"
 val COURSE = Course.BACKEND
 
 fun createMember(
-    course: Course = COURSE,
     name: String = NAME,
+    course: Course = COURSE,
     id: Long = 0L
 ): Member {
     return Member(id, name, course)
