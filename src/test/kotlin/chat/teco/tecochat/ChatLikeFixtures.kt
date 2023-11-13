@@ -1,6 +1,6 @@
 package chat.teco.tecochat
 
-import chat.teco.tecochat.like.chatlike.application.dto.PushChatLikeCommand
+import chat.teco.tecochat.application.ChatLikeRequest
 import chat.teco.tecochat.like.chatlike.domain.ChatLike
 
 fun createChatLike(
@@ -11,9 +11,8 @@ fun createChatLike(
     return ChatLike(id, memberId, chatId)
 }
 
-fun createChatLikeCommand(
-    memberId: Long = 1L,
+fun createChatLikeRequest(
     chatId: Long = 1L
-): PushChatLikeCommand {
-    return PushChatLikeCommand(memberId, chatId)
+): ChatLikeRequest {
+    return ChatLikeRequest(chatId)
 }

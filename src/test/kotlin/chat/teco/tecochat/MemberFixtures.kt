@@ -4,6 +4,7 @@ import chat.teco.tecochat.application.SignUpRequest
 import chat.teco.tecochat.member.domain.Course
 import chat.teco.tecochat.member.domain.Member
 
+const val MEMBER_ID = 1L
 const val NAME = "mallang"
 val COURSE = Course.BACKEND
 

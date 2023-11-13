@@ -1,9 +1,9 @@
 package chat.teco.tecochat.like.chatlike.fixture;
 
+import chat.teco.tecochat.application.ChatLikeRequest;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
-import chat.teco.tecochat.like.chatlike.application.dto.PushChatLikeCommand;
 import chat.teco.tecochat.like.chatlike.domain.ChatLike;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
@@ -85,8 +85,8 @@ public class LikeFixture {
             return new ChatLike(ID, 회원.id(), 채팅.id());
         }
 
-        public static PushChatLikeCommand 좋아요_클릭_명령어() {
-            return new PushChatLikeCommand(회원.id(), 채팅.id());
+        public static ChatLikeRequest 좋아요_클릭_명령어() {
+            return new ChatLikeRequest(채팅.id());
         }
     }
 
@@ -100,8 +100,8 @@ public class LikeFixture {
             return new ChatLike(ID, 회원.id(), 채팅.id());
         }
 
-        public static PushChatLikeCommand 좋아요_클릭_명령어() {
-            return new PushChatLikeCommand(회원.id(), 채팅.id());
+        public static ChatLikeRequest 좋아요_클릭_명령어() {
+            return new ChatLikeRequest(채팅.id());
         }
     }
 }

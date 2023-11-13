@@ -3,9 +3,9 @@ package chat.teco.tecochat.acceptance.like.chat;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.application.ChatLikeRequest;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
-import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import io.restassured.common.mapper.TypeRef;
@@ -18,7 +18,7 @@ public class ChatLikeSteps {
 
     public static ExtractableResponse<Response> 좋아요_요청(String 이름, Long 채팅_ID) {
         return given(이름)
-                .body(new PushChatLikeRequest(채팅_ID))
+                .body(new ChatLikeRequest(채팅_ID))
                 .when()
                 .post("/chat-likes")
                 .then()
