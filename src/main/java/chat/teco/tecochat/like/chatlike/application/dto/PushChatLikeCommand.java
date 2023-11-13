@@ -6,7 +6,7 @@ public record PushChatLikeCommand(
         Long memberId,
         Long chatId
 ) {
-    public ChatLike toDomain() {
+    public ChatLike toChatLike() {
         return new ChatLike(memberId, chatId);
     }
 }

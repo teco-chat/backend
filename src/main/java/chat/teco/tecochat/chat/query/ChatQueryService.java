@@ -16,8 +16,8 @@ import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
 import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
-import chat.teco.tecochat.like.chatlike.domain.ChatLikeRepository;
 import chat.teco.tecochat.member.domain.Member;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +42,7 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
     public QueryChatByIdResponse findById(Long id, Long requesterMemberId) {
         Chat chat = findChatById(id);
         Member member = memberRepository.getById(chat.memberId());
-        boolean isAlreadyClickLike = chatLikeRepository
-                .findByMemberIdAndChatId(requesterMemberId, id)
-                .isPresent();
+        boolean isAlreadyClickLike = chatLikeRepository.findByMemberIdAndChatId(requesterMemberId, id) != null;
         List<Keyword> keywords = keywordRepository.findAllByChatId(id);
         return mapToQueryResponse(chat, member, isAlreadyClickLike, keywords);
     }

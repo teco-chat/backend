@@ -1,6 +1,6 @@
 package chat.teco.tecochat.like.chatlike.presentation;
 
-import chat.teco.tecochat.like.chatlike.application.ChatLikeService;
+import chat.teco.tecochat.application.ChatLikeService;
 import chat.teco.tecochat.like.chatlike.application.dto.PushChatLikeCommand;
 import chat.teco.tecochat.like.chatlike.presentation.request.PushChatLikeRequest;
 import chat.teco.tecochat.security.Auth;
