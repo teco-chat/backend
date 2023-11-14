@@ -1,8 +1,7 @@
 package chat.teco.tecochat.comment.fixture;
 
-import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
-import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
-import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
+import chat.teco.tecochat.application.UpdateCommentRequest;
+import chat.teco.tecochat.application.WriteCommentRequest;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.member.domain.Course;
@@ -38,16 +37,12 @@ public class CommentFixture {
         public static final String 내용 = "안녕 난 말랑이야";
         public static final String 수정할_내용 = "안녕 난 말랑이에서 수정됨";
 
-        public static WriteCommentCommand 댓글_생성_명령어(Long 채팅_ID) {
-            return new WriteCommentCommand(채팅_ID, 말랑.ID, 내용);
+        public static WriteCommentRequest 댓글_생성_명령어(Long 채팅_ID) {
+            return new WriteCommentRequest(채팅_ID, 내용);
         }
 
-        public static UpdateCommentCommand 댓글_수정_명령어() {
-            return new UpdateCommentCommand(ID, 말랑.ID, 수정할_내용);
-        }
-
-        public static DeleteCommentCommand 댓글_제거_명령어() {
-            return new DeleteCommentCommand(ID, 말랑.ID);
+        public static UpdateCommentRequest 댓글_수정_명령어() {
+            return new UpdateCommentRequest(수정할_내용);
         }
 
         public static Comment 댓글(Long 채팅_ID) {
@@ -61,16 +56,12 @@ public class CommentFixture {
         public static final String 내용 = "안녕 난 허브야";
         public static final String 수정할_내용 = "안녕 난 허브에서 수정됨";
 
-        public static WriteCommentCommand 댓글_생성_명령어(Long 채팅_ID) {
-            return new WriteCommentCommand(채팅_ID, MemberFixture.허브.ID, 내용);
+        public static WriteCommentRequest 댓글_생성_명령어(Long 채팅_ID) {
+            return new WriteCommentRequest(채팅_ID, 내용);
         }
 
-        public static UpdateCommentCommand 댓글_수정_명령어() {
-            return new UpdateCommentCommand(ID, MemberFixture.허브.ID, 수정할_내용);
-        }
-
-        public static DeleteCommentCommand 댓글_제거_명령어() {
-            return new DeleteCommentCommand(ID, MemberFixture.허브.ID);
+        public static UpdateCommentRequest 댓글_수정_명령어() {
+            return new UpdateCommentRequest(수정할_내용);
         }
 
         public static Comment 댓글(Long 채팅_ID) {

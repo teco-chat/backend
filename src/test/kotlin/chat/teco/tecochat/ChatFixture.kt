@@ -14,11 +14,15 @@ fun createChat(
     title: String = TITLE,
     memberId: Long = 1L,
     likeCount: Long = 0L,
-    id: Long = 0L
+    commentCount: Long = 0L,
+    id: Long = 0L,
 ): Chat {
     val chat = Chat(id, gptModel, settingMessage, title, memberId)
     for (i in 1..likeCount) {
         chat.increaseLike()
+    }
+    for (i in 1..commentCount) {
+        chat.increaseComment()
     }
     return chat
 }

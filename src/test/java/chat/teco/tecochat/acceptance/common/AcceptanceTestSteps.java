@@ -23,6 +23,7 @@ public class AcceptanceTestSteps {
     public static HttpStatus 비정상_요청 = HttpStatus.BAD_REQUEST;
     public static HttpStatus 권한_없음 = HttpStatus.FORBIDDEN;
     public static HttpStatus 찾을수_없음 = HttpStatus.NOT_FOUND;
+    public static HttpStatus 서버_오류 = HttpStatus.INTERNAL_SERVER_ERROR;
 
     public static void 요청_결과의_상태를_검증한다(ExtractableResponse<Response> 요청_결과, HttpStatus 상태) {
         assertThat(요청_결과.statusCode()).isEqualTo(상태.value());

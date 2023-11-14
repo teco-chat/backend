@@ -3,7 +3,7 @@ package chat.teco.tecochat.domain.member
 import chat.teco.tecochat.member.domain.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
-//migration 완료시 구현
+// TODO
 //fun MemberRepository.getById(id: Long) = findByIdOrNull(id)
 //    ?: throw NoSuchElementException("사용자가 존재하지 않습니다. id: $id")
 //
