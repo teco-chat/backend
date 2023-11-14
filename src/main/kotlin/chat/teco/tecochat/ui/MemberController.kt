@@ -1,7 +1,7 @@
 package chat.teco.tecochat.ui
 
+import chat.teco.tecochat.application.MemberData
 import chat.teco.tecochat.application.MemberService
-import chat.teco.tecochat.application.SignUpRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,8 +14,8 @@ class MemberController(
 ) {
 
     @PostMapping("/members")
-    fun signUp(@RequestBody signUpRequest: SignUpRequest): ResponseEntity<Void> {
-        memberService.signUp(signUpRequest)
+    fun signUp(@RequestBody memberData: MemberData): ResponseEntity<Void> {
+        memberService.signUp(memberData)
         return ResponseEntity.status(HttpStatus.CREATED.value()).build()
     }
 }

@@ -10,8 +10,8 @@ class MemberService(
     private val memberRepository: MemberRepository
 ) {
 
-    fun signUp(signUpRequest: SignUpRequest) {
-        val member = signUpRequest.toMember()
+    fun signUp(memberData: MemberData) {
+        val member = memberData.toMember()
 
         memberRepository.findByName(member.name())?.apply {
             changeCourse(member.course())
