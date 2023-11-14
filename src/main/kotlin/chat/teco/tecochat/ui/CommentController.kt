@@ -3,7 +3,7 @@ package chat.teco.tecochat.ui
 import chat.teco.tecochat.application.CommentService
 import chat.teco.tecochat.application.UpdateCommentRequest
 import chat.teco.tecochat.application.WriteCommentRequest
-import chat.teco.tecochat.comment.presentation.response.CreatedIdResponse
+import chat.teco.tecochat.application.WriteCommentResponse
 import chat.teco.tecochat.common.util.UriUtil
 import chat.teco.tecochat.security.Auth
 import org.springframework.http.ResponseEntity
@@ -25,10 +25,10 @@ class CommentController(
     fun write(
         @Auth memberId: Long,
         @RequestBody request: WriteCommentRequest,
-    ): ResponseEntity<CreatedIdResponse> {
+    ): ResponseEntity<WriteCommentResponse> {
         val id = commentService.write(memberId, request)
         val uri = UriUtil.buildURI("/{id}", id)
-        return ResponseEntity.created(uri).body(CreatedIdResponse(id))
+        return ResponseEntity.created(uri).body(WriteCommentResponse(id))
     }
 
     @PatchMapping("/{id}")

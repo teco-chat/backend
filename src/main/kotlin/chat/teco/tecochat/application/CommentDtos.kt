@@ -15,3 +15,7 @@ data class WriteCommentRequest(
 data class UpdateCommentRequest @JsonCreator constructor(
     val content: String,
 )
+
+data class WriteCommentResponse(
+    val id: Long,
+)
