@@ -13,14 +13,14 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
+import chat.teco.tecochat.application.CommentService;
+import chat.teco.tecochat.application.UpdateCommentRequest;
+import chat.teco.tecochat.application.WriteCommentRequest;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
-import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
-import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
-import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
 import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.comment.fixture.CommentFixture.말랑이_댓글;
@@ -48,7 +48,7 @@ class CommentServiceTest {
     private final CommentRepository commentRepository = mock(CommentRepository.class);
 
     private final CommentService commentService = new CommentService(
-            memberRepository, chatRepository, commentRepository
+            chatRepository, commentRepository
     );
 
     @Nested
@@ -60,12 +60,12 @@ class CommentServiceTest {
             회원을_저장한다(말랑.회원());
             채팅을_저장한다(말랑_채팅.초기_채팅());
             Comment 저장될_댓글 = 말랑이_댓글.댓글(말랑_채팅.ID);
-            WriteCommentCommand command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
+            WriteCommentRequest command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
             given(commentRepository.save(any(Comment.class)))
                     .willReturn(저장될_댓글);
 
             // when
-            Long id = commentService.write(command);
+            Long id = commentService.write(말랑.ID, command);
 
             // then
             then(commentRepository).should(times(1)).save(any());
@@ -76,11 +76,11 @@ class CommentServiceTest {
         void 회원이_없다면_오류() {
             // given
             회원이_저장되지_않았다(말랑.회원());
-            WriteCommentCommand command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
+            WriteCommentRequest command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
 
             // when & then
             assertThrows(NoSuchElementException.class, () ->
-                    commentService.write(command)
+                    commentService.write(말랑.ID, command)
             );
         }
 
@@ -89,11 +89,11 @@ class CommentServiceTest {
             // given
             회원을_저장한다(말랑.회원());
             채팅이_저장되지_않았다(말랑_채팅.초기_채팅());
-            WriteCommentCommand command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
+            WriteCommentRequest command = 말랑이_댓글.댓글_생성_명령어(말랑_채팅.ID);
 
             // when & then
             BaseExceptionType exceptionType = assertThrows(ChatException.class, () ->
-                    commentService.write(command)
+                    commentService.write(말랑.ID, command)
             ).exceptionType();
             assertThat(exceptionType).isEqualTo(NOT_FOUND_CHAT);
         }
@@ -107,10 +107,10 @@ class CommentServiceTest {
             // given
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글을_저장한다(댓글);
-            UpdateCommentCommand command = 말랑이_댓글.댓글_수정_명령어();
+            UpdateCommentRequest request = 말랑이_댓글.댓글_수정_명령어();
 
             // when
-            commentService.update(command);
+            commentService.update(말랑.ID, 댓글.id(), request);
 
             // then
             assertThat(댓글.content()).isEqualTo(말랑이_댓글.수정할_내용);
@@ -121,11 +121,11 @@ class CommentServiceTest {
             // given
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글을_저장한다(댓글);
-            UpdateCommentCommand command = new UpdateCommentCommand(댓글.id(), 허브.ID, "수정");
+            UpdateCommentRequest command = new UpdateCommentRequest("수정");
 
             // when & then
             BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
-                    commentService.update(command)
+                    commentService.update(허브.ID, 댓글.id(), command)
             ).exceptionType();
             assertAll(
                     () -> assertThat(exceptionType).isEqualTo(NO_AUTHORITY_UPDATE_COMMENT),
@@ -136,12 +136,13 @@ class CommentServiceTest {
         @Test
         void 댓글이_없으면_오류() {
             // given
-            댓글이_저장되지_않았다(말랑이_댓글.댓글(허브_채팅.ID));
-            UpdateCommentCommand command = 말랑이_댓글.댓글_수정_명령어();
+            Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
+            댓글이_저장되지_않았다(댓글);
+            UpdateCommentRequest request = 말랑이_댓글.댓글_수정_명령어();
 
             // when & then
             BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
-                    commentService.update(command)
+                    commentService.update(말랑.ID, 댓글.id(), request)
             ).exceptionType();
             assertThat(exceptionType).isEqualTo(NOT_FOUND_COMMENT);
         }
@@ -156,10 +157,9 @@ class CommentServiceTest {
             채팅을_저장한다(허브_채팅.초기_채팅());
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글을_저장한다(댓글);
-            DeleteCommentCommand command = 말랑이_댓글.댓글_제거_명령어();
 
             // when
-            commentService.delete(command);
+            commentService.delete(말랑.ID, 댓글.id());
 
             // then
             then(commentRepository)
@@ -172,11 +172,10 @@ class CommentServiceTest {
             // given
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글을_저장한다(댓글);
-            DeleteCommentCommand command = new DeleteCommentCommand(댓글.id(), 허브.ID);
 
             // when
             BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
-                    commentService.delete(command)
+                    commentService.delete(허브.ID, 댓글.id())
             ).exceptionType();
 
             // then
@@ -189,12 +188,12 @@ class CommentServiceTest {
         @Test
         void 댓글이_없다면_예외() {
             // given
-            댓글이_저장되지_않았다(말랑이_댓글.댓글(허브_채팅.ID));
-            DeleteCommentCommand command = 말랑이_댓글.댓글_제거_명령어();
+            Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
+            댓글이_저장되지_않았다(댓글);
 
             // when
             BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
-                    commentService.delete(command)
+                    commentService.delete(말랑.ID, 댓글.id())
             ).exceptionType();
 
             // then
@@ -222,10 +221,12 @@ class CommentServiceTest {
     }
 
     private void 댓글을_저장한다(Comment 댓글) {
-        given(commentRepository.getById(댓글.id())).willReturn(댓글);
+        long id = 댓글.id();
+        given(commentRepository.getById(id)).willReturn(댓글);
     }
 
     private void 댓글이_저장되지_않았다(Comment 댓글) {
-        given(commentRepository.getById(댓글.id())).willThrow(new CommentException(NOT_FOUND_COMMENT));
+        long id = 댓글.id();
+        given(commentRepository.getById(id)).willThrow(new CommentException(NOT_FOUND_COMMENT));
     }
 }

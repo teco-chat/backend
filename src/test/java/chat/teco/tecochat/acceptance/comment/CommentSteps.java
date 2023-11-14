@@ -3,8 +3,8 @@ package chat.teco.tecochat.acceptance.comment;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.comment.presentation.request.UpdateCommentRequest;
-import chat.teco.tecochat.comment.presentation.request.WriteCommentRequest;
+import chat.teco.tecochat.application.UpdateCommentRequest;
+import chat.teco.tecochat.application.WriteCommentRequest;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
