@@ -1,9 +1,5 @@
 package chat.teco.tecochat.comment.domain;
 
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
-
-import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +32,19 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
+    public void update(Long memberId, String content) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalStateException("댓글을 수정할 수 없습니다.");
+        }
+        this.content = content;
+    }
+
+    public void validateDelete(Long memberId) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalStateException("댓글을 삭제할 수 없습니다.");
+        }
+    }
+
     public Long chatId() {
         return chatId;
     }
@@ -46,19 +55,5 @@ public class Comment extends BaseEntity {
 
     public String content() {
         return content;
-    }
-
-    public void update(Long memberId, String content) {
-        if (!this.memberId.equals(memberId)) {
-            throw new CommentException(NO_AUTHORITY_UPDATE_COMMENT);
-        }
-
-        this.content = content;
-    }
-
-    public void validateDelete(Long memberId) {
-        if (!this.memberId.equals(memberId)) {
-            throw new CommentException(NO_AUTHORITY_DELETE_COMMENT);
-        }
     }
 }

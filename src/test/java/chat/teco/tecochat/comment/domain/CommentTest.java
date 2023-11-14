@@ -1,13 +1,9 @@
 package chat.teco.tecochat.comment.domain;
 
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import chat.teco.tecochat.comment.execption.CommentException;
-import chat.teco.tecochat.common.exception.BaseExceptionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -34,11 +30,9 @@ class CommentTest {
     @Test
     void 작성자가_아닌데_수정하려는_경우_예외() {
         // when & then
-        BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+        assertThrows(IllegalStateException.class, () ->
                 댓글.update(작성자_ID + 1L, "변경")
-        ).exceptionType();
-
-        assertThat(exceptionType).isEqualTo(NO_AUTHORITY_UPDATE_COMMENT);
+        );
     }
 
     @Test
@@ -49,12 +43,9 @@ class CommentTest {
 
     @Test
     void 작성자가_아니면_제거할_수_없다() {
-        // when
-        BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+        // when & then
+        assertThrows(IllegalStateException.class, () ->
                 댓글.validateDelete(작성자_ID + 1)
-        ).exceptionType();
-
-        // then
-        assertThat(exceptionType).isEqualTo(NO_AUTHORITY_DELETE_COMMENT);
+        );
     }
 }

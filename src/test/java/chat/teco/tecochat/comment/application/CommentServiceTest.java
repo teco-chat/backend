@@ -1,11 +1,7 @@
 package chat.teco.tecochat.comment.application;
 
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND_CHAT;
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NOT_FOUND_COMMENT;
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_DELETE_COMMENT;
-import static chat.teco.tecochat.comment.execption.CommentExceptionType.NO_AUTHORITY_UPDATE_COMMENT;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -22,7 +18,6 @@ import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
 import chat.teco.tecochat.comment.domain.Comment;
-import chat.teco.tecochat.comment.execption.CommentException;
 import chat.teco.tecochat.comment.fixture.CommentFixture.말랑이_댓글;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.domain.comment.CommentRepository;
@@ -124,13 +119,10 @@ class CommentServiceTest {
             UpdateCommentRequest command = new UpdateCommentRequest("수정");
 
             // when & then
-            BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+            assertThrows(IllegalStateException.class, () ->
                     commentService.update(허브.ID, 댓글.id(), command)
-            ).exceptionType();
-            assertAll(
-                    () -> assertThat(exceptionType).isEqualTo(NO_AUTHORITY_UPDATE_COMMENT),
-                    () -> assertThat(댓글.content()).isEqualTo(말랑이_댓글.내용)
             );
+            assertThat(댓글.content()).isEqualTo(말랑이_댓글.내용);
         }
 
         @Test
@@ -141,10 +133,9 @@ class CommentServiceTest {
             UpdateCommentRequest request = 말랑이_댓글.댓글_수정_명령어();
 
             // when & then
-            BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+            assertThrows(NoSuchElementException.class, () ->
                     commentService.update(말랑.ID, 댓글.id(), request)
-            ).exceptionType();
-            assertThat(exceptionType).isEqualTo(NOT_FOUND_COMMENT);
+            );
         }
     }
 
@@ -173,13 +164,10 @@ class CommentServiceTest {
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글을_저장한다(댓글);
 
-            // when
-            BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+            // expect
+            assertThrows(IllegalStateException.class, () ->
                     commentService.delete(허브.ID, 댓글.id())
-            ).exceptionType();
-
-            // then
-            assertThat(exceptionType).isEqualTo(NO_AUTHORITY_DELETE_COMMENT);
+            );
             then(commentRepository)
                     .should(times(0))
                     .delete(댓글);
@@ -191,13 +179,10 @@ class CommentServiceTest {
             Comment 댓글 = 말랑이_댓글.댓글(허브_채팅.ID);
             댓글이_저장되지_않았다(댓글);
 
-            // when
-            BaseExceptionType exceptionType = assertThrows(CommentException.class, () ->
+            // expect
+            assertThrows(NoSuchElementException.class, () ->
                     commentService.delete(말랑.ID, 댓글.id())
-            ).exceptionType();
-
-            // then
-            assertThat(exceptionType).isEqualTo(NOT_FOUND_COMMENT);
+            );
             then(commentRepository)
                     .should(times(0))
                     .delete(any());
@@ -227,6 +212,6 @@ class CommentServiceTest {
 
     private void 댓글이_저장되지_않았다(Comment 댓글) {
         long id = 댓글.id();
-        given(commentRepository.getById(id)).willThrow(new CommentException(NOT_FOUND_COMMENT));
+        given(commentRepository.getById(id)).willThrow(new NoSuchElementException("댓글이 존재하지 않습니다."));
     }
 }
