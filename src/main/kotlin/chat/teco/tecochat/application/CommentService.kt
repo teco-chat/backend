@@ -12,9 +12,9 @@ class CommentService(
     private val commentRepository: CommentRepository,
 ) {
 
-    fun write(memberId: Long, command: WriteCommentRequest): Long {
-        val comment = command.toComment(memberId)
-        val chat = chatRepository.getById(command.chatId)
+    fun write(memberId: Long, request: WriteCommentRequest): Long {
+        val comment = request.toComment(memberId)
+        val chat = chatRepository.getById(request.chatId)
         chat.increaseComment()
         return commentRepository.save(comment).id()
     }
