@@ -1,8 +1,8 @@
 package chat.teco.tecochat.comment.query;
 
 import chat.teco.tecochat.comment.domain.Comment;
-import chat.teco.tecochat.comment.domain.CommentRepository;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase;
+import chat.teco.tecochat.domain.comment.CommentRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

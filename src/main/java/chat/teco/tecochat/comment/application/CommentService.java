@@ -6,7 +6,7 @@ import chat.teco.tecochat.comment.application.dto.DeleteCommentCommand;
 import chat.teco.tecochat.comment.application.dto.UpdateCommentCommand;
 import chat.teco.tecochat.comment.application.dto.WriteCommentCommand;
 import chat.teco.tecochat.comment.domain.Comment;
-import chat.teco.tecochat.comment.domain.CommentRepository;
+import chat.teco.tecochat.domain.comment.CommentRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
