@@ -4,7 +4,7 @@ import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
-import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
+import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import io.restassured.RestAssured;
 import java.util.Arrays;
