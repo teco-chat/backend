@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.annotation.JpaRepositoryTest;
+import chat.teco.tecochat.domain.chat.ChatRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

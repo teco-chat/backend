@@ -9,8 +9,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCopiedEvent;
+import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;

@@ -1,9 +1,9 @@
 package chat.teco.tecochat.application
 
 import chat.teco.tecochat.MEMBER_ID
-import chat.teco.tecochat.chat.domain.chat.ChatRepository
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createChatLike
+import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

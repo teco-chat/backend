@@ -7,13 +7,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
@@ -21,6 +21,7 @@ import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
+import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,7 +56,7 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
     @Test
     void 채팅_생성_이벤트를_받아_해당_채팅의_키워드를_추출하여_저장한다() {
         // given
-        given(chatRepository.findWithQuestionAndAnswersById(any()))
+        given(chatRepository.findWithQuestionAndAnswersById(anyLong()))
                 .willReturn(Optional.of(chat));
         given(keywordExtractor.extractKeywords(chat))
                 .willReturn(List.of(
@@ -74,7 +75,7 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
     @Test
     void 키워드_추출시_오류가_발생하면_저장되지_않는다() {
         // given
-        given(chatRepository.findWithQuestionAndAnswersById(any()))
+        given(chatRepository.findWithQuestionAndAnswersById(anyLong()))
                 .willReturn(Optional.of(chat));
         given(keywordExtractor.extractKeywords(chat))
                 .willThrow(new KeywordException(CAN_NOT_EXTRACTED_KEYWORD));

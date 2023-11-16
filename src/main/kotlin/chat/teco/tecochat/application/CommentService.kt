@@ -1,6 +1,6 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.chat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.comment.CommentRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

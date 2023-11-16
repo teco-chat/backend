@@ -1,6 +1,6 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.chat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.like.chatlike.domain.ChatLike
 import org.springframework.stereotype.Service
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ChatLikeService(
     private val chatLikeRepository: ChatLikeRepository,
-    private val chatRepository: ChatRepository
+    private val chatRepository: ChatRepository,
 ) {
 
     fun pushLike(memberId: Long, chatId: Long) {

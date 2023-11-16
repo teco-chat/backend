@@ -7,7 +7,6 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
@@ -15,6 +14,7 @@ import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
 import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;

@@ -3,7 +3,6 @@ package chat.teco.tecochat.chat.application.keyword;
 import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND_CHAT;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
@@ -11,6 +10,7 @@ import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.event.BaseEventHistory;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
+import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
