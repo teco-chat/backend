@@ -2,10 +2,8 @@ package chat.teco.tecochat.chat.presentation.chat.api;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-import chat.teco.tecochat.chat.application.chat.ChatService;
-import chat.teco.tecochat.chat.application.chat.dto.CopyCommand;
-import chat.teco.tecochat.chat.application.chat.dto.UpdateChatTitleCommand;
-import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.application.ChatService;
+import chat.teco.tecochat.application.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
 import chat.teco.tecochat.security.Auth;
 import lombok.RequiredArgsConstructor;
@@ -30,20 +28,16 @@ public class ChatController {
             @Auth Long memberId,
             @RequestBody UpdateChatTitleRequest request
     ) {
-        chatService.updateTitle(
-                new UpdateChatTitleCommand(memberId, chatId, request.title())
-        );
+        chatService.updateTitle(memberId, chatId, request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/copy/{id}")
     ResponseEntity<CopyChatResponse> copy(
-            @PathVariable("id") Long chatId,
-            @Auth Long memberId
+            @Auth Long memberId,
+            @PathVariable("id") Long chatId
     ) {
-        Long copiedId = chatService.copy(
-                new CopyCommand(chatId, memberId)
-        );
+        Long copiedId = chatService.copy(memberId, chatId);
         return ResponseEntity.status(CREATED)
                 .body(new CopyChatResponse(copiedId));
     }

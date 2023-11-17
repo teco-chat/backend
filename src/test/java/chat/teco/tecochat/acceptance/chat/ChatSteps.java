@@ -3,7 +3,7 @@ package chat.teco.tecochat.acceptance.chat;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
+import chat.teco.tecochat.application.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
