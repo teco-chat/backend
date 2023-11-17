@@ -2,8 +2,6 @@ package chat.teco.tecochat.chat.domain.keyword;
 
 import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.GPT_API_ERROR;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,8 +14,6 @@ import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.ChoiceResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.MessageResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.UsageResponse;
-import chat.teco.tecochat.chat.exception.chat.ChatException;
-import chat.teco.tecochat.common.exception.BaseExceptionType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -69,10 +65,7 @@ class GptClientTest {
                 .willThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, OVER_MAX_TOKEN_CODE));
 
         // when & then
-        BaseExceptionType exceptionType = assertThrows(ChatException.class,
-                () -> client.ask(messages)
-        ).exceptionType();
-        assertThat(exceptionType).isEqualTo(QUESTION_SIZE_TOO_BIG);
+        assertThrows(IllegalArgumentException.class, () -> client.ask(messages));
     }
 
     @Test
@@ -82,9 +75,6 @@ class GptClientTest {
                 .willThrow(new RestClientException("some problem"));
 
         // when & then
-        BaseExceptionType exceptionType = assertThrows(ChatException.class,
-                () -> client.ask(messages)
-        ).exceptionType();
-        assertThat(exceptionType).isEqualTo(GPT_API_ERROR);
+        assertThrows(IllegalStateException.class, () -> client.ask(messages));
     }
 }

@@ -4,14 +4,11 @@ import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
 import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
 import static chat.teco.tecochat.chat.domain.chat.Question.question;
 import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NO_AUTHORITY_CHANGE_TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.member.domain.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
@@ -95,14 +92,11 @@ class ChatTest {
             Member other = 허브.회원();
             Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.id());
 
-            // when
-            BaseExceptionType baseExceptionType = assertThrows(ChatException.class, () ->
+            // when + then
+            assertThrows(IllegalStateException.class, () ->
                     chat.updateTitle(other.id(), "변경 제목")
-            ).exceptionType();
-
-            // then
+            );
             assertThat(chat.title()).isEqualTo("제목");
-            assertThat(baseExceptionType).isEqualTo(NO_AUTHORITY_CHANGE_TITLE);
         }
 
         @Test

@@ -1,13 +1,10 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
 import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.GPT_API_ERROR;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.QUESTION_SIZE_TOO_BIG;
 import static java.util.Objects.requireNonNull;
 
 import chat.teco.tecochat.chat.domain.chat.Answer;
 import chat.teco.tecochat.chat.domain.chat.Message;
-import chat.teco.tecochat.chat.exception.chat.ChatException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +41,9 @@ public class GptClient {
             return Answer.answer(response.answer());
         } catch (Exception e) {
             if (e.getMessage().contains("context_length_exceeded")) {
-                throw new ChatException(QUESTION_SIZE_TOO_BIG);
+                throw new IllegalArgumentException("질문하신 내용의 길이가 너무 깁니다. 질문의 길이를 줄여주세요.");
             }
-            throw new ChatException(GPT_API_ERROR);
+            throw new IllegalStateException("GPT API 에 문제가 있습니다");
         }
     }
 

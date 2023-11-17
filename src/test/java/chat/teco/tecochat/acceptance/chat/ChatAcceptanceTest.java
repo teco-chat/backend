@@ -13,14 +13,12 @@ import static chat.teco.tecochat.acceptance.chat.ChatSteps.제목_조건;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.좋아요_기간_조겅;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_복제_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_제목_수정_요청;
-import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.권한_없음;
-import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.발생한_예외를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비어있음;
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.서버_오류;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.좋아요_요청;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NO_AUTHORITY_CHANGE_TITLE;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.검색시_조회될_채팅_키워드;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.단일_채팅_조회의_예상_결과;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.단일_채팅_키워드;
@@ -77,8 +75,7 @@ public class ChatAcceptanceTest extends AcceptanceTest {
         var 응답 = 채팅_제목_수정_요청(채팅_ID, "허브", "변경할 제목");
 
         // then
-        요청_결과의_상태를_검증한다(응답, 권한_없음);
-        발생한_예외를_검증한다(응답, NO_AUTHORITY_CHANGE_TITLE);
+        요청_결과의_상태를_검증한다(응답, 서버_오류);
         var 채팅_조회_결과 = 단일_채팅_조회_요청(채팅_ID, "말랑");
         var 단일_채팅_조회의_예상_결과 = 단일_채팅_조회의_예상_결과(
                 채팅_ID,

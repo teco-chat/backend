@@ -1,10 +1,10 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.chat.domain.chat.ChatRepository
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createComment
 import chat.teco.tecochat.createUpdateCommentRequest
 import chat.teco.tecochat.createWriteCommentRequest
+import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.comment.CommentRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FeatureSpec

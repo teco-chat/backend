@@ -3,8 +3,8 @@ package chat.teco.tecochat.acceptance.chat;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.presentation.chat.api.request.UpdateChatTitleRequest;
-import chat.teco.tecochat.chat.presentation.chat.api.response.CopyChatResponse;
+import chat.teco.tecochat.application.CopyChatResponse;
+import chat.teco.tecochat.application.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
@@ -45,7 +45,7 @@ public class ChatSteps {
 
     public static Long 복제된_채팅_ID_반환(ExtractableResponse<Response> 응답) {
         CopyChatResponse response = 응답.as(CopyChatResponse.class);
-        return response.copiedChatId();
+        return response.getCopiedChatId();
     }
 
     public static ExtractableResponse<Response> 단일_채팅_조회_요청(Long 채팅_ID, String 이름) {

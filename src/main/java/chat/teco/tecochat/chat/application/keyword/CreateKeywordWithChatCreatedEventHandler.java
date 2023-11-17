@@ -1,17 +1,14 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND_CHAT;
-
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
-import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
-import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.event.BaseEventHistory;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
+import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -45,8 +42,7 @@ public class CreateKeywordWithChatCreatedEventHandler {
     )
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handle(ChatCreatedEvent event) {
-        Chat chat = chatRepository.findWithQuestionAndAnswersById(event.chatId())
-                .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
+        Chat chat = chatRepository.getWithQuestionAndAnswersById(event.chatId());
         List<Keyword> keywords = keywordExtractor.extractKeywords(chat);
         transactionTemplate.executeWithoutResult(status -> {
             keywordRepository.saveAll(keywords);

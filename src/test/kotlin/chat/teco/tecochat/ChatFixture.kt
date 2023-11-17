@@ -1,10 +1,12 @@
 package chat.teco.tecochat
 
+import chat.teco.tecochat.application.UpdateChatTitleRequest
 import chat.teco.tecochat.chat.domain.chat.Chat
 import chat.teco.tecochat.chat.domain.chat.GptModel
 import chat.teco.tecochat.chat.domain.chat.SettingMessage
 
 const val TITLE = "제목"
+const val UPDATED_TITLE = "수정된 제목"
 val GPT_MODEL = GptModel.GPT_3_5_TURBO
 val SETTING_MESSAGE = SettingMessage.BACK_END_SETTING
 
@@ -25,4 +27,10 @@ fun createChat(
         chat.increaseComment()
     }
     return chat
+}
+
+fun createUpdateChatTitleRequest(
+    title: String = UPDATED_TITLE,
+): UpdateChatTitleRequest {
+    return UpdateChatTitleRequest(title)
 }

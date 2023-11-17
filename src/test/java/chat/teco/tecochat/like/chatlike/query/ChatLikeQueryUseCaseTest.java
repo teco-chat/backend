@@ -3,12 +3,12 @@ package chat.teco.tecochat.like.chatlike.query;
 import static chat.teco.tecochat.member.domain.Course.BACKEND;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
-import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
+import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.like.chatlike.domain.ChatLike;

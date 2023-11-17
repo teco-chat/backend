@@ -6,15 +6,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.ChatRepository;
-import chat.teco.tecochat.chat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.chat.query.ChatQueryService;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
+import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
 import java.util.Arrays;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +38,9 @@ public class ChatQueryUseCaseTest {
     }
 
     protected void 채팅을_저장한다(Chat chat) {
-        given(chatRepository.findById(1L))
-                .willReturn(Optional.of(chat));
+        Long id = 1L;
+        given(chatRepository.getById(id))
+                .willReturn(chat);
     }
 
     protected void 페이징_조회_결과_설정(Chat... chats) {

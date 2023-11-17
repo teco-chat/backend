@@ -12,7 +12,6 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.서버_�
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_생성;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_요청;
-import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.찾을수_없음;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
 import static chat.teco.tecochat.comment.fixture.CommentFixture.댓글_검색의_예상_결과;
 import static chat.teco.tecochat.comment.fixture.CommentFixture.댓글_검색의_예상_결과들;
@@ -51,7 +50,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         var 응답 = 댓글_작성_요청("말랑", 1L, "댓글 내용입니다.");
 
         // then
-        요청_결과의_상태를_검증한다(응답, 찾을수_없음);
+        요청_결과의_상태를_검증한다(응답, 서버_오류);
     }
 
     @Test
