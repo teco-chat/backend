@@ -1,9 +1,7 @@
 package chat.teco.tecochat.chat.domain.chat;
 
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NO_AUTHORITY_CHANGE_TITLE;
 import static jakarta.persistence.EnumType.STRING;
 
-import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import chat.teco.tecochat.member.domain.Member;
 import jakarta.persistence.Column;
@@ -100,7 +98,7 @@ public class Chat extends BaseEntity {
 
     public void updateTitle(Long memberId, String title) {
         if (!this.memberId().equals(memberId)) {
-            throw new ChatException(NO_AUTHORITY_CHANGE_TITLE);
+            throw new IllegalStateException("제목을 수정할 권한이 없습니다.");
         }
         this.title = title;
     }

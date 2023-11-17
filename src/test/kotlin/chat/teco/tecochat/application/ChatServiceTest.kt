@@ -1,6 +1,5 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.chat.exception.chat.ChatException
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createUpdateChatTitleRequest
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent
@@ -52,7 +51,7 @@ class ChatServiceTest : FeatureSpec({
             val request = createUpdateChatTitleRequest()
             every { chatRepository.getById(any()) } returns chat
 
-            shouldThrow<ChatException> {
+            shouldThrow<IllegalStateException> {
                 chatService.updateTitle(2L, chat.id(), request)
             }
         }

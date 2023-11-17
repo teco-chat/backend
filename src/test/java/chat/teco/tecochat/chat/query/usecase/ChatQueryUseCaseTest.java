@@ -14,7 +14,6 @@ import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Member;
 import java.util.Arrays;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +38,9 @@ public class ChatQueryUseCaseTest {
     }
 
     protected void 채팅을_저장한다(Chat chat) {
-        given(chatRepository.findById(1L))
-                .willReturn(Optional.of(chat));
+        Long id = 1L;
+        given(chatRepository.getById(id))
+                .willReturn(chat);
     }
 
     protected void 페이징_조회_결과_설정(Chat... chats) {

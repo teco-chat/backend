@@ -75,8 +75,8 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
     @Test
     void 키워드_추출시_오류가_발생하면_저장되지_않는다() {
         // given
-        given(chatRepository.findWithQuestionAndAnswersById(anyLong()))
-                .willReturn(Optional.of(chat));
+        given(chatRepository.getWithQuestionAndAnswersById(anyLong()))
+                .willReturn(chat);
         given(keywordExtractor.extractKeywords(chat))
                 .willThrow(new KeywordException(CAN_NOT_EXTRACTED_KEYWORD));
 

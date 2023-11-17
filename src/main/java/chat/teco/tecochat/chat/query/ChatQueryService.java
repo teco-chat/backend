@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.query;
 
-import static chat.teco.tecochat.chat.exception.chat.ChatExceptionType.NOT_FOUND_CHAT;
 import static chat.teco.tecochat.chat.query.mapper.ChatMapper.mapToQueryResponse;
 import static chat.teco.tecochat.chat.query.mapper.ChatMapper.mapToSearchQueryResponse;
 import static java.util.Collections.emptyList;
@@ -8,7 +7,6 @@ import static java.util.stream.Collectors.groupingBy;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
-import chat.teco.tecochat.chat.exception.chat.ChatException;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
@@ -40,16 +38,11 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
 
     @Override
     public QueryChatByIdResponse findById(Long id, Long requesterMemberId) {
-        Chat chat = findChatById(id);
+        Chat chat = chatRepository.getById(id);
         Member member = memberRepository.getById(chat.memberId());
         boolean isAlreadyClickLike = chatLikeRepository.findByMemberIdAndChatId(requesterMemberId, id) != null;
         List<Keyword> keywords = keywordRepository.findAllByChatId(id);
         return mapToQueryResponse(chat, member, isAlreadyClickLike, keywords);
-    }
-
-    private Chat findChatById(Long id) {
-        return chatRepository.findById(id)
-                .orElseThrow(() -> new ChatException(NOT_FOUND_CHAT));
     }
 
     @Override
