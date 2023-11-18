@@ -2,7 +2,7 @@ package chat.teco.tecochat.chat.domain.chat;
 
 import static chat.teco.tecochat.chat.domain.chat.Role.SYSTEM;
 
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import java.util.EnumMap;
 import java.util.Map;
 

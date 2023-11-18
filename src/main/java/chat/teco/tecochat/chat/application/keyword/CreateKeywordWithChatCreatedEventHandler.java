@@ -10,7 +10,6 @@ import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.retry.annotation.Backoff;
@@ -22,7 +21,6 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@RequiredArgsConstructor
 @Component
 public class CreateKeywordWithChatCreatedEventHandler {
 
@@ -33,6 +31,17 @@ public class CreateKeywordWithChatCreatedEventHandler {
     private final KeywordRepository keywordRepository;
     private final TransactionTemplate transactionTemplate;
     private final KeywordExtractor keywordExtractor;
+
+    public CreateKeywordWithChatCreatedEventHandler(EventHistoryRepository eventHistoryRepository,
+                                                    ChatRepository chatRepository, KeywordRepository keywordRepository,
+                                                    TransactionTemplate transactionTemplate,
+                                                    KeywordExtractor keywordExtractor) {
+        this.eventHistoryRepository = eventHistoryRepository;
+        this.chatRepository = chatRepository;
+        this.keywordRepository = keywordRepository;
+        this.transactionTemplate = transactionTemplate;
+        this.keywordExtractor = keywordExtractor;
+    }
 
     @Async
     @Retryable(

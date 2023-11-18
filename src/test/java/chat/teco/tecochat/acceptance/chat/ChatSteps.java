@@ -9,7 +9,7 @@ import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

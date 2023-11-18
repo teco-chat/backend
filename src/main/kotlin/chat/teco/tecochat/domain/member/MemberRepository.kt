@@ -1,6 +1,5 @@
 package chat.teco.tecochat.domain.member
 
-import chat.teco.tecochat.member.domain.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 // TODO

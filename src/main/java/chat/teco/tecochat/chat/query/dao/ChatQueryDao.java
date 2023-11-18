@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.query.dao;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
+import static chat.teco.tecochat.domain.member.QMember.member;
 import static chat.teco.tecochat.like.chatlike.domain.QChatLike.chatLike;
-import static chat.teco.tecochat.member.domain.QMember.member;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalTime.MIN;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
@@ -11,7 +11,7 @@ import static org.springframework.util.StringUtils.hasText;
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.common.entity.BaseEntity;
 import chat.teco.tecochat.common.query.OrderByNull;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;

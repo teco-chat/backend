@@ -26,9 +26,9 @@ import static chat.teco.tecochat.chat.fixture.ChatFixture.대화_내용;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.채팅_검색_결과;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.채팅_검색_결과들;
 import static chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond.TODAY;
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
+import static chat.teco.tecochat.domain.member.Course.ANDROID;
+import static chat.teco.tecochat.domain.member.Course.BACKEND;
+import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 
 import chat.teco.tecochat.acceptance.common.AcceptanceTest;
 import org.junit.jupiter.api.DisplayName;

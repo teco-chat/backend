@@ -15,17 +15,15 @@ import chat.teco.tecochat.common.entity.BaseEntity;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
-import chat.teco.tecochat.member.domain.Member;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase {
@@ -35,6 +33,15 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
     private final ChatQueryDao chatQueryDao;
     private final ChatLikeRepository chatLikeRepository;
     private final KeywordRepository keywordRepository;
+
+    public ChatQueryService(MemberRepository memberRepository, ChatRepository chatRepository, ChatQueryDao chatQueryDao,
+                            ChatLikeRepository chatLikeRepository, KeywordRepository keywordRepository) {
+        this.memberRepository = memberRepository;
+        this.chatRepository = chatRepository;
+        this.chatQueryDao = chatQueryDao;
+        this.chatLikeRepository = chatLikeRepository;
+        this.keywordRepository = keywordRepository;
+    }
 
     @Override
     public QueryChatByIdResponse findById(Long id, Long requesterMemberId) {

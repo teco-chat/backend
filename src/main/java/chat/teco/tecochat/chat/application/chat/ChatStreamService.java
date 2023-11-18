@@ -10,14 +10,12 @@ import com.theokanning.openai.completion.chat.ChatCompletionChunk;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 import java.io.IOException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-@RequiredArgsConstructor
 @Component
 public class ChatStreamService {
 
@@ -25,6 +23,14 @@ public class ChatStreamService {
     private final TransactionTemplate transactionTemplate;
     private final ApplicationEventPublisher publisher;
     private final ChatRepository chatRepository;
+
+    public ChatStreamService(OpenAiService openAiService, TransactionTemplate transactionTemplate,
+                             ApplicationEventPublisher publisher, ChatRepository chatRepository) {
+        this.openAiService = openAiService;
+        this.transactionTemplate = transactionTemplate;
+        this.publisher = publisher;
+        this.chatRepository = chatRepository;
+    }
 
     private static String parseAnswer(ChatCompletionChunk completion) {
         String content = completion.getChoices().get(0).getMessage().getContent();

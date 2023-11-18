@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import java.util.List;

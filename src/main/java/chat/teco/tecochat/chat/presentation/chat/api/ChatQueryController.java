@@ -7,7 +7,6 @@ import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.security.Auth;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RequestMapping("/chats")
 @RestController
 public class ChatQueryController {
 
     private final QueryChatByIdUseCase queryChatByIdUseCase;
     private final SearchChatUseCase searchChatUseCase;
+
+    public ChatQueryController(QueryChatByIdUseCase queryChatByIdUseCase, SearchChatUseCase searchChatUseCase) {
+        this.queryChatByIdUseCase = queryChatByIdUseCase;
+        this.searchChatUseCase = searchChatUseCase;
+    }
 
     @GetMapping("/{id}")
     ResponseEntity<QueryChatByIdResponse> findById(

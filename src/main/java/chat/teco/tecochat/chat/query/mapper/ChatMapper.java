@@ -9,7 +9,7 @@ import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdR
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +27,8 @@ public class ChatMapper {
         return new SearchChatResponse(
                 chat.id(),
                 member.id(),
-                member.name(),
-                member.course(),
+                member.getName(),
+                member.getCourse(),
                 chat.title(),
                 chat.likeCount(),
                 chat.commentCount(),
@@ -58,8 +58,8 @@ public class ChatMapper {
                 .toList();
         return new QueryChatByIdResponse(
                 chat.id(),
-                member.name(),
-                member.course(),
+                member.getName(),
+                member.getCourse(),
                 chat.title(),
                 chat.likeCount(),
                 isAlreadyClickLike,

@@ -1,14 +1,14 @@
 package chat.teco.tecochat.like.chatlike.query.usecase;
 
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
+import static chat.teco.tecochat.domain.member.Course.ANDROID;
+import static chat.teco.tecochat.domain.member.Course.BACKEND;
+import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
-import chat.teco.tecochat.member.domain.Course;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

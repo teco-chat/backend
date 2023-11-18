@@ -1,8 +1,8 @@
 package chat.teco.tecochat
 
 import chat.teco.tecochat.application.MemberData
-import chat.teco.tecochat.member.domain.Course
-import chat.teco.tecochat.member.domain.Member
+import chat.teco.tecochat.domain.member.Course
+import chat.teco.tecochat.domain.member.Member
 
 const val MEMBER_ID = 1L
 const val NAME = "mallang"
@@ -11,9 +11,9 @@ val COURSE = Course.BACKEND
 fun createMember(
     name: String = NAME,
     course: Course = COURSE,
-    id: Long = 0L
+    id: Long = 0L,
 ): Member {
-    return Member(id, name, course)
+    return Member(name, course, id)
 }
 
 fun createSignUpRequest(

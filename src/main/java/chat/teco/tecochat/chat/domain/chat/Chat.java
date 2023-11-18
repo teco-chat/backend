@@ -3,7 +3,7 @@ package chat.teco.tecochat.chat.domain.chat;
 import static jakarta.persistence.EnumType.STRING;
 
 import chat.teco.tecochat.common.entity.BaseEntity;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -66,7 +66,7 @@ public class Chat extends BaseEntity {
     public static Chat defaultChat(Member member, String title) {
         return new Chat(
                 GptModel.GPT_3_5_TURBO,
-                SettingMessage.byCourse(member.course()),
+                SettingMessage.byCourse(member.getCourse()),
                 title,
                 member.id()
         );

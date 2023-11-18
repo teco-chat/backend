@@ -4,7 +4,7 @@ import chat.teco.tecochat.application.UpdateCommentRequest;
 import chat.teco.tecochat.application.WriteCommentRequest;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.domain.comment.Comment;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import java.util.List;

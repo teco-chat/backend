@@ -5,17 +5,20 @@ import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.domain.comment.CommentRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class CommentQueryService implements QueryAllCommentByChatIdUseCase {
 
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
+
+    public CommentQueryService(MemberRepository memberRepository, CommentRepository commentRepository) {
+        this.memberRepository = memberRepository;
+        this.commentRepository = commentRepository;
+    }
 
     @Override
     public List<CommentQueryDto> findAllByChatId(Long chatId) {

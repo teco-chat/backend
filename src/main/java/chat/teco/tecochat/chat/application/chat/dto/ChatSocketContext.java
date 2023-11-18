@@ -1,6 +1,6 @@
 package chat.teco.tecochat.chat.application.chat.dto;
 
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import org.springframework.web.socket.WebSocketSession;
 
 public class ChatSocketContext {

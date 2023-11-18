@@ -8,7 +8,7 @@ import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

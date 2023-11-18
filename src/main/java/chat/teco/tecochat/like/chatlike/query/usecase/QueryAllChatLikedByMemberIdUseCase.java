@@ -1,6 +1,6 @@
 package chat.teco.tecochat.like.chatlike.query.usecase;
 
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,8 @@ public interface QueryAllChatLikedByMemberIdUseCase {
                 String title, int likeCount, int commentCount,
                 int totalQnaCount, LocalDateTime createdAt
         ) {
-            this(id, crewId, crewName, course, title, likeCount, commentCount, totalQnaCount, new ArrayList<>(), createdAt);
+            this(id, crewId, crewName, course, title, likeCount, commentCount, totalQnaCount, new ArrayList<>(),
+                    createdAt);
         }
 
         public void addKeywords(List<QueryLikedChatKeywordDto> queryLikedChatKeywordDtos) {

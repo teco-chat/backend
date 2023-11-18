@@ -1,8 +1,8 @@
 package chat.teco.tecochat.member.fixture;
 
 import chat.teco.tecochat.application.MemberData;
-import chat.teco.tecochat.member.domain.Course;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.domain.member.Member;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberFixture {
@@ -14,7 +14,7 @@ public class MemberFixture {
         public static final MemberData 회원가입_요청 = new MemberData(이름, 과정);
 
         public static Member 회원() {
-            return new Member(ID, 이름, 과정);
+            return new Member(이름, 과정, ID);
         }
     }
 
@@ -25,7 +25,7 @@ public class MemberFixture {
         public static final MemberData 회원가입_요청 = new MemberData(이름, 과정);
 
         public static Member 회원() {
-            return new Member(ID, 이름, 과정);
+            return new Member(이름, 과정, ID);
         }
     }
 }

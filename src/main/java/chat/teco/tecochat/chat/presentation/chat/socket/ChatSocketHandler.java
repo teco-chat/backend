@@ -4,10 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import chat.teco.tecochat.chat.application.chat.ChatStreamService;
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -16,7 +15,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class ChatSocketHandler extends TextWebSocketHandler {
 
@@ -25,6 +23,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 
     private final ChatStreamService chatStreamService;
     private final Map<String, ChatSocketContext> socketContextMap = new HashMap<>();
+
+    public ChatSocketHandler(ChatStreamService chatStreamService) {
+        this.chatStreamService = chatStreamService;
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {

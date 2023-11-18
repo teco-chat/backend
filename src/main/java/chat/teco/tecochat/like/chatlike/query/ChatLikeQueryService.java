@@ -2,8 +2,8 @@ package chat.teco.tecochat.like.chatlike.query;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.chat.domain.keyword.QKeyword.keyword1;
+import static chat.teco.tecochat.domain.member.QMember.member;
 import static chat.teco.tecochat.like.chatlike.domain.QChatLike.chatLike;
-import static chat.teco.tecochat.member.domain.QMember.member;
 import static com.querydsl.core.types.Projections.constructor;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
@@ -17,14 +17,12 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class ChatLikeQueryService implements
@@ -32,6 +30,10 @@ public class ChatLikeQueryService implements
         QueryAllChatLikedByMemberIdUseCase {
 
     private final JPAQueryFactory query;
+
+    public ChatLikeQueryService(JPAQueryFactory query) {
+        this.query = query;
+    }
 
     @Override
     public List<QueryChatLikeByChatIdResponse> findAllByChatId(Long chatId) {

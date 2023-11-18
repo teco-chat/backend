@@ -10,7 +10,7 @@ import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdR
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +42,7 @@ class ChatMapperTest {
 
         // then
         assertThat(response.id()).isEqualTo(초기_채팅.id());
-        assertThat(response.course()).isEqualTo(회원.course());
+        assertThat(response.course()).isEqualTo(회원.getCourse());
         assertThat(response.likeCount()).isEqualTo(2);
         assertThat(response.crewName()).isEqualTo("말랑");
         assertThat(response.isAlreadyClickLike()).isTrue();
@@ -84,7 +84,7 @@ class ChatMapperTest {
         assertThat(response.id()).isEqualTo(초기_채팅.id());
         assertThat(response.crewId()).isEqualTo(회원.id());
         assertThat(response.crewName()).isEqualTo("말랑");
-        assertThat(response.course()).isEqualTo(회원.course());
+        assertThat(response.course()).isEqualTo(회원.getCourse());
         assertThat(response.title()).isEqualTo(초기_채팅.title());
         assertThat(response.likeCount()).isEqualTo(2);
         assertThat(response.totalQnaCount()).isEqualTo(2);

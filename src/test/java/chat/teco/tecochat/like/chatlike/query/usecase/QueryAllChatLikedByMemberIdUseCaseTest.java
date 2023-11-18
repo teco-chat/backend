@@ -1,14 +1,11 @@
 package chat.teco.tecochat.like.chatlike.query.usecase;
 
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse.QueryLikedChatKeywordDto;
-import chat.teco.tecochat.member.domain.Course;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +36,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 박스터_채팅.id(),
                 박스터_채팅.memberId(),
                 "박스터",
-                ANDROID,
+                Course.ANDROID,
                 박스터_채팅.title(),
                 3,
                 0,
@@ -51,7 +48,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 허브_채팅.id(),
                 허브_채팅.memberId(),
                 "허브_좋아요",
-                FRONTEND,
+                Course.FRONTEND,
                 허브_채팅.title(),
                 3,
                 0,
@@ -65,7 +62,7 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
                 말랑_채팅.id(),
                 말랑_채팅.memberId(),
                 "말랑_좋아요",
-                BACKEND,
+                Course.BACKEND,
                 말랑_채팅.title(),
                 3,
                 0,

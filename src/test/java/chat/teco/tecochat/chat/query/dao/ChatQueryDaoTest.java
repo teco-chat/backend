@@ -1,9 +1,6 @@
 package chat.teco.tecochat.chat.query.dao;
 
 import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalTime.MIN;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
@@ -19,9 +16,10 @@ import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
+import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.like.chatlike.domain.ChatLike;
-import chat.teco.tecochat.member.domain.Member;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -70,23 +68,23 @@ class ChatQueryDaoTest {
 
     @BeforeEach
     void setUp() {
-        채팅1 = saveMemberChat(memberRepository.save(new Member("프론트엔드허브", FRONTEND)));
-        채팅2 = saveMemberChat(memberRepository.save(new Member("프론트엔드말랑", FRONTEND)));
-        채팅3 = saveMemberChat(memberRepository.save(new Member("안드로이드허브", ANDROID)));
-        채팅4 = saveMemberChat(memberRepository.save(new Member("안드로이드말랑", ANDROID)));
-        채팅5 = saveMemberChat(memberRepository.save(new Member("백엔드허브", BACKEND)));
-        채팅6 = saveMemberChat(memberRepository.save(new Member("백엔드말랑", BACKEND)));
+        채팅1 = saveMemberChat(memberRepository.save(new Member("프론트엔드허브", Course.FRONTEND, 0L)));
+        채팅2 = saveMemberChat(memberRepository.save(new Member("프론트엔드말랑", Course.FRONTEND, 0L)));
+        채팅3 = saveMemberChat(memberRepository.save(new Member("안드로이드허브", Course.ANDROID, 0L)));
+        채팅4 = saveMemberChat(memberRepository.save(new Member("안드로이드말랑", Course.ANDROID, 0L)));
+        채팅5 = saveMemberChat(memberRepository.save(new Member("백엔드허브", Course.BACKEND, 0L)));
+        채팅6 = saveMemberChat(memberRepository.save(new Member("백엔드말랑", Course.BACKEND, 0L)));
         flushAndClear();
     }
 
     private Chat saveMemberChat(Member member) {
         Chat chat = new Chat(GPT_3_5_TURBO,
-                SettingMessage.byCourse(member.course()),
-                member.name() + "의 Title",
+                SettingMessage.byCourse(member.getCourse()),
+                member.getName() + "의 Title",
                 member.id());
 
         QuestionAndAnswer qna = new QuestionAndAnswer(
-                member.name() + "의 Title",
+                member.getName() + "의 Title",
                 "안녕하세요");
         chat.addQuestionAndAnswer(qna);
         return chatRepository.save(chat);
@@ -151,7 +149,7 @@ class ChatQueryDaoTest {
     void 과정으로_검색_가능() {
         // when
         Page<Chat> search = chatQueryDao.search(
-                new ChatSearchCond(null, null, ANDROID, null),
+                new ChatSearchCond(null, null, Course.ANDROID, null),
                 PageRequest.of(0, 20));
 
         // then
@@ -170,7 +168,7 @@ class ChatQueryDaoTest {
     void 이름_제목_과정으로_검색_가능() {
         // when
         Page<Chat> search = chatQueryDao.search(
-                new ChatSearchCond("말랑_좋아요", "허브_좋아요", BACKEND, null),
+                new ChatSearchCond("말랑_좋아요", "허브_좋아요", Course.BACKEND, null),
                 PageRequest.of(0, 20));
 
         // then

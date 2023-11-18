@@ -9,9 +9,9 @@ import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.C
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.domain.comment.CommentRepository;
+import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
-import chat.teco.tecochat.member.domain.Course;
-import chat.teco.tecochat.member.domain.Member;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class QueryAllCommentByChatIdUseCaseTest {
     }
 
     private Member 회원가입(String name) {
-        return memberRepository.save(new Member(name, Course.BACKEND));
+        return memberRepository.save(new Member(name, Course.BACKEND, 0L));
     }
 
     private Chat 채팅등록() {

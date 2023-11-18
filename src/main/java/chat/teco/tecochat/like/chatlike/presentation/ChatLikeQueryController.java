@@ -7,7 +7,6 @@ import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberI
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import chat.teco.tecochat.security.Auth;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/chat-likes")
 public class ChatLikeQueryController {
 
     private final QueryAllChatLikeByChatIdUseCase queryAllByChatIdUseCase;
     private final QueryAllChatLikedByMemberIdUseCase queryAllByMemberIdUseCase;
+
+    public ChatLikeQueryController(QueryAllChatLikeByChatIdUseCase queryAllByChatIdUseCase,
+                                   QueryAllChatLikedByMemberIdUseCase queryAllByMemberIdUseCase) {
+        this.queryAllByChatIdUseCase = queryAllByChatIdUseCase;
+        this.queryAllByMemberIdUseCase = queryAllByMemberIdUseCase;
+    }
 
     @GetMapping(params = "chatId")
     ResponseEntity<List<QueryChatLikeByChatIdResponse>> findAllByChatId(

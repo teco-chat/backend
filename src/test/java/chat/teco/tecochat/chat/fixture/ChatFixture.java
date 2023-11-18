@@ -14,7 +14,7 @@ import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdR
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import java.util.ArrayDeque;
