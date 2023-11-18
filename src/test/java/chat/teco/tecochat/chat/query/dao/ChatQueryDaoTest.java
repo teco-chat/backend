@@ -15,11 +15,11 @@ import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chatlike.ChatLike;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
-import chat.teco.tecochat.like.chatlike.domain.ChatLike;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -367,7 +367,7 @@ class ChatQueryDaoTest {
 
         private void 좋아요(long 회원_ID, Chat 채팅, LocalDateTime 생성시간) {
             채팅.increaseLike();
-            ChatLike chatLike = new ChatLike(회원_ID, 채팅.id());
+            ChatLike chatLike = new ChatLike(회원_ID, 채팅.id(), 0L);
             ChatLike save = chatLikeRepository.save(chatLike);
             ReflectionTestUtils.setField(save, "createdAt", 생성시간);
             em.flush();

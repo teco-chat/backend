@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.query.dao;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
+import static chat.teco.tecochat.domain.chatlike.QChatLike.chatLike;
 import static chat.teco.tecochat.domain.member.QMember.member;
-import static chat.teco.tecochat.like.chatlike.domain.QChatLike.chatLike;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalTime.MIN;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;

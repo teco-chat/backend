@@ -2,8 +2,8 @@ package chat.teco.tecochat.like.chatlike.query;
 
 import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.chat.domain.keyword.QKeyword.keyword1;
+import static chat.teco.tecochat.domain.chatlike.QChatLike.chatLike;
 import static chat.teco.tecochat.domain.member.QMember.member;
-import static chat.teco.tecochat.like.chatlike.domain.QChatLike.chatLike;
 import static com.querydsl.core.types.Projections.constructor;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
