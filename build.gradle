@@ -14,6 +14,11 @@ plugins {
     id 'org.jetbrains.kotlin.kapt' version '1.9.20'
 }
 
+allOpen {
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
+}
+
 archivesBaseName = "tecochat"
 group = 'chat.teco'
 java.sourceCompatibility = JavaVersion.VERSION_17
