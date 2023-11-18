@@ -1,7 +1,7 @@
 package chat.teco.tecochat.comment.query;
 
-import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase;
+import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.domain.comment.CommentRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import java.util.List;
@@ -26,13 +26,13 @@ public class CommentQueryService implements QueryAllCommentByChatIdUseCase {
 
     private List<Long> memberIds(List<Comment> comments) {
         return comments.stream()
-                .map(Comment::memberId)
+                .map(Comment::getMemberId)
                 .toList();
     }
 
     private List<CommentQueryDto> mapToCommentQueryDtos(List<Comment> comments) {
         return comments.stream()
-                .map(comment -> CommentQueryDto.of(comment, memberRepository.getById(comment.memberId())))
+                .map(comment -> CommentQueryDto.of(comment, memberRepository.getById(comment.getMemberId())))
                 .toList();
     }
 }

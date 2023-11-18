@@ -60,7 +60,7 @@ class CommentServiceTest : FeatureSpec({
 
             commentService.update(1L, comment.id(), updateCommentRequest)
 
-            comment.content() shouldBe updateCommentRequest.content
+            comment.content shouldBe updateCommentRequest.content
         }
     }
 
@@ -91,7 +91,7 @@ class CommentServiceTest : FeatureSpec({
             every { commentRepository.getById(any()) } returns comment
             every { commentRepository.delete(any()) } just runs
 
-            commentService.delete(comment.memberId(), comment.id())
+            commentService.delete(comment.memberId, comment.id())
 
             verify(exactly = 1) { commentRepository.delete(any()) }
             chat.commentCount() shouldBe 0

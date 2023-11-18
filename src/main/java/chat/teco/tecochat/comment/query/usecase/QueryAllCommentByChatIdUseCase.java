@@ -1,6 +1,6 @@
 package chat.teco.tecochat.comment.query.usecase;
 
-import chat.teco.tecochat.comment.domain.Comment;
+import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.domain.Member;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public interface QueryAllCommentByChatIdUseCase {
                     comment.id(),
                     member.name(),
                     member.course(),
-                    comment.content(),
+                    comment.getContent(),
                     comment.createdAt()
             );
         }

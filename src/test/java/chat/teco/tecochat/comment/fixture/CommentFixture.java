@@ -2,8 +2,8 @@ package chat.teco.tecochat.comment.fixture;
 
 import chat.teco.tecochat.application.UpdateCommentRequest;
 import chat.teco.tecochat.application.WriteCommentRequest;
-import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
+import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.member.domain.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
@@ -46,7 +46,7 @@ public class CommentFixture {
         }
 
         public static Comment 댓글(Long 채팅_ID) {
-            return new Comment(ID, 채팅_ID, 말랑.ID, 내용);
+            return new Comment(채팅_ID, 말랑.ID, 내용, ID);
         }
     }
 
@@ -65,7 +65,7 @@ public class CommentFixture {
         }
 
         public static Comment 댓글(Long 채팅_ID) {
-            return new Comment(ID, 채팅_ID, MemberFixture.허브.ID, 내용);
+            return new Comment(채팅_ID, MemberFixture.허브.ID, 내용, ID);
         }
     }
 }

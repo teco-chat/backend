@@ -27,7 +27,7 @@ class CommentService(
     fun delete(memberId: Long, commentId: Long) {
         val comment = commentRepository.getById(commentId)
         comment.validateDelete(memberId)
-        val chat = chatRepository.getById(comment.chatId())
+        val chat = chatRepository.getById(comment.chatId)
         chat.decreaseComment()
         commentRepository.delete(comment)
     }

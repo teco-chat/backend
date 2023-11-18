@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.comment.domain.Comment;
 import chat.teco.tecochat.comment.query.CommentQueryService;
 import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.domain.comment.CommentRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import chat.teco.tecochat.member.domain.Course;
@@ -74,7 +74,7 @@ class QueryAllCommentByChatIdUseCaseTest {
     }
 
     private void 댓글등록(Chat chat, Member member) {
-        commentRepository.save(new Comment(chat.id(), member.id(), "안녕"));
+        commentRepository.save(new Comment(chat.id(), member.id(), "안녕", 0L));
     }
 
     private void flushAndClear() {

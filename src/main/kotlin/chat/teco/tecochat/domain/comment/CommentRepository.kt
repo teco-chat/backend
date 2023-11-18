@@ -1,6 +1,5 @@
 package chat.teco.tecochat.domain.comment
 
-import chat.teco.tecochat.comment.domain.Comment
 import org.springframework.data.jpa.repository.JpaRepository
 
 // TODO
