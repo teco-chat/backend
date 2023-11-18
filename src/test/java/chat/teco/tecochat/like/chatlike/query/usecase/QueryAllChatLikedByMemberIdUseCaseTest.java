@@ -1,14 +1,11 @@
 package chat.teco.tecochat.like.chatlike.query.usecase;
 
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse.QueryLikedChatKeywordDto;
-import chat.teco.tecochat.member.domain.Course;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -31,16 +28,16 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
     void 회원이_좋아요_누른_게시물을_조회한다() {
         // when
         Page<QueryChatLikedByMemberIdResponse> allByMemberId =
-                queryAllChatLikedByMemberIdUseCase.findAllByMemberId(허브.id(), PageRequest.of(0, 20));
+                queryAllChatLikedByMemberIdUseCase.findAllByMemberId(허브.getId(), PageRequest.of(0, 20));
 
         // then
         회원이_좋아요_누른_게시물의_정보를_검증한다(
                 allByMemberId.getContent().get(0),
-                박스터_채팅.id(),
-                박스터_채팅.memberId(),
+                박스터_채팅.getId(),
+                박스터_채팅.getMemberId(),
                 "박스터",
-                ANDROID,
-                박스터_채팅.title(),
+                Course.ANDROID,
+                박스터_채팅.getTitle(),
                 3,
                 0,
                 0,
@@ -48,11 +45,11 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
 
         회원이_좋아요_누른_게시물의_정보를_검증한다(
                 allByMemberId.getContent().get(1),
-                허브_채팅.id(),
-                허브_채팅.memberId(),
+                허브_채팅.getId(),
+                허브_채팅.getMemberId(),
                 "허브_좋아요",
-                FRONTEND,
-                허브_채팅.title(),
+                Course.FRONTEND,
+                허브_채팅.getTitle(),
                 3,
                 0,
                 0,
@@ -62,11 +59,11 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
 
         회원이_좋아요_누른_게시물의_정보를_검증한다(
                 allByMemberId.getContent().get(2),
-                말랑_채팅.id(),
-                말랑_채팅.memberId(),
+                말랑_채팅.getId(),
+                말랑_채팅.getMemberId(),
                 "말랑_좋아요",
-                BACKEND,
-                말랑_채팅.title(),
+                Course.BACKEND,
+                말랑_채팅.getTitle(),
                 3,
                 0,
                 0,

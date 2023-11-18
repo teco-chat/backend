@@ -2,8 +2,8 @@ package chat.teco.tecochat.application
 
 import chat.teco.tecochat.createMember
 import chat.teco.tecochat.createSignUpRequest
+import chat.teco.tecochat.domain.member.Course
 import chat.teco.tecochat.domain.member.MemberRepository
-import chat.teco.tecochat.member.domain.Course
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -25,7 +25,7 @@ class MemberServiceTest : BehaviorSpec({
             memberService.signUp(signUpCommand)
 
             Then("입력받은 코스로 변경된다") {
-                member.course() shouldBe signUpCommand.course
+                member.course shouldBe signUpCommand.course
             }
         }
     }

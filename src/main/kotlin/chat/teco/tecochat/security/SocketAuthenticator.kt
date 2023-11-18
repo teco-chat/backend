@@ -1,7 +1,7 @@
 package chat.teco.tecochat.security
 
 import chat.teco.tecochat.domain.auth.Authenticator
-import chat.teco.tecochat.member.domain.Member
+import chat.teco.tecochat.domain.member.Member
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServletServerHttpRequest
 import org.springframework.stereotype.Component
@@ -10,7 +10,7 @@ private const val AUTH_QUERY_STRING_NAME = "name="
 
 @Component
 class SocketAuthenticator(
-    private val authenticator: Authenticator
+    private val authenticator: Authenticator,
 ) {
 
     fun authenticate(request: ServerHttpRequest): Member {

@@ -1,6 +1,6 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.comment.domain.Comment
+import chat.teco.tecochat.domain.comment.Comment
 import com.fasterxml.jackson.annotation.JsonCreator
 
 data class WriteCommentRequest(

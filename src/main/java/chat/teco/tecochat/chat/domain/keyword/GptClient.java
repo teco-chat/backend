@@ -1,10 +1,10 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static java.util.Objects.requireNonNull;
 
-import chat.teco.tecochat.chat.domain.chat.Answer;
-import chat.teco.tecochat.chat.domain.chat.Message;
+import chat.teco.tecochat.domain.chat.Answer;
+import chat.teco.tecochat.domain.chat.Message;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class GptClient {
                     ChatCompletionResponse.class
             ).getBody();
             requireNonNull(response);
-            return Answer.answer(response.answer());
+            return Answer.Companion.answer(response.answer());
         } catch (Exception e) {
             if (e.getMessage().contains("context_length_exceeded")) {
                 throw new IllegalArgumentException("질문하신 내용의 길이가 너무 깁니다. 질문의 길이를 줄여주세요.");
@@ -56,7 +56,7 @@ public class GptClient {
             for (Message message : messages) {
                 messageRequests.add(new MessageRequest(message.roleName(), message.content()));
             }
-            return new ChatCompletionRequest(GPT_3_5_TURBO.modelName(), messageRequests);
+            return new ChatCompletionRequest(GPT_3_5_TURBO.getModelName(), messageRequests);
         }
 
         public record MessageRequest(

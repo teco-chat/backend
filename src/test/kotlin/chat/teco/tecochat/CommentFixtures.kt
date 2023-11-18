@@ -2,7 +2,7 @@ package chat.teco.tecochat
 
 import chat.teco.tecochat.application.UpdateCommentRequest
 import chat.teco.tecochat.application.WriteCommentRequest
-import chat.teco.tecochat.comment.domain.Comment
+import chat.teco.tecochat.domain.comment.Comment
 
 const val CONTENT = "댓글"
 const val UPDATED_CONTENT = "수정된 댓글"
@@ -13,7 +13,7 @@ fun createComment(
     content: String = CONTENT,
     id: Long = 0L,
 ): Comment {
-    return Comment(id, chatId, memberId, content)
+    return Comment(chatId, memberId, content, id)
 }
 
 fun createWriteCommentRequest(

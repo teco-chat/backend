@@ -12,7 +12,7 @@ private const val AUTH_HEADER_NAME = "name"
 
 @Component
 class AuthArgumentResolver(
-    private val authenticator: Authenticator
+    private val authenticator: Authenticator,
 ) : HandlerMethodArgumentResolver {
 
     override fun supportsParameter(parameter: MethodParameter): Boolean {
@@ -23,10 +23,10 @@ class AuthArgumentResolver(
         parameter: MethodParameter,
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
-        binderFactory: WebDataBinderFactory?
+        binderFactory: WebDataBinderFactory?,
     ): Long {
         val name = webRequest.getHeader(AUTH_HEADER_NAME)
             ?: throw IllegalStateException("인증에 실패하였습니다.")
-        return authenticator.authenticateWithBase64(name).id()
+        return authenticator.authenticateWithBase64(name).id
     }
 }

@@ -1,7 +1,7 @@
 package chat.teco.tecochat.chat.query.usecase;
 
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;

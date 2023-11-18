@@ -2,22 +2,20 @@ package chat.teco.tecochat.chat.application.chat;
 
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext;
 import chat.teco.tecochat.chat.application.chat.mapper.ChatMapper;
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import com.theokanning.openai.completion.chat.ChatCompletionChunk;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 import java.io.IOException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-@RequiredArgsConstructor
 @Component
 public class ChatStreamService {
 
@@ -25,6 +23,14 @@ public class ChatStreamService {
     private final TransactionTemplate transactionTemplate;
     private final ApplicationEventPublisher publisher;
     private final ChatRepository chatRepository;
+
+    public ChatStreamService(OpenAiService openAiService, TransactionTemplate transactionTemplate,
+                             ApplicationEventPublisher publisher, ChatRepository chatRepository) {
+        this.openAiService = openAiService;
+        this.transactionTemplate = transactionTemplate;
+        this.publisher = publisher;
+        this.chatRepository = chatRepository;
+    }
 
     private static String parseAnswer(ChatCompletionChunk completion) {
         String content = completion.getChoices().get(0).getMessage().getContent();
@@ -44,7 +50,7 @@ public class ChatStreamService {
 
     private Chat getOrCreateChat(ChatSocketContext context) {
         if (context.chatId() == null) {
-            return Chat.defaultChat(context.member(), context.question());
+            return Chat.Companion.defaultChat(context.member(), context.question());
         }
         return chatRepository.getWithQuestionAndAnswersById(context.chatId());
     }
@@ -73,12 +79,12 @@ public class ChatStreamService {
     }
 
     private Long getOrCreateChatId(Chat chat) {
-        if (chat.id() != null) {
-            return chat.id();
+        if (chat.getId() != 0) {
+            return chat.getId();
         }
         Chat save = chatRepository.save(chat);
         publisher.publishEvent(ChatCreatedEvent.from(save));
-        return save.id();
+        return save.getId();
     }
 
     private void closeSession(ChatSocketContext context) {

@@ -3,12 +3,12 @@ package chat.teco.tecochat.acceptance.member;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_생성;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
+import static chat.teco.tecochat.domain.member.Course.BACKEND;
+import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
-import chat.teco.tecochat.member.domain.Member;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +63,6 @@ public class MemberAcceptanceTest {
         List<Member> members = memberRepository.findAll();
         assertThat(members).hasSize(1);
         Member member = members.get(0);
-        assertThat(member.course()).isEqualTo(FRONTEND);
+        assertThat(member.getCourse()).isEqualTo(FRONTEND);
     }
 }

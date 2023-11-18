@@ -1,13 +1,15 @@
 package chat.teco.tecochat.chat.domain.chat;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.annotation.JpaRepositoryTest;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.Question;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -39,11 +41,11 @@ class ChatRepositoryTest {
 
         // then
         flushAndClear();
-        Chat find = chatRepository.findById(saved.id()).get();
+        Chat find = chatRepository.findById(saved.getId()).get();
         assertAll(
-                () -> assertThat(find.modelName()).isEqualTo(GPT_3_5_TURBO.modelName()),
-                () -> assertThat(find.title()).isEqualTo("안녕"),
-                () -> assertThat(find.questionAndAnswers()).hasSize(1)
+                () -> assertThat(find.modelName()).isEqualTo(GPT_3_5_TURBO.getModelName()),
+                () -> assertThat(find.getTitle()).isEqualTo("안녕"),
+                () -> assertThat(find.getQuestionAndAnswers().getQuestionAndAnswers()).hasSize(1)
         );
     }
 
@@ -60,10 +62,10 @@ class ChatRepositoryTest {
 
         // then
         flushAndClear();
-        Chat chat1 = chatRepository.findById(chat.id()).get();
-        assertThat(chat1.questionAndAnswers())
-                .extracting(QuestionAndAnswer::question)
-                .containsExactly(question("안녕"), question("안녕2"));
+        Chat chat1 = chatRepository.findById(chat.getId()).get();
+        assertThat(chat1.getQuestionAndAnswers().getQuestionAndAnswers())
+                .extracting(QuestionAndAnswer::getQuestion)
+                .containsExactly(Question.Companion.question("안녕"), Question.Companion.question("안녕2"));
     }
 
     private void flushAndClear() {

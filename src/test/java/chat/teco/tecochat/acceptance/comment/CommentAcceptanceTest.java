@@ -15,8 +15,8 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_�
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
 import static chat.teco.tecochat.comment.fixture.CommentFixture.댓글_검색의_예상_결과;
 import static chat.teco.tecochat.comment.fixture.CommentFixture.댓글_검색의_예상_결과들;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
+import static chat.teco.tecochat.domain.member.Course.BACKEND;
+import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.acceptance.common.AcceptanceTest;

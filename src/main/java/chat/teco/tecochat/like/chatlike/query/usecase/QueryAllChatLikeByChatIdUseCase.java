@@ -1,6 +1,6 @@
 package chat.teco.tecochat.like.chatlike.query.usecase;
 
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import java.time.LocalDateTime;
 import java.util.List;
 

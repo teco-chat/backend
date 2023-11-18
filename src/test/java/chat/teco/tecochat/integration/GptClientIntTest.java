@@ -2,9 +2,9 @@ package chat.teco.tecochat.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.domain.chat.Answer;
-import chat.teco.tecochat.chat.domain.chat.Question;
 import chat.teco.tecochat.chat.domain.keyword.GptClient;
+import chat.teco.tecochat.domain.chat.Answer;
+import chat.teco.tecochat.domain.chat.Question;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

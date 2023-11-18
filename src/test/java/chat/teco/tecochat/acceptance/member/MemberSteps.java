@@ -3,7 +3,7 @@ package chat.teco.tecochat.acceptance.member;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 
 import chat.teco.tecochat.application.MemberData;
-import chat.teco.tecochat.member.domain.Course;
+import chat.teco.tecochat.domain.member.Course;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 

@@ -1,14 +1,14 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
-import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_4;
+import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;

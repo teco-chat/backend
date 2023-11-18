@@ -11,6 +11,12 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version "1.9.20"
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.20'
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.20'
+    id 'org.jetbrains.kotlin.kapt' version '1.9.20'
+}
+
+allOpen {
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }
 
 archivesBaseName = "tecochat"
@@ -61,6 +67,8 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
+    kapt("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
 }
 
 tasks.named('test') {

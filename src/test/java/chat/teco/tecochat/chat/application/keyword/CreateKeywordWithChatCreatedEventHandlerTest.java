@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
-import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_4;
+import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,7 +13,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
@@ -21,6 +20,7 @@ import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.time.LocalDateTime;

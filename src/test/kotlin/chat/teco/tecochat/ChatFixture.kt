@@ -1,9 +1,9 @@
 package chat.teco.tecochat
 
 import chat.teco.tecochat.application.UpdateChatTitleRequest
-import chat.teco.tecochat.chat.domain.chat.Chat
-import chat.teco.tecochat.chat.domain.chat.GptModel
-import chat.teco.tecochat.chat.domain.chat.SettingMessage
+import chat.teco.tecochat.domain.chat.Chat
+import chat.teco.tecochat.domain.chat.GptModel
+import chat.teco.tecochat.domain.chat.SettingMessage
 
 const val TITLE = "제목"
 const val UPDATED_TITLE = "수정된 제목"
@@ -15,18 +15,11 @@ fun createChat(
     settingMessage: SettingMessage = SETTING_MESSAGE,
     title: String = TITLE,
     memberId: Long = 1L,
-    likeCount: Long = 0L,
-    commentCount: Long = 0L,
+    likeCount: Int = 0,
+    commentCount: Int = 0,
     id: Long = 0L,
 ): Chat {
-    val chat = Chat(id, gptModel, settingMessage, title, memberId)
-    for (i in 1..likeCount) {
-        chat.increaseLike()
-    }
-    for (i in 1..commentCount) {
-        chat.increaseComment()
-    }
-    return chat
+    return Chat(gptModel, settingMessage, title, memberId, likeCount, commentCount, id = id)
 }
 
 fun createUpdateChatTitleRequest(

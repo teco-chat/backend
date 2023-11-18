@@ -16,7 +16,7 @@ class CommentService(
         val comment = request.toComment(memberId)
         val chat = chatRepository.getById(request.chatId)
         chat.increaseComment()
-        return commentRepository.save(comment).id()
+        return commentRepository.save(comment).id
     }
 
     fun update(memberId: Long, commentId: Long, updateCommentRequest: UpdateCommentRequest) {
@@ -27,7 +27,7 @@ class CommentService(
     fun delete(memberId: Long, commentId: Long) {
         val comment = commentRepository.getById(commentId)
         comment.validateDelete(memberId)
-        val chat = chatRepository.getById(comment.chatId())
+        val chat = chatRepository.getById(comment.chatId)
         chat.decreaseComment()
         commentRepository.delete(comment)
     }

@@ -21,8 +21,8 @@ class ChatService(
     fun copy(memberId: Long, chatId: Long): Long {
         val chat = chatRepository.getById(chatId)
         val copiedChat = chatRepository.save(chat.copy(memberId))
-        publisher.publishEvent(ChatCopiedEvent(chat.id(), copiedChat.id()))
-        return copiedChat.id()
+        publisher.publishEvent(ChatCopiedEvent(chat.id, copiedChat.id))
+        return copiedChat.id
     }
 }
 

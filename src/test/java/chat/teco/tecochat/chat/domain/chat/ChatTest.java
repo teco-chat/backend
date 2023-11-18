@@ -1,17 +1,21 @@
 package chat.teco.tecochat.chat.domain.chat;
 
-import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_4;
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
-import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_4;
+import static chat.teco.tecochat.domain.chat.Question.question;
+import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.chat.Answer;
+import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswers;
+import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,11 +39,11 @@ class ChatTest {
                 "안녕", "응 안녕"));
 
         // then
-        QuestionAndAnswer qna = chat.questionAndAnswers().get(0);
+        QuestionAndAnswer qna = chat.getQuestionAndAnswers().getQuestionAndAnswers().get(0);
         assertAll(
-                () -> assertThat(qna.answer())
-                        .isEqualTo(answer("응 안녕")),
-                () -> assertThat(qna.question())
+                () -> assertThat(qna.getAnswer())
+                        .isEqualTo(Answer.answer("응 안녕")),
+                () -> assertThat(qna.getQuestion())
                         .isEqualTo(question("안녕"))
         );
     }
@@ -60,7 +64,7 @@ class ChatTest {
 
         // then
         assertThat(result.questionAndAnswers())
-                .extracting(QuestionAndAnswer::question)
+                .extracting(QuestionAndAnswer::getQuestion)
                 .containsExactly(question("질문2"), question("질문3"), question("질문4"));
     }
 
@@ -78,7 +82,7 @@ class ChatTest {
 
         // then
         assertThat(result.questionAndAnswers())
-                .extracting(QuestionAndAnswer::question)
+                .extracting(QuestionAndAnswer::getQuestion)
                 .containsExactly(question("질문1"), question("질문2"));
     }
 
@@ -90,25 +94,25 @@ class ChatTest {
             // given
             Member member = 말랑.회원();
             Member other = 허브.회원();
-            Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.id());
+            Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.getId());
 
             // when + then
             assertThrows(IllegalStateException.class, () ->
-                    chat.updateTitle(other.id(), "변경 제목")
+                    chat.updateTitle(other.getId(), "변경 제목")
             );
-            assertThat(chat.title()).isEqualTo("제목");
+            assertThat(chat.getTitle()).isEqualTo("제목");
         }
 
         @Test
         void 작성자라면_수정한다() {
             Member member = 말랑.회원();
-            Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.id());
+            Chat chat = new Chat(GPT_4, BACK_END_SETTING, "제목", member.getId());
 
             // when
-            chat.updateTitle(member.id(), "변경 제목");
+            chat.updateTitle(member.getId(), "변경 제목");
 
             // then
-            assertThat(chat.title()).isEqualTo("변경 제목");
+            assertThat(chat.getTitle()).isEqualTo("변경 제목");
         }
     }
 
@@ -142,6 +146,7 @@ class ChatTest {
 
             assertThat(copy)
                     .usingRecursiveComparison()
+                    .ignoringFieldsOfTypes(LocalDateTime.class)
                     .isEqualTo(expected);
         }
 
@@ -157,6 +162,7 @@ class ChatTest {
 
             assertThat(copy)
                     .usingRecursiveComparison()
+                    .ignoringFieldsOfTypes(LocalDateTime.class)
                     .isEqualTo(expected);
         }
     }

@@ -1,8 +1,8 @@
 package chat.teco.tecochat.comment.query.usecase;
 
-import chat.teco.tecochat.comment.domain.Comment;
-import chat.teco.tecochat.member.domain.Course;
-import chat.teco.tecochat.member.domain.Member;
+import chat.teco.tecochat.domain.comment.Comment;
+import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.domain.member.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,11 +19,11 @@ public interface QueryAllCommentByChatIdUseCase {
     ) {
         public static CommentQueryDto of(Comment comment, Member member) {
             return new CommentQueryDto(
-                    comment.id(),
-                    member.name(),
-                    member.course(),
-                    comment.content(),
-                    comment.createdAt()
+                    comment.getId(),
+                    member.getName(),
+                    member.getCourse(),
+                    comment.getContent(),
+                    comment.getCreatedAt()
             );
         }
     }

@@ -12,14 +12,14 @@ import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.채팅에_�
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.회원이_좋아요_누른_채팅_조회_결과_검증;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.회원이_좋아요_누른_채팅_조회_요청;
 import static chat.teco.tecochat.acceptance.member.MemberSteps.회원_가입_요청;
+import static chat.teco.tecochat.domain.member.Course.ANDROID;
+import static chat.teco.tecochat.domain.member.Course.BACKEND;
+import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_결과;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.내가_좋아요_누른_채팅_조회_결과들;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.조회될_채팅_키워드;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.채팅에_달린_좋아요_조회_예상_결과;
 import static chat.teco.tecochat.like.chatlike.fixture.LikeFixture.채팅에_달린_좋아요_조회_예상_결과들;
-import static chat.teco.tecochat.member.domain.Course.ANDROID;
-import static chat.teco.tecochat.member.domain.Course.BACKEND;
-import static chat.teco.tecochat.member.domain.Course.FRONTEND;
 
 import chat.teco.tecochat.acceptance.common.AcceptanceTest;
 import org.junit.jupiter.api.DisplayName;

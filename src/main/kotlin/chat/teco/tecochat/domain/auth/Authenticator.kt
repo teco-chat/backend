@@ -1,13 +1,13 @@
 package chat.teco.tecochat.domain.auth
 
 import chat.teco.tecochat.common.util.Base64Util
+import chat.teco.tecochat.domain.member.Member
 import chat.teco.tecochat.domain.member.MemberRepository
-import chat.teco.tecochat.member.domain.Member
 import org.springframework.stereotype.Component
 
 @Component
 class Authenticator(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) {
 
     fun authenticateWithBase64(encodedName: String): Member {

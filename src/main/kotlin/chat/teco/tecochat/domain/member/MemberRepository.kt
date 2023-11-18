@@ -1,6 +1,5 @@
 package chat.teco.tecochat.domain.member
 
-import chat.teco.tecochat.member.domain.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 // TODO
@@ -18,7 +17,7 @@ interface MemberRepository : JpaRepository<Member, Long> {
             .orElseThrow { NoSuchElementException("사용자가 존재하지 않습니다.") }
     }
 
-    fun getByName(name: String): Member? {
+    fun getByName(name: String): Member {
         return findByName(name) ?: throw NoSuchElementException("사용자가 존재하지 않습니다.")
     }
 }
