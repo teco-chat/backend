@@ -16,7 +16,7 @@ class CommentService(
         val comment = request.toComment(memberId)
         val chat = chatRepository.getById(request.chatId)
         chat.increaseComment()
-        return commentRepository.save(comment).id()
+        return commentRepository.save(comment).id
     }
 
     fun update(memberId: Long, commentId: Long, updateCommentRequest: UpdateCommentRequest) {

@@ -1,9 +1,9 @@
 package chat.teco.tecochat.like.chatlike.fixture;
 
 import chat.teco.tecochat.application.ChatLikeRequest;
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.domain.member.Member;
@@ -82,11 +82,11 @@ public class LikeFixture {
         public static final Chat 채팅 = 말랑_채팅.초기_채팅();
 
         public static ChatLike 좋아요() {
-            return new ChatLike(ID, 회원.id(), 채팅.id());
+            return new ChatLike(ID, 회원.getId(), 채팅.getId());
         }
 
         public static ChatLikeRequest 좋아요_클릭_명령어() {
-            return new ChatLikeRequest(채팅.id());
+            return new ChatLikeRequest(채팅.getId());
         }
     }
 
@@ -97,11 +97,11 @@ public class LikeFixture {
         public static final Chat 채팅 = 허브_채팅.초기_채팅();
 
         public static ChatLike 좋아요() {
-            return new ChatLike(ID, 회원.id(), 채팅.id());
+            return new ChatLike(ID, 회원.getId(), 채팅.getId());
         }
 
         public static ChatLikeRequest 좋아요_클릭_명령어() {
-            return new ChatLikeRequest(채팅.id());
+            return new ChatLikeRequest(채팅.getId());
         }
     }
 }

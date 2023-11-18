@@ -19,17 +19,17 @@ class ChatLikeServiceTest : BehaviorSpec({
     val chatLikeService = ChatLikeService(chatLikeRepository, chatRepository)
 
     Given("이미 좋아요를 누른 경우") {
-        val chat = createChat(likeCount = 1L)
+        val chat = createChat(likeCount = 1)
         val chatLike = createChatLike()
         every { chatRepository.getById(any()) } returns chat
         every { chatLikeRepository.findByMemberIdAndChatId(any(), any()) } returns chatLike
         every { chatLikeRepository.delete(any()) } returns Unit
 
         When("좋아요를 누를 때") {
-            chatLikeService.pushLike(MEMBER_ID, chat.id())
+            chatLikeService.pushLike(MEMBER_ID, chat.id)
 
             Then("좋아요가 취소된다") {
-                chat.likeCount() shouldBe 0
+                chat.likeCount shouldBe 0
                 verify(exactly = 1) { chatLikeRepository.delete(any()) }
             }
         }
@@ -42,10 +42,10 @@ class ChatLikeServiceTest : BehaviorSpec({
         every { chatLikeRepository.save(any()) } returns createChatLike()
 
         When("좋아요를 누를 때") {
-            chatLikeService.pushLike(MEMBER_ID, chat.id())
+            chatLikeService.pushLike(MEMBER_ID, chat.id)
 
             Then("좋아요가 등록된다") {
-                chat.likeCount() shouldBe 1
+                chat.likeCount shouldBe 1
                 verify(exactly = 1) { chatLikeRepository.save(any()) }
             }
         }

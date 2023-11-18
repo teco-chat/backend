@@ -1,14 +1,14 @@
 package chat.teco.tecochat.chat.query.mapper;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.Message;
-import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
+import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.Message;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.domain.member.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,16 +25,16 @@ public class ChatMapper {
                 .map(ChatMapper::mapToKeywordSearchQueryDto)
                 .toList();
         return new SearchChatResponse(
-                chat.id(),
-                member.id(),
+                chat.getId(),
+                member.getId(),
                 member.getName(),
                 member.getCourse(),
-                chat.title(),
-                chat.likeCount(),
-                chat.commentCount(),
-                chat.questionAndAnswers().size(),
+                chat.getTitle(),
+                chat.getLikeCount(),
+                chat.getCommentCount(),
+                chat.getQuestionAndAnswers().getQuestionAndAnswers().size(),
                 keywordQueryDtos,
-                chat.createdAt()
+                chat.getCreatedAt()
         );
     }
 
@@ -49,21 +49,21 @@ public class ChatMapper {
             List<Keyword> keywords
     ) {
         List<QueryMessageDto> messages = new ArrayList<>();
-        for (QuestionAndAnswer qna : chat.questionAndAnswers()) {
-            messages.add(mapToMessageQueryDto(qna.question(), qna.createdAt()));
-            messages.add(mapToMessageQueryDto(qna.answer(), qna.createdAt()));
+        for (QuestionAndAnswer qna : chat.getQuestionAndAnswers().getQuestionAndAnswers()) {
+            messages.add(mapToMessageQueryDto(qna.getQuestion(), qna.getCreatedAt()));
+            messages.add(mapToMessageQueryDto(qna.getAnswer(), qna.getCreatedAt()));
         }
         List<QueryKeywordDto> queryKeywordDtos = keywords.stream()
                 .map(ChatMapper::mapToKeywordQueryDto)
                 .toList();
         return new QueryChatByIdResponse(
-                chat.id(),
+                chat.getId(),
                 member.getName(),
                 member.getCourse(),
-                chat.title(),
-                chat.likeCount(),
+                chat.getTitle(),
+                chat.getLikeCount(),
                 isAlreadyClickLike,
-                chat.createdAt(),
+                chat.getCreatedAt(),
                 messages,
                 queryKeywordDtos);
     }

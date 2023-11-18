@@ -3,13 +3,13 @@ package chat.teco.tecochat.chat.query.mapper;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import java.util.List;
@@ -41,7 +41,7 @@ class ChatMapperTest {
                 ChatMapper.mapToQueryResponse(초기_채팅, 회원, true, 키워드들);
 
         // then
-        assertThat(response.id()).isEqualTo(초기_채팅.id());
+        assertThat(response.id()).isEqualTo(초기_채팅.getId());
         assertThat(response.course()).isEqualTo(회원.getCourse());
         assertThat(response.likeCount()).isEqualTo(2);
         assertThat(response.crewName()).isEqualTo("말랑");
@@ -81,11 +81,11 @@ class ChatMapperTest {
         SearchChatResponse response = ChatMapper.mapToSearchQueryResponse(초기_채팅, 회원, 키워드들);
 
         // then
-        assertThat(response.id()).isEqualTo(초기_채팅.id());
-        assertThat(response.crewId()).isEqualTo(회원.id());
+        assertThat(response.id()).isEqualTo(초기_채팅.getId());
+        assertThat(response.crewId()).isEqualTo(회원.getId());
         assertThat(response.crewName()).isEqualTo("말랑");
         assertThat(response.course()).isEqualTo(회원.getCourse());
-        assertThat(response.title()).isEqualTo(초기_채팅.title());
+        assertThat(response.title()).isEqualTo(초기_채팅.getTitle());
         assertThat(response.likeCount()).isEqualTo(2);
         assertThat(response.totalQnaCount()).isEqualTo(2);
         assertThat(response.keywords())

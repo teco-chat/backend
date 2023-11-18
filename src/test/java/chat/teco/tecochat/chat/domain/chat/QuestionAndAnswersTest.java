@@ -1,8 +1,11 @@
 package chat.teco.tecochat.chat.domain.chat;
 
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
+import static chat.teco.tecochat.domain.chat.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswers;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -29,36 +32,36 @@ class QuestionAndAnswersTest {
     @Test
     void 마지막_3개의_질문과_답변만을_반환한다() {
         // given
-        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
+        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(List.of(
                 new QuestionAndAnswer("질문1", "답변1"),
                 new QuestionAndAnswer("질문2", "답변2"),
                 new QuestionAndAnswer("질문3", "답변3"),
                 new QuestionAndAnswer("질문4", "답변4")
-        );
+        ));
 
         // when
         QuestionAndAnswers last3 = questionAndAnswers.last3QuestionAndAnswers();
 
         // then
         assertThat(last3.questionAndAnswers())
-                .extracting(QuestionAndAnswer::question)
+                .extracting(QuestionAndAnswer::getQuestion)
                 .containsExactly(question("질문2"), question("질문3"), question("질문4"));
     }
 
     @Test
     void 질문답변이_3개보다_적다면_전부_반환한다() {
         // given
-        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(
+        QuestionAndAnswers questionAndAnswers = new QuestionAndAnswers(List.of(
                 new QuestionAndAnswer("질문1", "답변1"),
                 new QuestionAndAnswer("질문2", "답변2")
-        );
+        ));
 
         // when
         QuestionAndAnswers last3 = questionAndAnswers.last3QuestionAndAnswers();
 
         // then
         assertThat(last3.questionAndAnswers())
-                .extracting(QuestionAndAnswer::question)
+                .extracting(QuestionAndAnswer::getQuestion)
                 .containsExactly(question("질문1"), question("질문2"));
     }
 }

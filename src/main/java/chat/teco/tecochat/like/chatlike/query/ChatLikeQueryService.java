@@ -1,7 +1,7 @@
 package chat.teco.tecochat.like.chatlike.query;
 
-import static chat.teco.tecochat.chat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.chat.domain.keyword.QKeyword.keyword1;
+import static chat.teco.tecochat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.domain.chatlike.QChatLike.chatLike;
 import static chat.teco.tecochat.domain.member.QMember.member;
 import static com.querydsl.core.types.Projections.constructor;
@@ -86,7 +86,7 @@ public class ChatLikeQueryService implements
                 .where(keyword1.chat.id.in(chatIds(chatResponses)))
                 .fetch()
                 .stream()
-                .collect(groupingBy(keyword -> keyword.chat().id()));
+                .collect(groupingBy(keyword -> keyword.chat().getId()));
 
         for (QueryChatLikedByMemberIdResponse chatResponse : chatResponses) {
             List<QueryLikedChatKeywordDto> list = chatIdKeywordMap.getOrDefault(chatResponse.id(), emptyList())

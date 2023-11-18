@@ -1,6 +1,6 @@
 package chat.teco.tecochat.common.event;
 
-import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.support.domain.BaseEntity;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;

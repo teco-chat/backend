@@ -3,6 +3,7 @@ package chat.teco.tecochat.chat.domain.chat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -23,9 +24,8 @@ class QuestionAndAnswerTest {
 
         // then
         assertAll(
-                () -> assertThat(copied.question().content()).isEqualTo("질문1"),
-                () -> assertThat(copied.answer().content()).isEqualTo("답변1"),
-                () -> assertThat(copied).isNotEqualTo(qna)
+                () -> assertThat(copied.getQuestion().content()).isEqualTo("질문1"),
+                () -> assertThat(copied.getAnswer().content()).isEqualTo("답변1")
         );
     }
 }

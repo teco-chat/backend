@@ -1,6 +1,5 @@
 package chat.teco.tecochat.domain.chat
 
-import chat.teco.tecochat.chat.domain.chat.Chat
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

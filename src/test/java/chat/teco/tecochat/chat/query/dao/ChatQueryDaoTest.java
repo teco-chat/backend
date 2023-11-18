@@ -1,20 +1,20 @@
 package chat.teco.tecochat.chat.query.dao;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_3_5_TURBO;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.LocalTime.MIN;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
-import chat.teco.tecochat.chat.domain.chat.SettingMessage;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.chat.SettingMessage;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.Course;
@@ -81,7 +81,7 @@ class ChatQueryDaoTest {
         Chat chat = new Chat(GPT_3_5_TURBO,
                 SettingMessage.byCourse(member.getCourse()),
                 member.getName() + "의 Title",
-                member.id());
+                member.getId());
 
         QuestionAndAnswer qna = new QuestionAndAnswer(
                 member.getName() + "의 Title",
@@ -100,8 +100,8 @@ class ChatQueryDaoTest {
         // then
         List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(6),
-                () -> assertThat(content.get(0).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(0).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("백엔드말랑의 Title")
         );
     }
@@ -115,14 +115,14 @@ class ChatQueryDaoTest {
         // then
         List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(3),
-                () -> assertThat(content.get(0).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(0).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("백엔드말랑의 Title"),
-                () -> assertThat(content.get(1).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(1).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("안드로이드말랑의 Title"),
-                () -> assertThat(content.get(2).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(2).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("프론트엔드말랑의 Title")
         );
     }
@@ -136,11 +136,11 @@ class ChatQueryDaoTest {
         // then
         List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(2),
-                () -> assertThat(content.get(0).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(0).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("백엔드허브의 Title"),
-                () -> assertThat(content.get(1).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(1).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("프론트엔드허브의 Title")
         );
     }
@@ -155,11 +155,11 @@ class ChatQueryDaoTest {
         // then
         List<Chat> content = search.getContent();
         assertAll(() -> assertThat(content).hasSize(2),
-                () -> assertThat(content.get(0).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(0).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("안드로이드말랑의 Title"),
-                () -> assertThat(content.get(1).questionAndAnswers())
-                        .extracting(it -> it.question().content())
+                () -> assertThat(content.get(1).getQuestionAndAnswers().getQuestionAndAnswers())
+                        .extracting(it -> it.getQuestion().content())
                         .containsExactly("안드로이드허브의 Title")
         );
     }
@@ -196,12 +196,12 @@ class ChatQueryDaoTest {
 
         @BeforeEach
         void setUp() {
-            채팅1 = chatRepository.findById(채팅1.id()).get();
-            채팅2 = chatRepository.findById(채팅2.id()).get();
-            채팅3 = chatRepository.findById(채팅3.id()).get();
-            채팅4 = chatRepository.findById(채팅4.id()).get();
-            채팅5 = chatRepository.findById(채팅5.id()).get();
-            채팅6 = chatRepository.findById(채팅6.id()).get();
+            채팅1 = chatRepository.findById(채팅1.getId()).get();
+            채팅2 = chatRepository.findById(채팅2.getId()).get();
+            채팅3 = chatRepository.findById(채팅3.getId()).get();
+            채팅4 = chatRepository.findById(채팅4.getId()).get();
+            채팅5 = chatRepository.findById(채팅5.getId()).get();
+            채팅6 = chatRepository.findById(채팅6.getId()).get();
         }
 
         @Test
@@ -367,7 +367,7 @@ class ChatQueryDaoTest {
 
         private void 좋아요(long 회원_ID, Chat 채팅, LocalDateTime 생성시간) {
             채팅.increaseLike();
-            ChatLike chatLike = new ChatLike(회원_ID, 채팅.id(), 0L);
+            ChatLike chatLike = new ChatLike(회원_ID, 채팅.getId(), 0L);
             ChatLike save = chatLikeRepository.save(chatLike);
             ReflectionTestUtils.setField(save, "createdAt", 생성시간);
             em.flush();

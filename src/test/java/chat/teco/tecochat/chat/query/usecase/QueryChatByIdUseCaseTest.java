@@ -4,10 +4,10 @@ import static chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
+import chat.teco.tecochat.domain.chat.Chat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -37,16 +37,16 @@ class QueryChatByIdUseCaseTest extends ChatQueryUseCaseTest {
         // then
         assertAll(
                 () -> assertThat(response.crewName()).isEqualTo(말랑.이름),
-                () -> assertThat(response.title()).isEqualTo(chat.title()),
+                () -> assertThat(response.title()).isEqualTo(chat.getTitle()),
                 () -> assertThat(response.messages())
                         .extracting(QueryMessageDto::content)
                         .containsExactly(
-                                말랑_채팅.QNA_1.question().content(),
-                                말랑_채팅.QNA_1.answer().content(),
-                                말랑_채팅.QNA_2.question().content(),
-                                말랑_채팅.QNA_2.answer().content(),
-                                말랑_채팅.QNA_3.question().content(),
-                                말랑_채팅.QNA_3.answer().content()
+                                말랑_채팅.QNA_1.getQuestion().content(),
+                                말랑_채팅.QNA_1.getAnswer().content(),
+                                말랑_채팅.QNA_2.getQuestion().content(),
+                                말랑_채팅.QNA_2.getAnswer().content(),
+                                말랑_채팅.QNA_3.getQuestion().content(),
+                                말랑_채팅.QNA_3.getAnswer().content()
                         )
         );
     }

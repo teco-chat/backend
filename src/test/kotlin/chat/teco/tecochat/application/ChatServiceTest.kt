@@ -27,10 +27,10 @@ class ChatServiceTest : FeatureSpec({
             every { chatRepository.getById(any()) } returns chat
             every { chatRepository.save(any()) } returns copiedChat
 
-            chatService.copy(2L, chat.id())
+            chatService.copy(2L, chat.id)
 
             verify(exactly = 1) { chatRepository.save(any()) }
-            verify(exactly = 1) { applicationEventPublisher.publishEvent(ChatCopiedEvent(chat.id(), copiedChat.id())) }
+            verify(exactly = 1) { applicationEventPublisher.publishEvent(ChatCopiedEvent(chat.id, copiedChat.id)) }
         }
     }
 
@@ -41,9 +41,9 @@ class ChatServiceTest : FeatureSpec({
             val request = createUpdateChatTitleRequest()
             every { chatRepository.getById(any()) } returns chat
 
-            chatService.updateTitle(1L, chat.id(), request)
+            chatService.updateTitle(1L, chat.id, request)
 
-            chat.title() shouldBe request.title
+            chat.title shouldBe request.title
         }
 
         scenario("채팅을 진행한 사람이 아닌 경우 예외가 발생한다") {
@@ -52,7 +52,7 @@ class ChatServiceTest : FeatureSpec({
             every { chatRepository.getById(any()) } returns chat
 
             shouldThrow<IllegalStateException> {
-                chatService.updateTitle(2L, chat.id(), request)
+                chatService.updateTitle(2L, chat.id, request)
             }
         }
     }

@@ -17,7 +17,7 @@ interface MemberRepository : JpaRepository<Member, Long> {
             .orElseThrow { NoSuchElementException("사용자가 존재하지 않습니다.") }
     }
 
-    fun getByName(name: String): Member? {
+    fun getByName(name: String): Member {
         return findByName(name) ?: throw NoSuchElementException("사용자가 존재하지 않습니다.")
     }
 }

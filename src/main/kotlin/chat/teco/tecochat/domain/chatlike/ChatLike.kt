@@ -1,6 +1,6 @@
 package chat.teco.tecochat.domain.chatlike
 
-import chat.teco.tecochat.common.entity.BaseEntity
+import chat.teco.tecochat.support.domain.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 

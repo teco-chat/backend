@@ -1,12 +1,12 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
 import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.event.BaseEventHistory;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.KeywordRepository;
 import java.util.List;

@@ -1,19 +1,19 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.domain.chat.Answer.answer;
-import static chat.teco.tecochat.chat.domain.chat.Question.question;
+import static chat.teco.tecochat.domain.chat.Answer.answer;
+import static chat.teco.tecochat.domain.chat.Question.question;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-import chat.teco.tecochat.chat.domain.chat.Answer;
-import chat.teco.tecochat.chat.domain.chat.Message;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.ChoiceResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.MessageResponse;
 import chat.teco.tecochat.chat.domain.keyword.GptClient.ChatCompletionResponse.UsageResponse;
+import chat.teco.tecochat.domain.chat.Answer;
+import chat.teco.tecochat.domain.chat.Message;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;

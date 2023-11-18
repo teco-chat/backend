@@ -3,11 +3,11 @@ package chat.teco.tecochat.chat.query.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
+import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
 import org.junit.jupiter.api.DisplayName;
@@ -52,11 +52,11 @@ class SearchChatUseCaseTest extends ChatQueryUseCaseTest {
         assertAll(
                 () -> assertThat(말랑이_채팅_검색_결과.crewName()).isEqualTo("말랑"),
                 () -> assertThat(말랑이_채팅_검색_결과.course()).isEqualTo(Course.BACKEND),
-                () -> assertThat(말랑이_채팅_검색_결과.title()).isEqualTo(chat1.title()),
+                () -> assertThat(말랑이_채팅_검색_결과.title()).isEqualTo(chat1.getTitle()),
 
                 () -> assertThat(허브_채팅_검색_결과.crewName()).isEqualTo("허브"),
                 () -> assertThat(허브_채팅_검색_결과.course()).isEqualTo(Course.FRONTEND),
-                () -> assertThat(허브_채팅_검색_결과.title()).isEqualTo(chat2.title())
+                () -> assertThat(허브_채팅_검색_결과.title()).isEqualTo(chat2.getTitle())
         );
     }
 }

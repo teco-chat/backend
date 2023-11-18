@@ -1,19 +1,19 @@
 package chat.teco.tecochat.chat.fixture;
 
-import static chat.teco.tecochat.chat.domain.chat.GptModel.GPT_3_5_TURBO;
-import static chat.teco.tecochat.chat.domain.chat.Role.ASSISTANT;
-import static chat.teco.tecochat.chat.domain.chat.Role.USER;
-import static chat.teco.tecochat.chat.domain.chat.SettingMessage.BACK_END_SETTING;
-import static chat.teco.tecochat.chat.domain.chat.SettingMessage.FRONT_END_SETTING;
+import static chat.teco.tecochat.domain.chat.GptModel.GPT_3_5_TURBO;
+import static chat.teco.tecochat.domain.chat.Role.ASSISTANT;
+import static chat.teco.tecochat.domain.chat.Role.USER;
+import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
+import static chat.teco.tecochat.domain.chat.SettingMessage.FRONT_END_SETTING;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.chat.domain.chat.GptModel;
-import chat.teco.tecochat.chat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
+import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.GptModel;
+import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
@@ -51,8 +51,8 @@ public class ChatFixture {
         Deque<String> deque = new ArrayDeque<>(Arrays.asList(질문과_답변들));
         List<QueryMessageDto> result = new ArrayList<>();
         while (!deque.isEmpty()) {
-            result.add(new QueryMessageDto(deque.pollFirst(), USER.roleName(), null));
-            result.add(new QueryMessageDto(deque.pollFirst(), ASSISTANT.roleName(), null));
+            result.add(new QueryMessageDto(deque.pollFirst(), USER.getRoleName(), null));
+            result.add(new QueryMessageDto(deque.pollFirst(), ASSISTANT.getRoleName(), null));
         }
         return result;
     }
@@ -121,7 +121,7 @@ public class ChatFixture {
     public static Chat chat(QuestionAndAnswer... questionAndAnswers) {
         Chat chat = new Chat(GPT_3_5_TURBO,
                 BACK_END_SETTING,
-                questionAndAnswers[0].question().content(),
+                questionAndAnswers[0].getQuestion().content(),
                 1L);
 
         for (QuestionAndAnswer questionAndAnswer : questionAndAnswers) {
@@ -138,7 +138,7 @@ public class ChatFixture {
                                      List<QuestionAndAnswer> questionAndAnswers) {
         Chat chat = new Chat(gptModel,
                 BACK_END_SETTING,
-                questionAndAnswers.get(0).question().content(),
+                questionAndAnswers.get(0).getQuestion().content(),
                 1L);
 
         for (QuestionAndAnswer questionAndAnswer : questionAndAnswers) {

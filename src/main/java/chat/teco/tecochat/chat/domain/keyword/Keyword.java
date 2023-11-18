@@ -1,7 +1,7 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import chat.teco.tecochat.chat.domain.chat.Chat;
-import chat.teco.tecochat.common.entity.BaseEntity;
+import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.support.domain.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

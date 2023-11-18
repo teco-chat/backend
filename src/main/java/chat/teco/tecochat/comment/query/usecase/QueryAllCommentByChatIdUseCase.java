@@ -19,11 +19,11 @@ public interface QueryAllCommentByChatIdUseCase {
     ) {
         public static CommentQueryDto of(Comment comment, Member member) {
             return new CommentQueryDto(
-                    comment.id(),
+                    comment.getId(),
                     member.getName(),
                     member.getCourse(),
                     comment.getContent(),
-                    comment.createdAt()
+                    comment.getCreatedAt()
             );
         }
     }

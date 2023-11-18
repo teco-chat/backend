@@ -36,10 +36,10 @@ class CommentServiceTest : FeatureSpec({
             every { chatRepository.getById(any()) } returns chat
             every { commentRepository.save(any()) } returns createComment()
 
-            commentService.write(1L, createWriteCommentRequest(chatId = chat.id()))
+            commentService.write(1L, createWriteCommentRequest(chatId = chat.id))
 
             verify(exactly = 1) { commentRepository.save(any()) }
-            chat.commentCount() shouldBe 1
+            chat.commentCount shouldBe 1
         }
     }
 
@@ -49,7 +49,7 @@ class CommentServiceTest : FeatureSpec({
             every { commentRepository.getById(any()) } returns comment
 
             shouldThrow<IllegalStateException> {
-                commentService.update(2L, comment.id(), createUpdateCommentRequest())
+                commentService.update(2L, comment.id, createUpdateCommentRequest())
             }
         }
 
@@ -58,7 +58,7 @@ class CommentServiceTest : FeatureSpec({
             val updateCommentRequest = createUpdateCommentRequest()
             every { commentRepository.getById(any()) } returns comment
 
-            commentService.update(1L, comment.id(), updateCommentRequest)
+            commentService.update(1L, comment.id, updateCommentRequest)
 
             comment.content shouldBe updateCommentRequest.content
         }
@@ -80,21 +80,21 @@ class CommentServiceTest : FeatureSpec({
             every { commentRepository.getById(any()) } returns comment
 
             shouldThrow<IllegalStateException> {
-                commentService.delete(2L, comment.id())
+                commentService.delete(2L, comment.id)
             }
         }
 
         scenario("댓글이 정상적으로 삭제된다") {
-            val chat = createChat(commentCount = 1L)
+            val chat = createChat(commentCount = 1)
             val comment = createComment()
             every { chatRepository.getById(any()) } returns chat
             every { commentRepository.getById(any()) } returns comment
             every { commentRepository.delete(any()) } just runs
 
-            commentService.delete(comment.memberId, comment.id())
+            commentService.delete(comment.memberId, comment.id)
 
             verify(exactly = 1) { commentRepository.delete(any()) }
-            chat.commentCount() shouldBe 0
+            chat.commentCount shouldBe 0
         }
     }
 })
