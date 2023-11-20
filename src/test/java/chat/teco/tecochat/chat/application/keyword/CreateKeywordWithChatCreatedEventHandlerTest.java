@@ -22,7 +22,7 @@ import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
-import chat.teco.tecochat.domain.chat.KeywordRepository;
+import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
