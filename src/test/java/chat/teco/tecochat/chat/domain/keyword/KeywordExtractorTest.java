@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
 import static chat.teco.tecochat.domain.chat.GptModel.GPT_4;
 import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,8 +8,6 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-import chat.teco.tecochat.chat.exception.keyword.KeywordException;
-import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.domain.chat.Answer;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
@@ -60,12 +57,9 @@ class KeywordExtractorTest {
         given(gptClient.ask(anyList()))
                 .willReturn(Answer.answer(keywords));
 
-        // when
-        BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
+        // expect
+        assertThrows(IllegalStateException.class, () ->
                 extractor.extractKeywords(chat)
-        ).exceptionType();
-
-        // then
-        assertThat(baseExceptionType).isEqualTo(CAN_NOT_EXTRACTED_KEYWORD);
+        );
     }
 }
