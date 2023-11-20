@@ -1,9 +1,9 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import java.util.List;
 import org.springframework.context.event.EventListener;

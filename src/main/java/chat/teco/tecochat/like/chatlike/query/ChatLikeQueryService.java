@@ -1,14 +1,14 @@
 package chat.teco.tecochat.like.chatlike.query;
 
-import static chat.teco.tecochat.chat.domain.keyword.QKeyword.keyword1;
 import static chat.teco.tecochat.domain.chat.QChat.chat;
 import static chat.teco.tecochat.domain.chatlike.QChatLike.chatLike;
+import static chat.teco.tecochat.domain.keyword.QKeyword.keyword1;
 import static chat.teco.tecochat.domain.member.QMember.member;
 import static com.querydsl.core.types.Projections.constructor;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
 import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase;
@@ -86,12 +86,12 @@ public class ChatLikeQueryService implements
                 .where(keyword1.chat.id.in(chatIds(chatResponses)))
                 .fetch()
                 .stream()
-                .collect(groupingBy(keyword -> keyword.chat().getId()));
+                .collect(groupingBy(keyword -> keyword.getChat().getId()));
 
         for (QueryChatLikedByMemberIdResponse chatResponse : chatResponses) {
             List<QueryLikedChatKeywordDto> list = chatIdKeywordMap.getOrDefault(chatResponse.id(), emptyList())
                     .stream()
-                    .map(it -> new QueryLikedChatKeywordDto(it.keyword()))
+                    .map(it -> new QueryLikedChatKeywordDto(it.getKeyword()))
                     .toList();
             chatResponse.addKeywords(list);
         }

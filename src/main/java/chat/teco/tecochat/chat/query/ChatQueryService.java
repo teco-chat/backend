@@ -5,7 +5,6 @@ import static chat.teco.tecochat.chat.query.mapper.ChatMapper.mapToSearchQueryRe
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
@@ -13,6 +12,7 @@ import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
@@ -66,6 +66,6 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
     private Map<Long, List<Keyword>> findAllByChatIds(List<Long> chatIds) {
         return keywordRepository.findAllInChatIds(chatIds)
                 .stream()
-                .collect(groupingBy(keyword -> keyword.chat().getId()));
+                .collect(groupingBy(keyword -> keyword.getChat().getId()));
     }
 }

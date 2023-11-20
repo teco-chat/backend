@@ -12,12 +12,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import java.time.LocalDateTime;
 import java.util.List;

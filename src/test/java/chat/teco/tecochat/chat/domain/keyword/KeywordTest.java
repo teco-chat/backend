@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -28,8 +29,8 @@ class KeywordTest {
 
         // then
         assertAll(
-                () -> assertThat(copied.keyword()).isEqualTo("말랑"),
-                () -> assertThat(copied.chat()).isEqualTo(copiedChat)
+                () -> assertThat(copied.getKeyword()).isEqualTo("말랑"),
+                () -> assertThat(copied.getChat()).isEqualTo(copiedChat)
         );
     }
 }
