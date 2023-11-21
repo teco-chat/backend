@@ -1,12 +1,11 @@
 package chat.teco.tecochat.chat.domain.keyword;
 
-import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
-
-import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.domain.chat.Answer;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.Question;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.keyword.GptClient;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
@@ -50,7 +49,7 @@ public class KeywordExtractor {
     private void validateKeyword(List<Keyword> keywords) {
         if (keywords.size() != 3) {
             log.info("키워드가 3개가 반환되지 않음 [{}]", keywords);
-            throw new KeywordException(CAN_NOT_EXTRACTED_KEYWORD);
+            throw new IllegalStateException("키워드 추출에 실패했습니다.");
         }
     }
 }

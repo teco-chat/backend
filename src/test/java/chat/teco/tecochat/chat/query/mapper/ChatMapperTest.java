@@ -3,13 +3,13 @@ package chat.teco.tecochat.chat.query.mapper;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import java.util.List;

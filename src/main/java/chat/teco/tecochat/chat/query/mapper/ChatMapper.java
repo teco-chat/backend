@@ -1,6 +1,5 @@
 package chat.teco.tecochat.chat.query.mapper;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
@@ -9,6 +8,7 @@ import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatRespons
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.Message;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.member.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class ChatMapper {
     }
 
     private static SearchKeywordDto mapToKeywordSearchQueryDto(Keyword keyword) {
-        return new SearchKeywordDto(keyword.keyword());
+        return new SearchKeywordDto(keyword.getKeyword());
     }
 
     public static QueryChatByIdResponse mapToQueryResponse(
@@ -76,6 +76,6 @@ public class ChatMapper {
     }
 
     private static QueryKeywordDto mapToKeywordQueryDto(Keyword keyword) {
-        return new QueryKeywordDto(keyword.keyword());
+        return new QueryKeywordDto(keyword.getKeyword());
     }
 }

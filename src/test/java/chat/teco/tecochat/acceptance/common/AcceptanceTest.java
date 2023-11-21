@@ -1,10 +1,10 @@
 package chat.teco.tecochat.acceptance.common;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
-import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.keyword.Keyword;
+import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.domain.member.MemberRepository;
 import io.restassured.RestAssured;
 import java.util.Arrays;

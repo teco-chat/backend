@@ -10,6 +10,7 @@ import com.theokanning.openai.completion.chat.ChatCompletionChunk;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -50,9 +51,10 @@ public class ChatStreamService {
 
     private Chat getOrCreateChat(ChatSocketContext context) {
         if (context.chatId() == null) {
-            return Chat.Companion.defaultChat(context.member(), context.question());
+            return Chat.defaultChat(context.member(), context.question());
         }
-        return chatRepository.getWithQuestionAndAnswersById(context.chatId());
+        return chatRepository.findWithQuestionAndAnswersById(context.chatId())
+                .orElseThrow(() -> new NoSuchElementException("채팅이 존재하지 않습니다."));
     }
 
     private void sendAnswer(ChatSocketContext context, ChatCompletionChunk completion) {

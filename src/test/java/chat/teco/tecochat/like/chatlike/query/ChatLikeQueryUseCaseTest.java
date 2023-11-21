@@ -1,14 +1,14 @@
 package chat.teco.tecochat.like.chatlike.query;
 
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.fixture.ChatFixture;
 import chat.teco.tecochat.common.config.JpaConfig;
 import chat.teco.tecochat.common.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
-import chat.teco.tecochat.domain.chat.KeywordRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
+import chat.teco.tecochat.domain.keyword.Keyword;
+import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
@@ -90,12 +90,12 @@ public class ChatLikeQueryUseCaseTest {
         박스터_채팅.increaseLike();
         박스터_채팅.increaseLike();
 
-        말랑채팅_키워드1 = keywordRepository.save(new Keyword("말랑1", 말랑_채팅)).keyword();
-        말랑채팅_키워드2 = keywordRepository.save(new Keyword("말랑2", 말랑_채팅)).keyword();
-        말랑채팅_키워드3 = keywordRepository.save(new Keyword("말라3", 말랑_채팅)).keyword();
-        허브채팅_키워드1 = keywordRepository.save(new Keyword("허브1", 허브_채팅)).keyword();
-        허브채팅_키워드2 = keywordRepository.save(new Keyword("허브2", 허브_채팅)).keyword();
-        허브채팅_키워드3 = keywordRepository.save(new Keyword("허브3", 허브_채팅)).keyword();
+        말랑채팅_키워드1 = keywordRepository.save(new Keyword("말랑1", 말랑_채팅)).getKeyword();
+        말랑채팅_키워드2 = keywordRepository.save(new Keyword("말랑2", 말랑_채팅)).getKeyword();
+        말랑채팅_키워드3 = keywordRepository.save(new Keyword("말라3", 말랑_채팅)).getKeyword();
+        허브채팅_키워드1 = keywordRepository.save(new Keyword("허브1", 허브_채팅)).getKeyword();
+        허브채팅_키워드2 = keywordRepository.save(new Keyword("허브2", 허브_채팅)).getKeyword();
+        허브채팅_키워드3 = keywordRepository.save(new Keyword("허브3", 허브_채팅)).getKeyword();
 
         em.flush();
         em.clear();

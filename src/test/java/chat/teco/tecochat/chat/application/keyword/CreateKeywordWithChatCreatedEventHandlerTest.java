@@ -1,9 +1,7 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import static chat.teco.tecochat.chat.exception.keyword.KeywordExceptionType.CAN_NOT_EXTRACTED_KEYWORD;
 import static chat.teco.tecochat.domain.chat.GptModel.GPT_4;
 import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
@@ -14,15 +12,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
-import chat.teco.tecochat.chat.domain.keyword.Keyword;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
-import chat.teco.tecochat.chat.exception.keyword.KeywordException;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.common.event.EventHistoryRepository;
-import chat.teco.tecochat.common.exception.BaseExceptionType;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
-import chat.teco.tecochat.domain.chat.KeywordRepository;
+import chat.teco.tecochat.domain.keyword.Keyword;
+import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -78,15 +74,12 @@ class CreateKeywordWithChatCreatedEventHandlerTest {
         given(chatRepository.getWithQuestionAndAnswersById(anyLong()))
                 .willReturn(chat);
         given(keywordExtractor.extractKeywords(chat))
-                .willThrow(new KeywordException(CAN_NOT_EXTRACTED_KEYWORD));
+                .willThrow(new IllegalStateException("키워드 추출에 실패했습니다."));
 
-        // when
-        BaseExceptionType baseExceptionType = assertThrows(KeywordException.class, () ->
+        // expect
+        assertThrows(IllegalStateException.class, () ->
                 handler.handle(new ChatCreatedEvent(1L, LocalDateTime.MAX))
-        ).exceptionType();
-
-        // then
-        assertThat(baseExceptionType).isEqualTo(CAN_NOT_EXTRACTED_KEYWORD);
+        );
         verify(eventHistoryRepository, times(0)).save(any());
         verify(keywordRepository, times(0)).saveAll(anyCollection());
     }
