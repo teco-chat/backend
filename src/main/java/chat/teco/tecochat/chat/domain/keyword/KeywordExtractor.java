@@ -4,6 +4,7 @@ import chat.teco.tecochat.domain.chat.Answer;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.Question;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.keyword.GptClient;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import java.util.Arrays;
 import java.util.List;

@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import chat.teco.tecochat.domain.chat.Answer;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
+import chat.teco.tecochat.domain.keyword.GptClient;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
