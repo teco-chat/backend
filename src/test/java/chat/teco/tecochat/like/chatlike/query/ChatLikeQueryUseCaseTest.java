@@ -1,8 +1,8 @@
 package chat.teco.tecochat.like.chatlike.query;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture;
-import chat.teco.tecochat.common.config.JpaConfig;
-import chat.teco.tecochat.common.config.QueryDslConfig;
+import chat.teco.tecochat.config.JpaConfig;
+import chat.teco.tecochat.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
