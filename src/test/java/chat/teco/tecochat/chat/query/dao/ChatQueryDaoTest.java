@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
-import chat.teco.tecochat.common.config.JpaConfig;
-import chat.teco.tecochat.common.config.QueryDslConfig;
+import chat.teco.tecochat.config.JpaConfig;
+import chat.teco.tecochat.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;

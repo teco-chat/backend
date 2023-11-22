@@ -1,7 +1,7 @@
 package chat.teco.tecochat.common.annotation;
 
-import chat.teco.tecochat.common.config.JpaConfig;
-import chat.teco.tecochat.common.config.QueryDslConfig;
+import chat.teco.tecochat.config.JpaConfig;
+import chat.teco.tecochat.config.QueryDslConfig;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
