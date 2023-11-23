@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.domain.chat.event;
 
-import chat.teco.tecochat.common.event.BaseEvent;
-import chat.teco.tecochat.common.event.BaseEventHistory;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.support.domain.BaseEvent;
+import chat.teco.tecochat.support.domain.BaseEventHistory;
 import java.time.LocalDateTime;
 
 public class ChatCreatedEvent extends BaseEvent {

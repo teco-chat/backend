@@ -1,6 +1,6 @@
 package chat.teco.tecochat.chat.domain.chat.event;
 
-import chat.teco.tecochat.common.event.BaseEventHistory;
+import chat.teco.tecochat.support.domain.BaseEventHistory;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import java.time.LocalDateTime;
