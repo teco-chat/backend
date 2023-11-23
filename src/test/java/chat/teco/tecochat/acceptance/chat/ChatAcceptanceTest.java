@@ -14,7 +14,7 @@ import static chat.teco.tecochat.acceptance.chat.ChatSteps.좋아요_기간_조�
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_복제_요청;
 import static chat.teco.tecochat.acceptance.chat.ChatSteps.채팅_제목_수정_요청;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비어있음;
-import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.서버_오류;
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비정상_요청;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_요청;
 import static chat.teco.tecochat.acceptance.like.chat.ChatLikeSteps.좋아요_요청;
@@ -75,7 +75,7 @@ public class ChatAcceptanceTest extends AcceptanceTest {
         var 응답 = 채팅_제목_수정_요청(채팅_ID, "허브", "변경할 제목");
 
         // then
-        요청_결과의_상태를_검증한다(응답, 서버_오류);
+        요청_결과의_상태를_검증한다(응답, 비정상_요청);
         var 채팅_조회_결과 = 단일_채팅_조회_요청(채팅_ID, "말랑");
         var 단일_채팅_조회의_예상_결과 = 단일_채팅_조회의_예상_결과(
                 채팅_ID,

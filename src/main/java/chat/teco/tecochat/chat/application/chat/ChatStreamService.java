@@ -2,8 +2,8 @@ package chat.teco.tecochat.chat.application.chat;
 
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext;
 import chat.teco.tecochat.chat.application.chat.mapper.ChatMapper;
-import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.ChatCreatedEvent;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import com.theokanning.openai.completion.chat.ChatCompletionChunk;
