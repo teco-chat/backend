@@ -3,8 +3,6 @@ package chat.teco.tecochat.acceptance.common;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import chat.teco.tecochat.common.exception.BaseExceptionType;
-import chat.teco.tecochat.common.exception.ExceptionResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.response.ExtractableResponse;
@@ -27,17 +25,6 @@ public class AcceptanceTestSteps {
 
     public static void 요청_결과의_상태를_검증한다(ExtractableResponse<Response> 요청_결과, HttpStatus 상태) {
         assertThat(요청_결과.statusCode()).isEqualTo(상태.value());
-    }
-
-    public static void 발생한_예외를_검증한다(
-            ExtractableResponse<Response> 응답,
-            BaseExceptionType 예외_타입
-    ) {
-        ExceptionResponse exceptionResponse = 응답.as(ExceptionResponse.class);
-        assertThat(exceptionResponse.code())
-                .isEqualTo(String.valueOf(예외_타입.errorCode()));
-        assertThat(exceptionResponse.message())
-                .isEqualTo(예외_타입.errorMessage());
     }
 
     public static RequestSpecification given() {

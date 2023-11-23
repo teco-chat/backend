@@ -8,6 +8,7 @@ import static chat.teco.tecochat.acceptance.comment.CommentSteps.댓글들_조�
 import static chat.teco.tecochat.acceptance.comment.CommentSteps.생성된_댓글의_ID;
 import static chat.teco.tecochat.acceptance.comment.CommentSteps.채팅에_달린_댓글들_조회_요청;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비어있음;
+import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.비정상_요청;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.서버_오류;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.요청_결과의_상태를_검증한다;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.정상_생성;
@@ -114,7 +115,7 @@ public class CommentAcceptanceTest extends AcceptanceTest {
         var 응답 = 댓글_제거_요청("허브", 댓글_ID);
 
         // then
-        요청_결과의_상태를_검증한다(응답, 서버_오류);
+        요청_결과의_상태를_검증한다(응답, 비정상_요청);
         var 조회_응답 = 채팅에_달린_댓글들_조회_요청(채팅_ID);
         var 예상_결과 = 댓글_검색의_예상_결과들(
                 댓글_검색의_예상_결과(댓글_ID, "말랑", BACKEND, "댓글 내용입니다.")
