@@ -11,4 +11,5 @@ abstract class BaseEvent(
     )
 
     abstract fun history(): BaseEventHistory
+    abstract fun processedHistory(): BaseEventHistory
 }

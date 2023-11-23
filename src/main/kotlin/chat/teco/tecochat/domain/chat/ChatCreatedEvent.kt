@@ -13,6 +13,12 @@ class ChatCreatedEvent(
         return ChatCreatedEventHistory(localDateTime, chatId)
     }
 
+    override fun processedHistory(): BaseEventHistory {
+        return ChatCreatedEventHistory(localDateTime, chatId).apply {
+            process()
+        }
+    }
+
     companion object {
         @JvmStatic
         fun from(chat: Chat): ChatCreatedEvent {
