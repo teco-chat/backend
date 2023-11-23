@@ -1,8 +1,8 @@
 package chat.teco.tecochat.chat.application.keyword;
 
-import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.ChatCreatedEvent;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
@@ -50,7 +50,7 @@ public class CreateKeywordWithChatCreatedEventHandler {
     )
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handle(ChatCreatedEvent event) {
-        Chat chat = chatRepository.getWithQuestionAndAnswersById(event.chatId());
+        Chat chat = chatRepository.getWithQuestionAndAnswersById(event.getChatId());
         List<Keyword> keywords = keywordExtractor.extractKeywords(chat);
         transactionTemplate.executeWithoutResult(status -> {
             keywordRepository.saveAll(keywords);
@@ -62,7 +62,7 @@ public class CreateKeywordWithChatCreatedEventHandler {
 
     @Recover
     public void recover(ChatCreatedEvent event) {
-        log.warn("키워드 추출에 실패했습니다. chatId = {}", event.chatId());
+        log.warn("키워드 추출에 실패했습니다. chatId = {}", event.getChatId());
         BaseEventHistory history = event.history();
         eventHistoryRepository.save(history);
     }

@@ -17,6 +17,11 @@ abstract class BaseEventHistory(
     var processed: Boolean = false,
 ) : BaseEntity(0L) {
 
+    constructor() : this(
+        eventDateTime = LocalDateTime.now(),
+        processed = false
+    )
+
     constructor(eventDateTime: LocalDateTime) : this(
         eventDateTime = eventDateTime,
         processed = false

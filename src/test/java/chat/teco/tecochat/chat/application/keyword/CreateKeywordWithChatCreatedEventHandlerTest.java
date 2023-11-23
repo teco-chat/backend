@@ -11,10 +11,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import chat.teco.tecochat.chat.domain.chat.event.ChatCreatedEvent;
 import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor;
 import chat.teco.tecochat.common.FakeTransactionTemplate;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.domain.chat.ChatCreatedEvent;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
