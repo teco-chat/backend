@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.application.ChatLikeRequest;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.support.ui.PageResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -62,7 +62,7 @@ public class ChatLikeSteps {
     ) {
         PageResponse<QueryChatLikedByMemberIdResponse> 실제_결과 = 응답.as(new TypeRef<>() {
         });
-        assertThat(실제_결과.content()).usingRecursiveComparison()
+        assertThat(실제_결과.getContent()).usingRecursiveComparison()
                 .ignoringFieldsOfTypes(LocalDateTime.class)
                 .ignoringFields("id", "crewId")
                 .isEqualTo(예상_결과);
