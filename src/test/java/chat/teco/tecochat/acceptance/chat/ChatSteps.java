@@ -8,8 +8,8 @@ import chat.teco.tecochat.application.UpdateChatTitleRequest;
 import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
 import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.common.presentation.PageResponse;
 import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.support.ui.PageResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -119,7 +119,7 @@ public class ChatSteps {
         PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
                 new TypeRef<>() {
                 });
-        List<SearchChatResponse> content = 페이지_결과.content();
+        List<SearchChatResponse> content = 페이지_결과.getContent();
         assertThat(content)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
@@ -132,6 +132,6 @@ public class ChatSteps {
         PageResponse<SearchChatResponse> 페이지_결과 = 응답.as(
                 new TypeRef<>() {
                 });
-        assertThat(페이지_결과.totalElements()).isEqualTo(0);
+        assertThat(페이지_결과.getTotalElements()).isEqualTo(0);
     }
 }

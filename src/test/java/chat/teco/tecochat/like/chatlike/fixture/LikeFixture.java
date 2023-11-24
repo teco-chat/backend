@@ -5,13 +5,14 @@ import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
+import chat.teco.tecochat.domain.chatlike.MemberInfo;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.domain.chatlike.QueryLikedChatKeywordDto;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.domain.member.Member;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse.QueryLikedChatKeywordDto;
 import chat.teco.tecochat.member.fixture.MemberFixture;
+import java.time.LocalDateTime;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,9 +33,9 @@ public class LikeFixture {
             Course 과정
     ) {
         return new QueryChatLikeByChatIdResponse(
-                null,
-                null,
-                new MemberInfo(null, 이름, 과정));
+                0L,
+                LocalDateTime.now(),
+                new MemberInfo(0L, 이름, 과정));
     }
 
     public static List<QueryChatLikedByMemberIdResponse> 내가_좋아요_누른_채팅_조회_결과들(
@@ -55,7 +56,7 @@ public class LikeFixture {
     ) {
         return new QueryChatLikedByMemberIdResponse(
                 채팅_ID,
-                null,
+                0L,
                 채팅한_크루_이름,
                 과정,
                 제목,
@@ -63,7 +64,7 @@ public class LikeFixture {
                 댓글_수,
                 전체_질문답변_수,
                 키워드들,
-                null);
+                LocalDateTime.now());
     }
 
     public static List<QueryLikedChatKeywordDto> 조회될_채팅_키워드(String... 키워드들) {

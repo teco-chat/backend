@@ -2,7 +2,12 @@ package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chatlike.ChatLike
+import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
+import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse
+import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -11,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ChatLikeService(
     private val chatLikeRepository: ChatLikeRepository,
+    private val chatLikeQueryRepository: ChatLikeQueryRepository,
     private val chatRepository: ChatRepository,
 ) {
 
@@ -24,4 +30,10 @@ class ChatLikeService(
         chatLikeRepository.save(ChatLike(memberId, chatId))
         chat.increaseLike()
     }
+
+    fun findAllByChatId(chatId: Long): List<QueryChatLikeByChatIdResponse> =
+        chatLikeQueryRepository.findAllByChatId(chatId)
+
+    fun findAllByMemberId(chatId: Long, pageable: Pageable): Page<QueryChatLikedByMemberIdResponse> =
+        chatLikeQueryRepository.findAllByMemberId(chatId, pageable)
 }

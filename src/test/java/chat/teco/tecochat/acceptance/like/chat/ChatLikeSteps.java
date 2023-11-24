@@ -5,12 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.application.ChatLikeRequest;
 import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.common.presentation.PageResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.support.ui.PageResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -42,7 +43,7 @@ public class ChatLikeSteps {
         List<QueryChatLikeByChatIdResponse> 실제_결과 = 응답.as(new TypeRef<>() {
         });
         assertThat(실제_결과).usingRecursiveComparison()
-                .ignoringExpectedNullFields()
+                .ignoringFieldsOfTypes(LocalDateTime.class, Long.class)
                 .isEqualTo(예상_결과);
     }
 
@@ -61,8 +62,9 @@ public class ChatLikeSteps {
     ) {
         PageResponse<QueryChatLikedByMemberIdResponse> 실제_결과 = 응답.as(new TypeRef<>() {
         });
-        assertThat(실제_결과.content()).usingRecursiveComparison()
-                .ignoringExpectedNullFields()
+        assertThat(실제_결과.getContent()).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(LocalDateTime.class)
+                .ignoringFields("id", "crewId")
                 .isEqualTo(예상_결과);
     }
 

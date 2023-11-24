@@ -4,6 +4,7 @@ import chat.teco.tecochat.MEMBER_ID
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createChatLike
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -14,9 +15,10 @@ import io.mockk.verify
 class ChatLikeServiceTest : BehaviorSpec({
 
     val chatLikeRepository = mockk<ChatLikeRepository>()
+    val chatLikeQueryRepository = mockk<ChatLikeQueryRepository>()
     val chatRepository = mockk<ChatRepository>()
 
-    val chatLikeService = ChatLikeService(chatLikeRepository, chatRepository)
+    val chatLikeService = ChatLikeService(chatLikeRepository, chatLikeQueryRepository, chatRepository)
 
     Given("이미 좋아요를 누른 경우") {
         val chat = createChat(likeCount = 1)

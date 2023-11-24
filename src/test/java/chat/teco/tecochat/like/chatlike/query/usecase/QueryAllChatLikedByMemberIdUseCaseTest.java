@@ -2,10 +2,11 @@ package chat.teco.tecochat.like.chatlike.query.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.domain.chatlike.QueryLikedChatKeywordDto;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikedByMemberIdUseCase.QueryChatLikedByMemberIdResponse.QueryLikedChatKeywordDto;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -22,13 +23,13 @@ import org.springframework.data.domain.PageRequest;
 class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
 
     @Autowired
-    private QueryAllChatLikedByMemberIdUseCase queryAllChatLikedByMemberIdUseCase;
+    private ChatLikeQueryRepository chatLikeQueryRepository;
 
     @Test
     void 회원이_좋아요_누른_게시물을_조회한다() {
         // when
         Page<QueryChatLikedByMemberIdResponse> allByMemberId =
-                queryAllChatLikedByMemberIdUseCase.findAllByMemberId(허브.getId(), PageRequest.of(0, 20));
+                chatLikeQueryRepository.findAllByMemberId(허브.getId(), PageRequest.of(0, 20));
 
         // then
         회원이_좋아요_누른_게시물의_정보를_검증한다(
@@ -90,15 +91,15 @@ class QueryAllChatLikedByMemberIdUseCaseTest extends ChatLikeQueryUseCaseTest {
             int 전체_질문답변_수,
             List<QueryLikedChatKeywordDto> 키워드들
     ) {
-        assertThat(실제_결과.id()).isEqualTo(채팅_ID);
-        assertThat(실제_결과.crewId()).isEqualTo(회원_ID);
-        assertThat(실제_결과.crewName()).isEqualTo(회원이름);
-        assertThat(실제_결과.course()).isEqualTo(과정);
-        assertThat(실제_결과.title()).isEqualTo(제목);
-        assertThat(실제_결과.likeCount()).isEqualTo(좋아요_수);
-        assertThat(실제_결과.commentCount()).isEqualTo(댓글_수);
-        assertThat(실제_결과.totalQnaCount()).isEqualTo(전체_질문답변_수);
-        assertThat(실제_결과.keywords()).usingRecursiveComparison()
+        assertThat(실제_결과.getId()).isEqualTo(채팅_ID);
+        assertThat(실제_결과.getCrewId()).isEqualTo(회원_ID);
+        assertThat(실제_결과.getCrewName()).isEqualTo(회원이름);
+        assertThat(실제_결과.getCourse()).isEqualTo(과정);
+        assertThat(실제_결과.getTitle()).isEqualTo(제목);
+        assertThat(실제_결과.getLikeCount()).isEqualTo(좋아요_수);
+        assertThat(실제_결과.getCommentCount()).isEqualTo(댓글_수);
+        assertThat(실제_결과.getTotalQnaCount()).isEqualTo(전체_질문답변_수);
+        assertThat(실제_결과.getKeywords()).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(키워드들);
     }

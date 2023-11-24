@@ -5,10 +5,11 @@ import static chat.teco.tecochat.domain.member.Course.BACKEND;
 import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository;
+import chat.teco.tecochat.domain.chatlike.MemberInfo;
+import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.like.chatlike.query.usecase.QueryAllChatLikeByChatIdUseCase.QueryChatLikeByChatIdResponse.MemberInfo;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -22,13 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 class QueryAllChatLikeByChatIdUseCaseTest extends ChatLikeQueryUseCaseTest {
 
     @Autowired
-    private QueryAllChatLikeByChatIdUseCase queryAllChatLikeByChatIdUseCase;
+    private ChatLikeQueryRepository chatLikeQueryRepository;
 
     @Test
     void 채팅에_달린_좋아요를_조회한다() {
         // when
         List<QueryChatLikeByChatIdResponse> chatIdQueryDtos =
-                queryAllChatLikeByChatIdUseCase.findAllByChatId(말랑_채팅.getId());
+                chatLikeQueryRepository.findAllByChatId(말랑_채팅.getId());
 
         // then
         assertThat(chatIdQueryDtos).hasSize(3);
@@ -47,10 +48,10 @@ class QueryAllChatLikeByChatIdUseCaseTest extends ChatLikeQueryUseCaseTest {
             String memberName,
             Course course
     ) {
-        assertThat(chatIdQueryDto.id()).isEqualTo(chatLikeId);
-        MemberInfo memberInfo = chatIdQueryDto.memberInfo();
-        assertThat(memberInfo.id()).isEqualTo(memberId);
-        assertThat(memberInfo.crewName()).isEqualTo(memberName);
-        assertThat(memberInfo.course()).isEqualTo(course);
+        assertThat(chatIdQueryDto.getId()).isEqualTo(chatLikeId);
+        MemberInfo memberInfo = chatIdQueryDto.getMemberInfo();
+        assertThat(memberInfo.getId()).isEqualTo(memberId);
+        assertThat(memberInfo.getCrewName()).isEqualTo(memberName);
+        assertThat(memberInfo.getCourse()).isEqualTo(course);
     }
 }

@@ -6,6 +6,7 @@ import chat.teco.tecochat.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLike;
+import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
@@ -19,7 +20,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 @SuppressWarnings("NonAsciiCharacters")
-@Import({JpaConfig.class, QueryDslConfig.class, ChatLikeQueryService.class})
+@Import({JpaConfig.class, QueryDslConfig.class, ChatLikeQueryRepository.class})
 @DataJpaTest
 public class ChatLikeQueryUseCaseTest {
 
