@@ -15,7 +15,7 @@ public record PageResponse<T>(
 ) {
 
     public static <T> PageResponse<T> from(Page<T> response) {
-        return new PageResponse<T>(
+        return new PageResponse<>(
                 response.getContent(),
                 response.isLast(),
                 response.isFirst(),
