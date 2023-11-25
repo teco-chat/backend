@@ -18,8 +18,10 @@ fun createChatCompletionResponse(
     return ChatCompletionResponse(
         "",
         "",
+        0L,
         "",
         listOf(response),
-        UsageResponse(1500, 500, 2000)
+        UsageResponse(1500, 500, 2000),
+        ""
     )
 }
