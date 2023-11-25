@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeywordExtractor {
 
-    public static final Question EXTRACT_KEYWORD_QUESTION = Question.Companion.question(
-            "Except for this message, "
-            + "I need you to extract 3 technical keywords "
-            + "in CSV format without \". "
-            + "Please use || as a separator. For example: keyword1||keyword2||keyword3");
+    public static final Question EXTRACT_KEYWORD_QUESTION = Question.question("""
+            Except for this message,
+            give just 3 keywords in hashtag format.
+            example: #keyword1 #keyword2 #keyword3
+            """);
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final GptClient gptClient;
@@ -33,15 +33,17 @@ public class KeywordExtractor {
         Answer answer = gptClient.ask(List.of(
                 questionAndAnswer.getQuestion(),
                 questionAndAnswer.getAnswer(),
-                EXTRACT_KEYWORD_QUESTION));
+                EXTRACT_KEYWORD_QUESTION)
+        );
         List<Keyword> keywords = extractKeywords(chat, answer);
         validateKeyword(keywords);
         return keywords;
     }
 
     private List<Keyword> extractKeywords(Chat chat, Answer answer) {
-        return Arrays.stream(answer.content().split("\\|\\|"))
+        return Arrays.stream(answer.content().split(" "))
                 .map(String::strip)
+                .map(keyword -> keyword.substring(1))
                 .map(it -> new Keyword(it, chat))
                 .toList();
     }

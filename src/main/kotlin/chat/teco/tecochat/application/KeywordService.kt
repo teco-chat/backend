@@ -38,8 +38,8 @@ class KeywordService(
     }
 
     @Async
-    @Retryable(retryFor = [IllegalStateException::class], maxAttempts = 3, backoff = Backoff(delay = 1500))
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable(retryFor = [RuntimeException::class], maxAttempts = 3, backoff = Backoff(delay = 1500))
+    @TransactionalEventListener(classes = [ChatCreatedEvent::class], phase = TransactionPhase.AFTER_COMMIT)
     fun handleChatCreatedEvent(event: ChatCreatedEvent) {
         val chat = chatRepository.findWithQuestionAndAnswersById(event.chatId)
             .orElseThrow { NoSuchElementException("채팅이 존재하지 않습니다.") }
