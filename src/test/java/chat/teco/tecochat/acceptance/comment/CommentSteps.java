@@ -3,7 +3,7 @@ package chat.teco.tecochat.acceptance.comment;
 import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.application.CommentQueryResponse;
+import chat.teco.tecochat.application.CommentResponse;
 import chat.teco.tecochat.application.UpdateCommentRequest;
 import chat.teco.tecochat.application.WriteCommentRequest;
 import io.restassured.common.mapper.TypeRef;
@@ -78,9 +78,9 @@ public class CommentSteps {
 
     public static void 댓글들_조회_내용_검증(
             ExtractableResponse<Response> 응답,
-            List<CommentQueryResponse> 예상_결과
+            List<CommentResponse> 예상_결과
     ) {
-        List<CommentQueryResponse> 내용들 = 응답.as(new TypeRef<>() {
+        List<CommentResponse> 내용들 = 응답.as(new TypeRef<>() {
         });
         assertThat(내용들).usingRecursiveComparison()
                 .ignoringFieldsOfTypes(LocalDateTime.class)

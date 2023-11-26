@@ -23,7 +23,7 @@ data class WriteCommentResponse(
     val id: Long,
 )
 
-data class CommentQueryResponse(
+data class CommentResponse @JsonCreator constructor(
     val id: Long,
     val crewName: String?,
     val course: Course?,

@@ -1,6 +1,6 @@
 package chat.teco.tecochat.comment.fixture;
 
-import chat.teco.tecochat.application.CommentQueryResponse;
+import chat.teco.tecochat.application.CommentResponse;
 import chat.teco.tecochat.application.UpdateCommentRequest;
 import chat.teco.tecochat.application.WriteCommentRequest;
 import chat.teco.tecochat.domain.comment.Comment;
@@ -13,19 +13,19 @@ import java.util.List;
 @SuppressWarnings("NonAsciiCharacters")
 public class CommentFixture {
 
-    public static List<CommentQueryResponse> 댓글_검색의_예상_결과들(
-            CommentQueryResponse... 댓글_검색의_예상_결과들
+    public static List<CommentResponse> 댓글_검색의_예상_결과들(
+            CommentResponse... 댓글_검색의_예상_결과들
     ) {
         return List.of(댓글_검색의_예상_결과들);
     }
 
-    public static CommentQueryResponse 댓글_검색의_예상_결과(
+    public static CommentResponse 댓글_검색의_예상_결과(
             Long 댓글_ID,
             String 작성한_크루명,
             Course 코스,
             String 내용
     ) {
-        return new CommentQueryResponse(댓글_ID,
+        return new CommentResponse(댓글_ID,
                 작성한_크루명,
                 코스,
                 내용,

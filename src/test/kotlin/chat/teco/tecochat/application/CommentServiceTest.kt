@@ -115,8 +115,8 @@ class CommentServiceTest : FeatureSpec({
             val result = commentService.findAllByChatId(1L)
 
             result shouldContainAll listOf(
-                CommentQueryResponse(comment1.id, member1.name, member1.course, comment1.content, comment1.createdAt),
-                CommentQueryResponse(comment2.id, member2.name, member2.course, comment2.content, comment2.createdAt)
+                CommentResponse(comment1.id, member1.name, member1.course, comment1.content, comment1.createdAt),
+                CommentResponse(comment2.id, member2.name, member2.course, comment2.content, comment2.createdAt)
             )
         }
     }

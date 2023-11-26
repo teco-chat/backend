@@ -35,11 +35,11 @@ class CommentService(
         commentRepository.delete(comment)
     }
 
-    fun findAllByChatId(chatId: Long): List<CommentQueryResponse> {
+    fun findAllByChatId(chatId: Long): List<CommentResponse> {
         val comments = commentRepository.findAllByChatId(chatId)
         val members = memberRepository.findAllById(comments.map(Comment::memberId))
             .associateBy { it.id }
-        return comments.map { CommentQueryResponse(it, members[it.memberId]) }
+        return comments.map { CommentResponse(it, members[it.memberId]) }
     }
 }
 
