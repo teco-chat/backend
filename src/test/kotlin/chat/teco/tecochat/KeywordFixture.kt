@@ -1,9 +1,9 @@
 package chat.teco.tecochat
 
-import chat.teco.tecochat.domain.keyword.ChatCompletionResponse
-import chat.teco.tecochat.domain.keyword.ChoiceResponse
-import chat.teco.tecochat.domain.keyword.MessageResponse
-import chat.teco.tecochat.domain.keyword.UsageResponse
+import chat.teco.tecochat.infra.gpt.ChatCompletionResponse
+import chat.teco.tecochat.infra.gpt.ChoiceResponse
+import chat.teco.tecochat.infra.gpt.MessageResponse
+import chat.teco.tecochat.infra.gpt.UsageResponse
 
 const val ASSISTANT_CONTENT = "답변"
 

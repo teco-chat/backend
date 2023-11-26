@@ -1,4 +1,4 @@
-package chat.teco.tecochat.domain.keyword
+package chat.teco.tecochat.infra.gpt
 
 import chat.teco.tecochat.createChatCompletionResponse
 import chat.teco.tecochat.domain.chat.Answer.Companion.answer

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.domain.chat.Answer;
 import chat.teco.tecochat.domain.chat.Question;
-import chat.teco.tecochat.domain.keyword.GptClient;
+import chat.teco.tecochat.infra.gpt.GptClient;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

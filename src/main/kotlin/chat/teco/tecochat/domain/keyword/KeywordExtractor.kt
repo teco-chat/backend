@@ -2,6 +2,7 @@ package chat.teco.tecochat.domain.keyword
 
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.Question
+import chat.teco.tecochat.infra.gpt.GptClient
 import org.springframework.stereotype.Component
 
 private const val HASHTAG_INDEX = 1
