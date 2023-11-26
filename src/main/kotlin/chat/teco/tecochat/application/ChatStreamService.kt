@@ -1,4 +1,4 @@
-package chat.teco.tecochat.chat.application.chat
+package chat.teco.tecochat.application
 
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext
 import chat.teco.tecochat.chat.application.chat.mapper.ChatMapper

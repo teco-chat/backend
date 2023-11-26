@@ -1,9 +1,7 @@
-package chat.teco.tecochat.chat.domain.keyword
+package chat.teco.tecochat.domain.keyword
 
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.Question
-import chat.teco.tecochat.domain.keyword.GptClient
-import chat.teco.tecochat.domain.keyword.Keyword
 import org.springframework.stereotype.Component
 
 private const val HASHTAG_INDEX = 1
@@ -35,4 +33,3 @@ class KeywordExtractor(
             .take(VALID_KEYWORD_COUNT)
     }
 }
-

@@ -1,9 +1,8 @@
-package chat.teco.tecochat.chat.domain.keyword
+package chat.teco.tecochat.domain.keyword
 
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createQuestionAndAnswer
 import chat.teco.tecochat.domain.chat.Answer
-import chat.teco.tecochat.domain.keyword.GptClient
 import io.kotest.assertions.extracting
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContainExactly
