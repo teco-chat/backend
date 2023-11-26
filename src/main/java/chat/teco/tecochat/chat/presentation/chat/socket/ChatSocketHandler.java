@@ -2,7 +2,7 @@ package chat.teco.tecochat.chat.presentation.chat.socket;
 
 import static java.util.Objects.requireNonNull;
 
-import chat.teco.tecochat.chat.application.chat.ChatStreamService;
+import chat.teco.tecochat.application.ChatStreamService;
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext;
 import chat.teco.tecochat.domain.member.Member;
 import java.util.HashMap;

@@ -1,9 +1,9 @@
 package chat.teco.tecochat
 
-import chat.teco.tecochat.domain.keyword.ChatCompletionResponse
-import chat.teco.tecochat.domain.keyword.ChoiceResponse
-import chat.teco.tecochat.domain.keyword.MessageResponse
-import chat.teco.tecochat.domain.keyword.UsageResponse
+import chat.teco.tecochat.infra.gpt.ChatCompletionResponse
+import chat.teco.tecochat.infra.gpt.ChoiceResponse
+import chat.teco.tecochat.infra.gpt.MessageResponse
+import chat.teco.tecochat.infra.gpt.UsageResponse
 
 const val ASSISTANT_CONTENT = "답변"
 
@@ -18,8 +18,10 @@ fun createChatCompletionResponse(
     return ChatCompletionResponse(
         "",
         "",
+        0L,
         "",
         listOf(response),
-        UsageResponse(1500, 500, 2000)
+        UsageResponse(1500, 500, 2000),
+        ""
     )
 }

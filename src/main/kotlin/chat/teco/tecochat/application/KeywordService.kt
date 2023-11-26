@@ -1,11 +1,11 @@
 package chat.teco.tecochat.application
 
-import chat.teco.tecochat.chat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent
 import chat.teco.tecochat.domain.chat.ChatCreatedEvent
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.keyword.Keyword
+import chat.teco.tecochat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.keyword.KeywordRepository
 import chat.teco.tecochat.support.domain.EventHistoryRepository
 import org.springframework.context.event.EventListener
