@@ -1,34 +1,35 @@
 package chat.teco.tecochat.comment.fixture;
 
+import chat.teco.tecochat.application.CommentQueryResponse;
 import chat.teco.tecochat.application.UpdateCommentRequest;
 import chat.teco.tecochat.application.WriteCommentRequest;
-import chat.teco.tecochat.comment.query.usecase.QueryAllCommentByChatIdUseCase.CommentQueryDto;
 import chat.teco.tecochat.domain.comment.Comment;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class CommentFixture {
 
-    public static List<CommentQueryDto> 댓글_검색의_예상_결과들(
-            CommentQueryDto... 댓글_검색의_예상_결과들
+    public static List<CommentQueryResponse> 댓글_검색의_예상_결과들(
+            CommentQueryResponse... 댓글_검색의_예상_결과들
     ) {
         return List.of(댓글_검색의_예상_결과들);
     }
 
-    public static CommentQueryDto 댓글_검색의_예상_결과(
+    public static CommentQueryResponse 댓글_검색의_예상_결과(
             Long 댓글_ID,
             String 작성한_크루명,
             Course 코스,
             String 내용
     ) {
-        return new CommentQueryDto(댓글_ID,
+        return new CommentQueryResponse(댓글_ID,
                 작성한_크루명,
                 코스,
                 내용,
-                null);
+                LocalDateTime.now());
     }
 
     public static class 말랑이_댓글 {

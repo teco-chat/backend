@@ -1,7 +1,10 @@
 package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.comment.Comment
+import chat.teco.tecochat.domain.member.Course
+import chat.teco.tecochat.domain.member.Member
 import com.fasterxml.jackson.annotation.JsonCreator
+import java.time.LocalDateTime
 
 data class WriteCommentRequest(
     val chatId: Long,
@@ -19,3 +22,19 @@ data class UpdateCommentRequest @JsonCreator constructor(
 data class WriteCommentResponse(
     val id: Long,
 )
+
+data class CommentQueryResponse(
+    val id: Long,
+    val crewName: String?,
+    val course: Course?,
+    val content: String,
+    val createdAt: LocalDateTime,
+) {
+    constructor(comment: Comment, member: Member?) : this(
+        comment.id,
+        member?.name,
+        member?.course,
+        comment.content,
+        comment.createdAt
+    )
+}
