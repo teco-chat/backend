@@ -2,11 +2,11 @@ package chat.teco.tecochat.like.chatlike.query.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository;
-import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
-import chat.teco.tecochat.domain.chatlike.QueryLikedChatKeywordDto;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
+import chat.teco.tecochat.query.ChatLikeQueryRepository;
+import chat.teco.tecochat.query.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.query.QueryLikedChatKeywordDto;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

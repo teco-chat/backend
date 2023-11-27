@@ -2,8 +2,8 @@ package chat.teco.tecochat.ui
 
 import chat.teco.tecochat.application.ChatLikeRequest
 import chat.teco.tecochat.application.ChatLikeService
-import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse
-import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse
+import chat.teco.tecochat.query.QueryChatLikeByChatIdResponse
+import chat.teco.tecochat.query.QueryChatLikedByMemberIdResponse
 import chat.teco.tecochat.security.Auth
 import chat.teco.tecochat.support.ui.PageResponse
 import org.springframework.data.domain.Pageable

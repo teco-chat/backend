@@ -2,10 +2,10 @@ package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chatlike.ChatLike
-import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
-import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse
-import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse
+import chat.teco.tecochat.query.ChatLikeQueryRepository
+import chat.teco.tecochat.query.QueryChatLikeByChatIdResponse
+import chat.teco.tecochat.query.QueryChatLikedByMemberIdResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
