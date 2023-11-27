@@ -1,13 +1,12 @@
 package chat.teco.tecochat.query
 
-import chat.teco.tecochat.common.query.OrderByNull
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.QChat.chat
 import chat.teco.tecochat.domain.chatlike.QChatLike.chatLike
 import chat.teco.tecochat.domain.member.QMember.member
 import chat.teco.tecochat.support.domain.BaseEntity
+import chat.teco.tecochat.support.querydsl.orderByNotEmpty
 import chat.teco.tecochat.support.querydsl.whereNotEmpty
-import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -27,10 +26,8 @@ class ChatQueryRepository(
             .whereNotEmpty(cond.likeCond?.dataCondition()) { chatLike.createdAt.goe(it) }
             .whereNotEmpty(cond.title) { chat.title.likeIgnoreCase("%" + it.trim() + "%") }
             .where(chat.memberId.`in`(longs))
-            .orderBy(
-                likeCountDesc(cond.likeCond),
-                chat.createdAt.desc()
-            )
+            .orderByNotEmpty(cond.likeCond) { chat.likeCount.desc() }
+            .orderBy(chat.createdAt.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .fetch()
@@ -44,14 +41,7 @@ class ChatQueryRepository(
             .whereNotEmpty(cond.name) { member.name.likeIgnoreCase("%" + it.trim() + "%") }
             .whereNotEmpty(cond.course) { member.course.eq(it) }
             .fetch()
-            .stream()
             .map(BaseEntity::id)
-            .toList()
-    }
-
-    private fun likeCountDesc(likeCond: LikeCond?): OrderSpecifier<*> {
-        return if (likeCond == null) OrderByNull.getDefault()
-        else chat.likeCount.desc()
     }
 }
 
