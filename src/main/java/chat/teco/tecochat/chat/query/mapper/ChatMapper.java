@@ -1,15 +1,15 @@
 package chat.teco.tecochat.chat.query.mapper;
 
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.Message;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.member.Member;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.QueryKeywordDto;
+import chat.teco.tecochat.query.QueryMessageDto;
+import chat.teco.tecochat.query.SearchChatResponse;
+import chat.teco.tecochat.query.SearchKeywordDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

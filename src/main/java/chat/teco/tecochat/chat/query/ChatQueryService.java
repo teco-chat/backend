@@ -5,10 +5,6 @@ import static chat.teco.tecochat.chat.query.mapper.ChatMapper.mapToSearchQueryRe
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.groupingBy;
 
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
@@ -16,6 +12,10 @@ import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
+import chat.teco.tecochat.query.ChatQueryRepository;
+import chat.teco.tecochat.query.ChatSearchCond;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.SearchChatResponse;
 import chat.teco.tecochat.support.domain.BaseEntity;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 @Service
-public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase {
+public class ChatQueryService {
 
     private final MemberRepository memberRepository;
     private final ChatRepository chatRepository;
-    private final ChatQueryDao chatQueryDao;
+    private final ChatQueryRepository chatQueryDao;
     private final ChatLikeRepository chatLikeRepository;
     private final KeywordRepository keywordRepository;
 
-    public ChatQueryService(MemberRepository memberRepository, ChatRepository chatRepository, ChatQueryDao chatQueryDao,
+    public ChatQueryService(MemberRepository memberRepository, ChatRepository chatRepository,
+                            ChatQueryRepository chatQueryDao,
                             ChatLikeRepository chatLikeRepository, KeywordRepository keywordRepository) {
         this.memberRepository = memberRepository;
         this.chatRepository = chatRepository;
@@ -43,7 +44,6 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
         this.keywordRepository = keywordRepository;
     }
 
-    @Override
     public QueryChatByIdResponse findById(Long id, Long requesterMemberId) {
         Chat chat = chatRepository.getById(id);
         Member member = memberRepository.getById(chat.getMemberId());
@@ -52,7 +52,6 @@ public class ChatQueryService implements QueryChatByIdUseCase, SearchChatUseCase
         return mapToQueryResponse(chat, member, isAlreadyClickLike, keywords);
     }
 
-    @Override
     public Page<SearchChatResponse> search(ChatSearchCond cond, Pageable pageable) {
         Page<Chat> result = chatQueryDao.search(cond, pageable);
         List<Long> chatIds = result.stream().map(BaseEntity::getId).toList();

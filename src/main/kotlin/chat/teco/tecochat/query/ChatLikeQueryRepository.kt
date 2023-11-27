@@ -8,10 +8,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 import java.util.stream.Collectors
 
-@Component
+@Repository
 class ChatLikeQueryRepository(
     val query: JPAQueryFactory,
 ) {

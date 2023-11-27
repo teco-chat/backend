@@ -4,7 +4,7 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.application.ChatLikeRequest;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
 import chat.teco.tecochat.query.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.query.QueryChatLikedByMemberIdResponse;
 import chat.teco.tecochat.support.ui.PageResponse;

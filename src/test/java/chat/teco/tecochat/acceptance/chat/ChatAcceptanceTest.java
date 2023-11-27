@@ -25,12 +25,12 @@ import static chat.teco.tecochat.chat.fixture.ChatFixture.단일_채팅_키워�
 import static chat.teco.tecochat.chat.fixture.ChatFixture.대화_내용;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.채팅_검색_결과;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.채팅_검색_결과들;
-import static chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond.TODAY;
 import static chat.teco.tecochat.domain.member.Course.ANDROID;
 import static chat.teco.tecochat.domain.member.Course.BACKEND;
 import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 
 import chat.teco.tecochat.acceptance.common.AcceptanceTest;
+import chat.teco.tecochat.query.LikeCond;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -257,7 +257,7 @@ public class ChatAcceptanceTest extends AcceptanceTest {
 
         // when & then
         var 요청_파라미터들 = 요청_파라미터들();
-        좋아요_기간_조겅(요청_파라미터들, TODAY);
+        좋아요_기간_조겅(요청_파라미터들, LikeCond.TODAY);
         var 검색_결과 = 이름_과정_제목_좋아요_기간으로_검색_요청(요청_파라미터들);
         var 예상_채팅_내용들 = 채팅_검색_결과들(
                 채팅_검색_결과(

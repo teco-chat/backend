@@ -6,17 +6,18 @@ import static chat.teco.tecochat.domain.chat.Role.USER;
 import static chat.teco.tecochat.domain.chat.SettingMessage.BACK_END_SETTING;
 import static chat.teco.tecochat.domain.chat.SettingMessage.FRONT_END_SETTING;
 
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.GptModel;
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.QueryKeywordDto;
+import chat.teco.tecochat.query.QueryMessageDto;
+import chat.teco.tecochat.query.SearchChatResponse;
+import chat.teco.tecochat.query.SearchKeywordDto;
+import java.time.LocalDateTime;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ public class ChatFixture {
                 제목,
                 좋아요_수,
                 이미_좋아요_눌렀는가,
-                null,
+                LocalDateTime.now(),
                 대화_내용,
                 키워드들);
     }
@@ -51,8 +52,8 @@ public class ChatFixture {
         Deque<String> deque = new ArrayDeque<>(Arrays.asList(질문과_답변들));
         List<QueryMessageDto> result = new ArrayList<>();
         while (!deque.isEmpty()) {
-            result.add(new QueryMessageDto(deque.pollFirst(), USER.getRoleName(), null));
-            result.add(new QueryMessageDto(deque.pollFirst(), ASSISTANT.getRoleName(), null));
+            result.add(new QueryMessageDto(deque.pollFirst(), USER.getRoleName(), LocalDateTime.now()));
+            result.add(new QueryMessageDto(deque.pollFirst(), ASSISTANT.getRoleName(), LocalDateTime.now()));
         }
         return result;
     }
@@ -92,7 +93,7 @@ public class ChatFixture {
                 댓글_수,
                 전체_질문답변_수,
                 키워드들,
-                null);
+                LocalDateTime.now());
     }
 
     public static List<SearchKeywordDto> 검색시_조회될_채팅_키워드(String... 키워드들) {

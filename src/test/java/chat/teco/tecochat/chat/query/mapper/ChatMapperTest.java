@@ -3,15 +3,16 @@ package chat.teco.tecochat.chat.query.mapper;
 import static chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryKeywordDto;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse.SearchKeywordDto;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.keyword.Keyword;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.member.fixture.MemberFixture.말랑;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.QueryKeywordDto;
+import chat.teco.tecochat.query.QueryMessageDto;
+import chat.teco.tecochat.query.SearchChatResponse;
+import chat.teco.tecochat.query.SearchKeywordDto;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -41,21 +42,21 @@ class ChatMapperTest {
                 ChatMapper.mapToQueryResponse(초기_채팅, 회원, true, 키워드들);
 
         // then
-        assertThat(response.id()).isEqualTo(초기_채팅.getId());
-        assertThat(response.course()).isEqualTo(회원.getCourse());
-        assertThat(response.likeCount()).isEqualTo(2);
-        assertThat(response.crewName()).isEqualTo("말랑");
+        assertThat(response.getId()).isEqualTo(초기_채팅.getId());
+        assertThat(response.getCourse()).isEqualTo(회원.getCourse());
+        assertThat(response.getLikeCount()).isEqualTo(2);
+        assertThat(response.getCrewName()).isEqualTo("말랑");
         assertThat(response.isAlreadyClickLike()).isTrue();
-        assertThat(response.messages())
+        assertThat(response.getMessages())
                 .usingRecursiveComparison()
-                .ignoringExpectedNullFields()
+                .ignoringFieldsOfTypes(LocalDateTime.class)
                 .isEqualTo(List.of(
-                        new QueryMessageDto("질문1", "user", null),
-                        new QueryMessageDto("답변1", "assistant", null),
-                        new QueryMessageDto("질문2", "user", null),
-                        new QueryMessageDto("답변2", "assistant", null)
+                        new QueryMessageDto("질문1", "user", LocalDateTime.now()),
+                        new QueryMessageDto("답변1", "assistant", LocalDateTime.now()),
+                        new QueryMessageDto("질문2", "user", LocalDateTime.now()),
+                        new QueryMessageDto("답변2", "assistant", LocalDateTime.now())
                 ));
-        assertThat(response.keywords())
+        assertThat(response.getKeywords())
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(
                         new QueryKeywordDto("1"),
@@ -81,14 +82,14 @@ class ChatMapperTest {
         SearchChatResponse response = ChatMapper.mapToSearchQueryResponse(초기_채팅, 회원, 키워드들);
 
         // then
-        assertThat(response.id()).isEqualTo(초기_채팅.getId());
-        assertThat(response.crewId()).isEqualTo(회원.getId());
-        assertThat(response.crewName()).isEqualTo("말랑");
-        assertThat(response.course()).isEqualTo(회원.getCourse());
-        assertThat(response.title()).isEqualTo(초기_채팅.getTitle());
-        assertThat(response.likeCount()).isEqualTo(2);
-        assertThat(response.totalQnaCount()).isEqualTo(2);
-        assertThat(response.keywords())
+        assertThat(response.getId()).isEqualTo(초기_채팅.getId());
+        assertThat(response.getCrewId()).isEqualTo(회원.getId());
+        assertThat(response.getCrewName()).isEqualTo("말랑");
+        assertThat(response.getCourse()).isEqualTo(회원.getCourse());
+        assertThat(response.getTitle()).isEqualTo(초기_채팅.getTitle());
+        assertThat(response.getLikeCount()).isEqualTo(2);
+        assertThat(response.getTotalQnaCount()).isEqualTo(2);
+        assertThat(response.getKeywords())
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(
                         new SearchKeywordDto("1"),

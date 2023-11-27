@@ -1,10 +1,9 @@
 package chat.teco.tecochat.chat.presentation.chat.api;
 
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
+import chat.teco.tecochat.chat.query.ChatQueryService;
+import chat.teco.tecochat.query.ChatSearchCond;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.SearchChatResponse;
 import chat.teco.tecochat.security.Auth;
 import chat.teco.tecochat.support.ui.PageResponse;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChatQueryController {
 
-    private final QueryChatByIdUseCase queryChatByIdUseCase;
-    private final SearchChatUseCase searchChatUseCase;
+    private final ChatQueryService chatQueryService;
 
-    public ChatQueryController(QueryChatByIdUseCase queryChatByIdUseCase, SearchChatUseCase searchChatUseCase) {
-        this.queryChatByIdUseCase = queryChatByIdUseCase;
-        this.searchChatUseCase = searchChatUseCase;
+    public ChatQueryController(ChatQueryService chatQueryService) {
+        this.chatQueryService = chatQueryService;
     }
 
     @GetMapping("/{id}")
@@ -33,7 +30,7 @@ public class ChatQueryController {
             @PathVariable Long id,
             @Auth Long memberId
     ) {
-        return ResponseEntity.ok(queryChatByIdUseCase.findById(id, memberId));
+        return ResponseEntity.ok(chatQueryService.findById(id, memberId));
     }
 
     @GetMapping
@@ -42,6 +39,6 @@ public class ChatQueryController {
             @PageableDefault(size = 20) Pageable pageable
     ) {
         return ResponseEntity.ok(
-                PageResponse.from(searchChatUseCase.search(cond, pageable)));
+                PageResponse.from(chatQueryService.search(cond, pageable)));
     }
 }

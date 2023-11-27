@@ -7,8 +7,6 @@ import static java.time.temporal.TemporalAdjusters.previousOrSame;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao.LikeCond;
 import chat.teco.tecochat.config.JpaConfig;
 import chat.teco.tecochat.config.QueryDslConfig;
 import chat.teco.tecochat.domain.chat.Chat;
@@ -20,6 +18,9 @@ import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
+import chat.teco.tecochat.query.ChatQueryRepository;
+import chat.teco.tecochat.query.ChatSearchCond;
+import chat.teco.tecochat.query.LikeCond;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,7 +41,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @DisplayName("ChatQueryDao 은(는)")
-@Import({QueryDslConfig.class, ChatQueryDao.class, JpaConfig.class})
+@Import({QueryDslConfig.class, ChatQueryRepository.class, JpaConfig.class})
 @DataJpaTest
 class ChatQueryDaoTest {
 
@@ -51,7 +52,7 @@ class ChatQueryDaoTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ChatQueryDao chatQueryDao;
+    private ChatQueryRepository chatQueryDao;
 
     @Autowired
     private ChatRepository chatRepository;

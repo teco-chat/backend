@@ -5,9 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse.QueryMessageDto;
+import chat.teco.tecochat.chat.query.ChatQueryService;
 import chat.teco.tecochat.domain.chat.Chat;
+import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.QueryMessageDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -18,7 +19,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("QueryChatByIdUseCase(채팅 단일 조회) 은(는)")
 class QueryChatByIdUseCaseTest extends ChatQueryUseCaseTest {
 
-    private final QueryChatByIdUseCase queryChatByIdUseCase = chatQueryService;
+    private final ChatQueryService queryChatByIdUseCase = chatQueryService;
 
     @Test
     void 단일_채팅_기록을_전부_조회한다() {
@@ -36,10 +37,10 @@ class QueryChatByIdUseCaseTest extends ChatQueryUseCaseTest {
 
         // then
         assertAll(
-                () -> assertThat(response.crewName()).isEqualTo(말랑.이름),
-                () -> assertThat(response.title()).isEqualTo(chat.getTitle()),
-                () -> assertThat(response.messages())
-                        .extracting(QueryMessageDto::content)
+                () -> assertThat(response.getCrewName()).isEqualTo(말랑.이름),
+                () -> assertThat(response.getTitle()).isEqualTo(chat.getTitle()),
+                () -> assertThat(response.getMessages())
+                        .extracting(QueryMessageDto::getContent)
                         .containsExactly(
                                 말랑_채팅.QNA_1.getQuestion().content(),
                                 말랑_채팅.QNA_1.getAnswer().content(),

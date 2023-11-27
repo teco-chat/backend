@@ -5,11 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
 import chat.teco.tecochat.chat.fixture.ChatFixture.허브_채팅;
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao.ChatSearchCond;
-import chat.teco.tecochat.chat.query.usecase.SearchChatUseCase.SearchChatResponse;
+import chat.teco.tecochat.chat.query.ChatQueryService;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
+import chat.teco.tecochat.query.ChatSearchCond;
+import chat.teco.tecochat.query.SearchChatResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -22,7 +23,7 @@ import org.springframework.data.domain.PageRequest;
 @DisplayName("SearchChatUseCase(채팅 검색) 은(는)")
 class SearchChatUseCaseTest extends ChatQueryUseCaseTest {
 
-    private final SearchChatUseCase searchChatUseCase = chatQueryService;
+    private final ChatQueryService searchChatUseCase = chatQueryService;
 
     @Test
     void 검색할_수_있다() {
@@ -50,13 +51,13 @@ class SearchChatUseCaseTest extends ChatQueryUseCaseTest {
         SearchChatResponse 말랑이_채팅_검색_결과 = search.getContent().get(0);
         SearchChatResponse 허브_채팅_검색_결과 = search.getContent().get(1);
         assertAll(
-                () -> assertThat(말랑이_채팅_검색_결과.crewName()).isEqualTo("말랑"),
-                () -> assertThat(말랑이_채팅_검색_결과.course()).isEqualTo(Course.BACKEND),
-                () -> assertThat(말랑이_채팅_검색_결과.title()).isEqualTo(chat1.getTitle()),
+                () -> assertThat(말랑이_채팅_검색_결과.getCrewName()).isEqualTo("말랑"),
+                () -> assertThat(말랑이_채팅_검색_결과.getCourse()).isEqualTo(Course.BACKEND),
+                () -> assertThat(말랑이_채팅_검색_결과.getTitle()).isEqualTo(chat1.getTitle()),
 
-                () -> assertThat(허브_채팅_검색_결과.crewName()).isEqualTo("허브"),
-                () -> assertThat(허브_채팅_검색_결과.course()).isEqualTo(Course.FRONTEND),
-                () -> assertThat(허브_채팅_검색_결과.title()).isEqualTo(chat2.getTitle())
+                () -> assertThat(허브_채팅_검색_결과.getCrewName()).isEqualTo("허브"),
+                () -> assertThat(허브_채팅_검색_결과.getCourse()).isEqualTo(Course.FRONTEND),
+                () -> assertThat(허브_채팅_검색_결과.getTitle()).isEqualTo(chat2.getTitle())
         );
     }
 }

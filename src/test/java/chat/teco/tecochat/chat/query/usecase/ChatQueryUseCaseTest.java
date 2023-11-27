@@ -6,13 +6,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 
 import chat.teco.tecochat.chat.query.ChatQueryService;
-import chat.teco.tecochat.chat.query.dao.ChatQueryDao;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
 import chat.teco.tecochat.domain.keyword.KeywordRepository;
 import chat.teco.tecochat.domain.member.Member;
 import chat.teco.tecochat.domain.member.MemberRepository;
+import chat.teco.tecochat.query.ChatQueryRepository;
 import java.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public class ChatQueryUseCaseTest {
 
     protected final MemberRepository memberRepository = mock(MemberRepository.class);
     protected final ChatRepository chatRepository = mock(ChatRepository.class);
-    protected final ChatQueryDao chatQueryDao = mock(ChatQueryDao.class);
+    protected final ChatQueryRepository chatQueryDao = mock(ChatQueryRepository.class);
     protected final ChatLikeRepository chatLikeRepository = mock(ChatLikeRepository.class);
     protected final KeywordRepository keywordRepository = mock(KeywordRepository.class);
 
