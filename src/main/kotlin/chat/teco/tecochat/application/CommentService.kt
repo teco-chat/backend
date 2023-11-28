@@ -3,6 +3,7 @@ package chat.teco.tecochat.application
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.comment.Comment
 import chat.teco.tecochat.domain.comment.CommentRepository
+import chat.teco.tecochat.domain.comment.getByIdOrThrow
 import chat.teco.tecochat.domain.member.MemberRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,12 +24,12 @@ class CommentService(
     }
 
     fun update(memberId: Long, commentId: Long, updateCommentRequest: UpdateCommentRequest) {
-        val comment = commentRepository.getById(commentId)
+        val comment = commentRepository.getByIdOrThrow(commentId)
         comment.update(memberId, updateCommentRequest.content)
     }
 
     fun delete(memberId: Long, commentId: Long) {
-        val comment = commentRepository.getById(commentId)
+        val comment = commentRepository.getByIdOrThrow(commentId)
         comment.validateDelete(memberId)
         val chat = chatRepository.getById(comment.chatId)
         chat.decreaseComment()
