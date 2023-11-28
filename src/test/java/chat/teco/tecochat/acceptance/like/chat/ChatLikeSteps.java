@@ -4,9 +4,9 @@ import static chat.teco.tecochat.acceptance.common.AcceptanceTestSteps.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chat.teco.tecochat.application.ChatLikeRequest;
-import chat.teco.tecochat.chat.query.usecase.QueryChatByIdUseCase.QueryChatByIdResponse;
-import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
-import chat.teco.tecochat.domain.chatlike.QueryChatLikedByMemberIdResponse;
+import chat.teco.tecochat.query.ChatResponse;
+import chat.teco.tecochat.query.QueryChatLikeByChatIdResponse;
+import chat.teco.tecochat.query.QueryChatLikedByMemberIdResponse;
 import chat.teco.tecochat.support.ui.PageResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
@@ -69,12 +69,12 @@ public class ChatLikeSteps {
     }
 
     public static void 이미_좋아요를_누름(ExtractableResponse<Response> 응답) {
-        QueryChatByIdResponse 채팅 = 응답.as(QueryChatByIdResponse.class);
+        ChatResponse 채팅 = 응답.as(ChatResponse.class);
         assertThat(채팅.isAlreadyClickLike()).isTrue();
     }
 
     public static void 좋아요를_누르지_않음(ExtractableResponse<Response> 응답) {
-        QueryChatByIdResponse 채팅 = 응답.as(QueryChatByIdResponse.class);
+        ChatResponse 채팅 = 응답.as(ChatResponse.class);
         assertThat(채팅.isAlreadyClickLike()).isFalse();
     }
 }

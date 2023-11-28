@@ -5,11 +5,11 @@ import static chat.teco.tecochat.domain.member.Course.BACKEND;
 import static chat.teco.tecochat.domain.member.Course.FRONTEND;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chat.teco.tecochat.domain.chatlike.ChatLikeQueryRepository;
-import chat.teco.tecochat.domain.chatlike.MemberInfo;
-import chat.teco.tecochat.domain.chatlike.QueryChatLikeByChatIdResponse;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.like.chatlike.query.ChatLikeQueryUseCaseTest;
+import chat.teco.tecochat.query.ChatLikeQueryRepository;
+import chat.teco.tecochat.query.MemberInfo;
+import chat.teco.tecochat.query.QueryChatLikeByChatIdResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
