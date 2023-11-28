@@ -10,6 +10,7 @@ import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.domain.keyword.KeywordRepository
 import chat.teco.tecochat.domain.member.Course
 import chat.teco.tecochat.domain.member.MemberRepository
+import chat.teco.tecochat.domain.member.getByIdOrThrow
 import chat.teco.tecochat.query.ChatQueryRepository
 import chat.teco.tecochat.query.ChatSearchCond
 import chat.teco.tecochat.query.SearchChatResponse
@@ -50,7 +51,7 @@ class ChatQueryServiceTest : StringSpec({
             )
         )
         every { chatRepository.getByIdOrThrow(any()) } returns chat
-        every { memberRepository.getById(any()) } returns member
+        every { memberRepository.getByIdOrThrow(any()) } returns member
         every { chatLikeRepository.findByMemberIdAndChatId(any(), any()) } returns createChatLike()
         every { keywordRepository.findAllByChatId(any()) } returns emptyList()
 

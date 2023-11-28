@@ -6,6 +6,7 @@ import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.domain.keyword.KeywordRepository
 import chat.teco.tecochat.domain.member.MemberRepository
+import chat.teco.tecochat.domain.member.getByIdOrThrow
 import chat.teco.tecochat.query.ChatQueryRepository
 import chat.teco.tecochat.query.ChatResponse
 import chat.teco.tecochat.query.ChatSearchCond
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-
 @Transactional(readOnly = true)
 @Service
 class ChatQueryService(
@@ -31,7 +31,7 @@ class ChatQueryService(
 ) {
     fun findById(id: Long, requesterMemberId: Long): ChatResponse {
         val chat = chatRepository.getByIdOrThrow(id)
-        val member = memberRepository.getById(chat.memberId)
+        val member = memberRepository.getByIdOrThrow(chat.memberId)
         val isAlreadyClickLike = chatLikeRepository.findByMemberIdAndChatId(requesterMemberId, id) != null
         val keywords = keywordRepository.findAllByChatId(id)
         val messages = chat.questionAndAnswers.questionAndAnswers.flatMap { qna ->
