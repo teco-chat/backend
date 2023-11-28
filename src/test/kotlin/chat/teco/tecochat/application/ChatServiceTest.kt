@@ -4,6 +4,7 @@ import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createUpdateChatTitleRequest
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.matchers.shouldBe
@@ -24,7 +25,7 @@ class ChatServiceTest : FeatureSpec({
         scenario("채팅을 복사한다") {
             val chat = createChat(id = 1L)
             val copiedChat = createChat(id = 2L)
-            every { chatRepository.getById(any()) } returns chat
+            every { chatRepository.getByIdOrThrow(any()) } returns chat
             every { chatRepository.save(any()) } returns copiedChat
 
             chatService.copy(2L, chat.id)
@@ -39,7 +40,7 @@ class ChatServiceTest : FeatureSpec({
         scenario("제목을 수정한다") {
             val chat = createChat(id = 1L)
             val request = createUpdateChatTitleRequest()
-            every { chatRepository.getById(any()) } returns chat
+            every { chatRepository.getByIdOrThrow(any()) } returns chat
 
             chatService.updateTitle(1L, chat.id, request)
 
@@ -49,7 +50,7 @@ class ChatServiceTest : FeatureSpec({
         scenario("채팅을 진행한 사람이 아닌 경우 예외가 발생한다") {
             val chat = createChat(id = 1L, memberId = 1L)
             val request = createUpdateChatTitleRequest()
-            every { chatRepository.getById(any()) } returns chat
+            every { chatRepository.getByIdOrThrow(any()) } returns chat
 
             shouldThrow<IllegalStateException> {
                 chatService.updateTitle(2L, chat.id, request)

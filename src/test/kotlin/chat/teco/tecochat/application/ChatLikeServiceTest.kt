@@ -4,6 +4,7 @@ import chat.teco.tecochat.MEMBER_ID
 import chat.teco.tecochat.createChat
 import chat.teco.tecochat.createChatLike
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.query.ChatLikeQueryRepository
 import io.kotest.core.spec.style.BehaviorSpec
@@ -23,7 +24,7 @@ class ChatLikeServiceTest : BehaviorSpec({
     Given("이미 좋아요를 누른 경우") {
         val chat = createChat(likeCount = 1)
         val chatLike = createChatLike()
-        every { chatRepository.getById(any()) } returns chat
+        every { chatRepository.getByIdOrThrow(any()) } returns chat
         every { chatLikeRepository.findByMemberIdAndChatId(any(), any()) } returns chatLike
         every { chatLikeRepository.delete(any()) } returns Unit
 
@@ -39,7 +40,7 @@ class ChatLikeServiceTest : BehaviorSpec({
 
     Given("좋아요를 누르지 않은 경우") {
         val chat = createChat()
-        every { chatRepository.getById(any()) } returns chat
+        every { chatRepository.getByIdOrThrow(any()) } returns chat
         every { chatLikeRepository.findByMemberIdAndChatId(any(), any()) } returns null
         every { chatLikeRepository.save(any()) } returns createChatLike()
 

@@ -5,7 +5,6 @@ import chat.teco.tecochat.application.CommentService
 import chat.teco.tecochat.application.UpdateCommentRequest
 import chat.teco.tecochat.application.WriteCommentRequest
 import chat.teco.tecochat.application.WriteCommentResponse
-import chat.teco.tecochat.common.util.UriUtil
 import chat.teco.tecochat.security.Auth
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.net.URI
 
 @RestController
 @RequestMapping("/comments")
@@ -30,7 +30,7 @@ class CommentController(
         @RequestBody request: WriteCommentRequest,
     ): ResponseEntity<WriteCommentResponse> {
         val id = commentService.write(memberId, request)
-        val uri = UriUtil.buildURI("/{id}", id)
+        val uri = URI(id.toString())
         return ResponseEntity.created(uri).body(WriteCommentResponse(id))
     }
 

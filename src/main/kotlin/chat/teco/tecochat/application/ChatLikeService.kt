@@ -1,6 +1,7 @@
 package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.chatlike.ChatLike
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.query.ChatLikeQueryRepository
@@ -21,7 +22,7 @@ class ChatLikeService(
 ) {
 
     fun pushLike(memberId: Long, chatId: Long) {
-        val chat = chatRepository.getById(chatId)
+        val chat = chatRepository.getByIdOrThrow(chatId)
         chatLikeRepository.findByMemberIdAndChatId(memberId, chatId)?.let {
             chatLikeRepository.delete(it)
             chat.decreaseLike()

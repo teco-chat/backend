@@ -54,7 +54,7 @@ public abstract class AcceptanceTest {
             String... 키워드들
     ) {
         return transactionTemplate.execute(status -> {
-            Chat chat = Chat.defaultChat(memberRepository.getByName(크루명), 질문);
+            Chat chat = Chat.defaultChat(memberRepository.findByName(크루명), 질문);
             chat.addQuestionAndAnswer(new QuestionAndAnswer(질문, 답변));
             chatRepository.save(chat);
             List<Keyword> list = Arrays.stream(키워드들)
@@ -71,7 +71,7 @@ public abstract class AcceptanceTest {
             Long 채팅_ID
     ) {
         transactionTemplate.executeWithoutResult(status -> {
-            Chat 채팅 = chatRepository.getWithQuestionAndAnswersById(채팅_ID);
+            Chat 채팅 = chatRepository.findWithQuestionAndAnswersById(채팅_ID);
             채팅.addQuestionAndAnswer(new QuestionAndAnswer(질문, 답변));
         });
     }
