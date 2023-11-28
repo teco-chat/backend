@@ -4,8 +4,8 @@ import static chat.teco.tecochat.member.fixture.MemberFixture.말랑;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import chat.teco.tecochat.application.ChatQueryService;
 import chat.teco.tecochat.chat.fixture.ChatFixture.말랑_채팅;
-import chat.teco.tecochat.chat.query.ChatQueryService;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.query.QueryChatByIdResponse;
 import chat.teco.tecochat.query.QueryMessageDto;

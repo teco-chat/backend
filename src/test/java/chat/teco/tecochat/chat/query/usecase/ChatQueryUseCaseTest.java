@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 
-import chat.teco.tecochat.chat.query.ChatQueryService;
+import chat.teco.tecochat.application.ChatQueryService;
 import chat.teco.tecochat.domain.chat.Chat;
 import chat.teco.tecochat.domain.chat.ChatRepository;
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository;
@@ -38,8 +38,7 @@ public class ChatQueryUseCaseTest {
     }
 
     protected void 채팅을_저장한다(Chat chat) {
-        Long id = 1L;
-        given(chatRepository.getById(id))
+        given(chatRepository.getById(1L))
                 .willReturn(chat);
     }
 

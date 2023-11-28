@@ -1,6 +1,6 @@
 package chat.teco.tecochat.chat.presentation.chat.api;
 
-import chat.teco.tecochat.chat.query.ChatQueryService;
+import chat.teco.tecochat.application.ChatQueryService;
 import chat.teco.tecochat.query.ChatSearchCond;
 import chat.teco.tecochat.query.QueryChatByIdResponse;
 import chat.teco.tecochat.query.SearchChatResponse;
@@ -38,7 +38,6 @@ public class ChatQueryController {
             @ModelAttribute ChatSearchCond cond,
             @PageableDefault(size = 20) Pageable pageable
     ) {
-        return ResponseEntity.ok(
-                PageResponse.from(chatQueryService.search(cond, pageable)));
+        return ResponseEntity.ok(PageResponse.from(chatQueryService.search(cond, pageable)));
     }
 }
