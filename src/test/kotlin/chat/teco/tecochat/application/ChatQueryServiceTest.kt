@@ -84,7 +84,7 @@ class ChatQueryServiceTest : StringSpec({
             listOf(mallangChat, herbChat), PageRequest.of(0, 10)
         ) { 0 }
         every { keywordRepository.findAllInChatIds(any()) } returns emptyList()
-        every { memberRepository.getById(any()) } returnsMany listOf(mallang, herb)
+        every { memberRepository.findAllById(any()) } returns listOf(mallang, herb)
 
         val result: Page<SearchChatResponse> = chatQueryService.search(
             ChatSearchCond(null, null, null, null),
