@@ -6,6 +6,7 @@ import chat.teco.tecochat.createMember
 import chat.teco.tecochat.createUpdateCommentRequest
 import chat.teco.tecochat.createWriteCommentRequest
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.comment.CommentRepository
 import chat.teco.tecochat.domain.comment.getByIdOrThrow
 import chat.teco.tecochat.domain.member.Course
@@ -30,7 +31,7 @@ class CommentServiceTest : FeatureSpec({
 
     feature("댓글을 등록할 때") {
         scenario("채팅이 없다면 예외가 발생한다") {
-            every { chatRepository.getById(any()) } throws NoSuchElementException()
+            every { chatRepository.getByIdOrThrow(any()) } throws NoSuchElementException()
 
             shouldThrow<NoSuchElementException> {
                 commentService.write(1L, createWriteCommentRequest())
@@ -39,7 +40,7 @@ class CommentServiceTest : FeatureSpec({
 
         scenario("댓글이 정상적으로 등록된다") {
             val chat = createChat()
-            every { chatRepository.getById(any()) } returns chat
+            every { chatRepository.getByIdOrThrow(any()) } returns chat
             every { commentRepository.save(any()) } returns createComment()
 
             commentService.write(1L, createWriteCommentRequest(chatId = chat.id))
@@ -72,7 +73,7 @@ class CommentServiceTest : FeatureSpec({
 
     feature("댓글을 삭제할 때") {
         scenario("채팅이 없다면 예외가 발생한다") {
-            every { chatRepository.getById(any()) } throws NoSuchElementException()
+            every { chatRepository.getByIdOrThrow(any()) } throws NoSuchElementException()
             every { commentRepository.getByIdOrThrow(any()) } returns createComment()
 
             shouldThrow<NoSuchElementException> {
@@ -82,7 +83,7 @@ class CommentServiceTest : FeatureSpec({
 
         scenario("댓글의 작성자가 아니라면 예외가 발생한다") {
             val comment = createComment(memberId = 1L)
-            every { chatRepository.getById(any()) } returns createChat()
+            every { chatRepository.getByIdOrThrow(any()) } returns createChat()
             every { commentRepository.getByIdOrThrow(any()) } returns comment
 
             shouldThrow<IllegalStateException> {
@@ -93,7 +94,7 @@ class CommentServiceTest : FeatureSpec({
         scenario("댓글이 정상적으로 삭제된다") {
             val chat = createChat(commentCount = 1)
             val comment = createComment()
-            every { chatRepository.getById(any()) } returns chat
+            every { chatRepository.getByIdOrThrow(any()) } returns chat
             every { commentRepository.getByIdOrThrow(any()) } returns comment
             every { commentRepository.delete(any()) } just runs
 

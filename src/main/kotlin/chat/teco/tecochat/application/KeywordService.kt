@@ -4,6 +4,7 @@ import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.ChatCopiedEvent
 import chat.teco.tecochat.domain.chat.ChatCreatedEvent
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.keyword.Keyword
 import chat.teco.tecochat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.keyword.KeywordRepository
@@ -31,7 +32,7 @@ class KeywordService(
     @Transactional
     @EventListener(classes = [ChatCopiedEvent::class])
     fun handleChatCopiedEvent(event: ChatCopiedEvent) {
-        val copiedChat: Chat = chatRepository.getById(event.copiedChatId)
+        val copiedChat: Chat = chatRepository.getByIdOrThrow(event.copiedChatId)
         val copiedKeywords: List<Keyword> = keywordRepository.findAllByChatId(event.originChatId)
             .map { it.copy(copiedChat) }
         keywordRepository.saveAll(copiedKeywords)

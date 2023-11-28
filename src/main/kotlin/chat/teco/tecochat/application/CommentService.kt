@@ -1,6 +1,7 @@
 package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.comment.Comment
 import chat.teco.tecochat.domain.comment.CommentRepository
 import chat.teco.tecochat.domain.comment.getByIdOrThrow
@@ -18,7 +19,7 @@ class CommentService(
 
     fun write(memberId: Long, request: WriteCommentRequest): Long {
         val comment = request.toComment(memberId)
-        val chat = chatRepository.getById(request.chatId)
+        val chat = chatRepository.getByIdOrThrow(request.chatId)
         chat.increaseComment()
         return commentRepository.save(comment).id
     }
@@ -31,7 +32,7 @@ class CommentService(
     fun delete(memberId: Long, commentId: Long) {
         val comment = commentRepository.getByIdOrThrow(commentId)
         comment.validateDelete(memberId)
-        val chat = chatRepository.getById(comment.chatId)
+        val chat = chatRepository.getByIdOrThrow(comment.chatId)
         chat.decreaseComment()
         commentRepository.delete(comment)
     }

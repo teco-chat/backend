@@ -6,6 +6,7 @@ import chat.teco.tecochat.domain.chat.ChatCopiedEvent
 import chat.teco.tecochat.domain.chat.ChatCreatedEvent
 import chat.teco.tecochat.domain.chat.ChatCreatedEventHistory
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.keyword.Keyword
 import chat.teco.tecochat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.keyword.KeywordRepository
@@ -39,7 +40,7 @@ class KeywordServiceTest : StringSpec({
     "채팅 복제 이벤트를 구독하여 기존 채팅의 키워드도 복제한다" {
         val originChat = createChat(id = 1L)
         val copiedChat = createChat(id = 2L)
-        every { chatRepository.getById(copiedChat.id) } returns copiedChat
+        every { chatRepository.getByIdOrThrow(copiedChat.id) } returns copiedChat
         every { keywordRepository.findAllByChatId(originChat.id) } returns listOf(Keyword("키워드", originChat))
         every { keywordRepository.saveAll(any<List<Keyword>>()) } returns listOf(Keyword("키워드", copiedChat))
 

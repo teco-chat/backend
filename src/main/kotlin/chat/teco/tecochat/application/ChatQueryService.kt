@@ -2,6 +2,7 @@ package chat.teco.tecochat.application
 
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.getByIdOrThrow
 import chat.teco.tecochat.domain.chatlike.ChatLikeRepository
 import chat.teco.tecochat.domain.keyword.KeywordRepository
 import chat.teco.tecochat.domain.member.MemberRepository
@@ -29,7 +30,7 @@ class ChatQueryService(
     private val keywordRepository: KeywordRepository,
 ) {
     fun findById(id: Long, requesterMemberId: Long): ChatResponse {
-        val chat = chatRepository.getById(id)
+        val chat = chatRepository.getByIdOrThrow(id)
         val member = memberRepository.getById(chat.memberId)
         val isAlreadyClickLike = chatLikeRepository.findByMemberIdAndChatId(requesterMemberId, id) != null
         val keywords = keywordRepository.findAllByChatId(id)
