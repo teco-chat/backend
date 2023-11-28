@@ -1,14 +1,15 @@
 package chat.teco.tecochat.application
 
 import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext
-import chat.teco.tecochat.chat.application.chat.mapper.ChatMapper
 import chat.teco.tecochat.domain.chat.Chat
 import chat.teco.tecochat.domain.chat.Chat.Companion.defaultChat
 import chat.teco.tecochat.domain.chat.ChatCreatedEvent.Companion.from
 import chat.teco.tecochat.domain.chat.ChatRepository
+import chat.teco.tecochat.domain.chat.Question
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer
 import com.theokanning.openai.completion.chat.ChatCompletionChunk
 import com.theokanning.openai.completion.chat.ChatCompletionRequest
+import com.theokanning.openai.completion.chat.ChatMessage
 import com.theokanning.openai.service.OpenAiService
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
@@ -26,7 +27,14 @@ class ChatStreamService(
 
     fun streaming(context: ChatSocketContext) {
         val chat: Chat = getOrCreateChat(context)
-        val request: ChatCompletionRequest = ChatMapper.mapToChatCompletionRequest(chat, context.question())
+        val qnas = chat.last3QuestionAndAnswers()
+        val messages = qnas.messagesWithSettingMessage(chat.settingMessage)
+        messages.add(Question.question(context.question()))
+        val chatMessages = messages.map { ChatMessage(it.roleName(), it.content()) }
+        val request = ChatCompletionRequest.builder()
+            .model(chat.modelName())
+            .messages(chatMessages)
+            .build()
         openAiService.streamChatCompletion(request)
             .blockingForEach { completion -> sendAnswer(context, completion) }
         transactionTemplate.executeWithoutResult { status -> finishProcess(chat, context) }

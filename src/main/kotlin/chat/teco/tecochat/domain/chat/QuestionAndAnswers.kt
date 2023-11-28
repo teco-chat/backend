@@ -24,7 +24,7 @@ class QuestionAndAnswers(
         } else QuestionAndAnswers(questionAndAnswers.subList(size - 3, size))
     }
 
-    fun messagesWithSettingMessage(settingMessage: SettingMessage): List<Message> {
+    fun messagesWithSettingMessage(settingMessage: SettingMessage): MutableList<Message> {
         val result: MutableList<Message> = ArrayList()
         result.add(settingMessage)
         for (qna in questionAndAnswers) {
