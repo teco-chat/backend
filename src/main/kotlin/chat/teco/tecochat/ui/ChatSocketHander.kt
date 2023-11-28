@@ -1,8 +1,8 @@
 package chat.teco.tecochat.ui
 
 import chat.teco.tecochat.application.ChatStreamService
-import chat.teco.tecochat.chat.application.chat.dto.ChatSocketContext
 import chat.teco.tecochat.domain.member.Member
+import chat.teco.tecochat.infra.gpt.ChatSocketContext
 import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
@@ -23,7 +23,7 @@ class ChatSocketHandler(
     private val socketContextMap: MutableMap<String, ChatSocketContext> = HashMap()
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
-        val member = session.attributes[AUTH_SESSION_NAME] as? Member
+        val member = session.attributes[AUTH_SESSION_NAME] as Member
         val chatId = parseChatId(session)
         socketContextMap[session.id] = ChatSocketContext(session, member, chatId)
     }
@@ -41,7 +41,7 @@ class ChatSocketHandler(
 
     public override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
         val context = socketContextMap[session.id]!!
-        context.setQuestion(message.payload)
+        context.changeQuestion(message.payload)
         chatStreamService.streaming(context)
     }
 }
