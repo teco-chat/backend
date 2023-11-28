@@ -71,7 +71,7 @@ public abstract class AcceptanceTest {
             Long 채팅_ID
     ) {
         transactionTemplate.executeWithoutResult(status -> {
-            Chat 채팅 = chatRepository.getWithQuestionAndAnswersById(채팅_ID);
+            Chat 채팅 = chatRepository.findWithQuestionAndAnswersById(채팅_ID);
             채팅.addQuestionAndAnswer(new QuestionAndAnswer(질문, 답변));
         });
     }

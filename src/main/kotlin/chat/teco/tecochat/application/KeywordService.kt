@@ -5,6 +5,7 @@ import chat.teco.tecochat.domain.chat.ChatCopiedEvent
 import chat.teco.tecochat.domain.chat.ChatCreatedEvent
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chat.getByIdOrThrow
+import chat.teco.tecochat.domain.chat.getWithQuestionAndAnswersByIdOrThrow
 import chat.teco.tecochat.domain.keyword.Keyword
 import chat.teco.tecochat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.keyword.KeywordRepository
@@ -42,8 +43,7 @@ class KeywordService(
     @Retryable(retryFor = [RuntimeException::class], maxAttempts = 3, backoff = Backoff(delay = 1500))
     @TransactionalEventListener(classes = [ChatCreatedEvent::class], phase = TransactionPhase.AFTER_COMMIT)
     fun handleChatCreatedEvent(event: ChatCreatedEvent) {
-        val chat = chatRepository.findWithQuestionAndAnswersById(event.chatId)
-            .orElseThrow { NoSuchElementException("채팅이 존재하지 않습니다.") }
+        val chat = chatRepository.getWithQuestionAndAnswersByIdOrThrow(event.chatId)
         val keywords: List<Keyword> = keywordExtractor.extractKeywords(chat)
         transactionTemplate.executeWithoutResult { status ->
             keywordRepository.saveAll(keywords)

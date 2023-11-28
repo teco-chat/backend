@@ -6,6 +6,7 @@ import chat.teco.tecochat.domain.chat.ChatCreatedEvent.Companion.from
 import chat.teco.tecochat.domain.chat.ChatRepository
 import chat.teco.tecochat.domain.chat.Question
 import chat.teco.tecochat.domain.chat.QuestionAndAnswer
+import chat.teco.tecochat.domain.chat.getWithQuestionAndAnswersByIdOrThrow
 import chat.teco.tecochat.infra.gpt.ChatSocketContext
 import com.theokanning.openai.completion.chat.ChatCompletionChunk
 import com.theokanning.openai.completion.chat.ChatCompletionRequest
@@ -44,8 +45,7 @@ class ChatStreamService(
         if (context.chatId == null) {
             return defaultChat(context.member, context.getCurrentQuestion())
         }
-        return chatRepository.findWithQuestionAndAnswersById(context.chatId)
-            .orElseThrow { NoSuchElementException("채팅이 존재하지 않습니다.") }
+        return chatRepository.getWithQuestionAndAnswersByIdOrThrow(context.chatId)
     }
 
     private fun sendAnswer(context: ChatSocketContext, completion: ChatCompletionChunk) {
@@ -65,7 +65,7 @@ class ChatStreamService(
 
     private fun finishProcess(chat: Chat, context: ChatSocketContext) {
         val chatId = getOrCreateChatId(chat)
-        chatRepository.getWithQuestionAndAnswersById(chatId)
+        chatRepository.getWithQuestionAndAnswersByIdOrThrow(chatId)
             .addQuestionAndAnswer(QuestionAndAnswer(context.getCurrentQuestion(), context.getAnswer()))
         sendMessage(context, "[DONE] - ID:$chatId")
         closeSession(context)
