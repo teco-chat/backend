@@ -12,7 +12,7 @@ import chat.teco.tecochat.domain.chat.QuestionAndAnswer;
 import chat.teco.tecochat.domain.member.Course;
 import chat.teco.tecochat.member.fixture.MemberFixture;
 import chat.teco.tecochat.member.fixture.MemberFixture.허브;
-import chat.teco.tecochat.query.QueryChatByIdResponse;
+import chat.teco.tecochat.query.ChatResponse;
 import chat.teco.tecochat.query.QueryKeywordDto;
 import chat.teco.tecochat.query.QueryMessageDto;
 import chat.teco.tecochat.query.SearchChatResponse;
@@ -27,7 +27,7 @@ import java.util.List;
 @SuppressWarnings("NonAsciiCharacters")
 public class ChatFixture {
 
-    public static QueryChatByIdResponse 단일_채팅_조회의_예상_결과(
+    public static ChatResponse 단일_채팅_조회의_예상_결과(
             Long 채팅_ID,
             String 채팅한_크루_이름,
             Course 과정,
@@ -37,7 +37,7 @@ public class ChatFixture {
             List<QueryMessageDto> 대화_내용,
             List<QueryKeywordDto> 키워드들
     ) {
-        return new QueryChatByIdResponse(채팅_ID,
+        return new ChatResponse(채팅_ID,
                 채팅한_크루_이름,
                 과정,
                 제목,

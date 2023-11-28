@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import chat.teco.tecochat.application.CopyChatResponse;
 import chat.teco.tecochat.application.UpdateChatTitleRequest;
 import chat.teco.tecochat.domain.member.Course;
+import chat.teco.tecochat.query.ChatResponse;
 import chat.teco.tecochat.query.LikeCond;
-import chat.teco.tecochat.query.QueryChatByIdResponse;
 import chat.teco.tecochat.query.SearchChatResponse;
 import chat.teco.tecochat.support.ui.PageResponse;
 import io.restassured.common.mapper.TypeRef;
@@ -60,9 +60,9 @@ public class ChatSteps {
 
     public static void 단일_채팅_조회_결과를_확인한다(
             ExtractableResponse<Response> 응답,
-            QueryChatByIdResponse 예상_결과
+            ChatResponse 예상_결과
     ) {
-        QueryChatByIdResponse chatQueryResponse = 응답.as(QueryChatByIdResponse.class);
+        ChatResponse chatQueryResponse = 응답.as(ChatResponse.class);
         assertThat(chatQueryResponse)
                 .usingRecursiveComparison()
                 .ignoringFieldsOfTypes(LocalDateTime.class)

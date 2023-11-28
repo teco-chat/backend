@@ -42,7 +42,7 @@ data class QueryKeywordDto @JsonCreator constructor(
     val keyword: String,
 )
 
-data class QueryChatByIdResponse(
+data class ChatResponse(
     val id: Long,
     val crewName: String,
     val course: Course,
