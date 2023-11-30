@@ -3,7 +3,6 @@ package chat.teco.tecochat.ui
 import chat.teco.tecochat.application.ChatStreamService
 import chat.teco.tecochat.domain.member.Member
 import chat.teco.tecochat.infra.gpt.ChatSocketContext
-import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -14,7 +13,6 @@ import java.util.Objects
 private const val DEFAULT_CHAT_SOCKET_URI = "/stream/chats"
 private const val AUTH_SESSION_NAME = "auth"
 
-@Slf4j
 @Component
 class ChatSocketHandler(
     private val chatStreamService: ChatStreamService,
