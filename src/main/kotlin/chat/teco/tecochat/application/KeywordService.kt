@@ -9,6 +9,7 @@ import chat.teco.tecochat.domain.chat.getWithQuestionAndAnswersByIdOrThrow
 import chat.teco.tecochat.domain.keyword.Keyword
 import chat.teco.tecochat.domain.keyword.KeywordExtractor
 import chat.teco.tecochat.domain.keyword.KeywordRepository
+import chat.teco.tecochat.infra.gpt.GptClient
 import chat.teco.tecochat.support.domain.EventHistoryRepository
 import org.springframework.context.event.EventListener
 import org.springframework.retry.annotation.Backoff
@@ -23,11 +24,11 @@ import org.springframework.transaction.support.TransactionTemplate
 
 @Component
 class KeywordService(
-    var chatRepository: ChatRepository,
-    var keywordRepository: KeywordRepository,
-    var keywordExtractor: KeywordExtractor,
-    var transactionTemplate: TransactionTemplate,
-    var eventHistoryRepository: EventHistoryRepository,
+    private val chatRepository: ChatRepository,
+    private val keywordRepository: KeywordRepository,
+    private val transactionTemplate: TransactionTemplate,
+    private val eventHistoryRepository: EventHistoryRepository,
+    private val gptClient: GptClient,
 ) {
 
     @Transactional
@@ -44,7 +45,8 @@ class KeywordService(
     @TransactionalEventListener(classes = [ChatCreatedEvent::class], phase = TransactionPhase.AFTER_COMMIT)
     fun handleChatCreatedEvent(event: ChatCreatedEvent) {
         val chat = chatRepository.getWithQuestionAndAnswersByIdOrThrow(event.chatId)
-        val keywords: List<Keyword> = keywordExtractor.extractKeywords(chat)
+        val answer = gptClient.ask(chat)
+        val keywords = KeywordExtractor(answer.content(), chat)
         transactionTemplate.executeWithoutResult { status ->
             keywordRepository.saveAll(keywords)
             eventHistoryRepository.save(event.processedHistory())
