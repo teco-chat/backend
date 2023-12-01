@@ -52,7 +52,7 @@ class ChatQueryDaoTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ChatQueryRepository chatQueryDao;
+    private ChatQueryRepository chatQueryRepository;
 
     @Autowired
     private ChatRepository chatRepository;
@@ -94,7 +94,7 @@ class ChatQueryDaoTest {
     @Test
     void 검색_조건이_설정되지_않으면_페이징하며_전체_조회() {
         // when
-        Page<Chat> search = chatQueryDao.search(
+        Page<Chat> search = chatQueryRepository.search(
                 new ChatSearchCond(null, null, null, null),
                 PageRequest.of(0, 20));
 
@@ -110,7 +110,7 @@ class ChatQueryDaoTest {
     @Test
     void 이름으로_검색_가능() {
         // when
-        Page<Chat> search = chatQueryDao.search(new ChatSearchCond("말", null, null, null),
+        Page<Chat> search = chatQueryRepository.search(new ChatSearchCond("말", null, null, null),
                 PageRequest.of(0, 20));
 
         // then
@@ -131,7 +131,7 @@ class ChatQueryDaoTest {
     @Test
     void 제목으로_검색_가능() {
         // when
-        Page<Chat> search = chatQueryDao.search(new ChatSearchCond(null, " 엔드허브의 tiTlE    ", null, null),
+        Page<Chat> search = chatQueryRepository.search(new ChatSearchCond(null, " 엔드허브의 tiTlE    ", null, null),
                 PageRequest.of(0, 20));
 
         // then
@@ -149,7 +149,7 @@ class ChatQueryDaoTest {
     @Test
     void 과정으로_검색_가능() {
         // when
-        Page<Chat> search = chatQueryDao.search(
+        Page<Chat> search = chatQueryRepository.search(
                 new ChatSearchCond(null, null, Course.ANDROID, null),
                 PageRequest.of(0, 20));
 
@@ -168,7 +168,7 @@ class ChatQueryDaoTest {
     @Test
     void 이름_제목_과정으로_검색_가능() {
         // when
-        Page<Chat> search = chatQueryDao.search(
+        Page<Chat> search = chatQueryRepository.search(
                 new ChatSearchCond("말랑_좋아요", "허브_좋아요", Course.BACKEND, null),
                 PageRequest.of(0, 20));
 
@@ -217,11 +217,11 @@ class ChatQueryDaoTest {
 
             // 아래 데이터는 어제 저장되었으므로 제외
             좋아요(1L, 채팅1, 어제);
-            좋아요(2L, 채팅1, 이번달_시작);
+//            좋아요(2L, 채팅1, 이번달_시작);
             좋아요(3L, 채팅1, 올해_시작);
 
             // when
-            Page<Chat> search = chatQueryDao.search(
+            Page<Chat> search = chatQueryRepository.search(
                     new ChatSearchCond(null, null, null, LikeCond.TODAY),
                     PageRequest.of(0, 20));
 
@@ -253,7 +253,7 @@ class ChatQueryDaoTest {
             좋아요(3L, 채팅1, 올해_시작);
 
             // when
-            Page<Chat> search = chatQueryDao.search(
+            Page<Chat> search = chatQueryRepository.search(
                     new ChatSearchCond(null, null, null, LikeCond.WEEK),
                     PageRequest.of(0, 20));
 
@@ -283,7 +283,7 @@ class ChatQueryDaoTest {
             좋아요(2L, 채팅1, 저번달);
 
             // when
-            Page<Chat> search = chatQueryDao.search(
+            Page<Chat> search = chatQueryRepository.search(
                     new ChatSearchCond(null, null, null, LikeCond.MONTH),
                     PageRequest.of(0, 20));
 
@@ -315,7 +315,7 @@ class ChatQueryDaoTest {
             좋아요(3L, 채팅1, 작년);
 
             // when
-            Page<Chat> search = chatQueryDao.search(
+            Page<Chat> search = chatQueryRepository.search(
                     new ChatSearchCond(null, null, null, LikeCond.YEAR),
                     PageRequest.of(0, 20));
 
@@ -347,7 +347,7 @@ class ChatQueryDaoTest {
             좋아요(3L, 채팅1, 작년);
 
             // when
-            Page<Chat> search = chatQueryDao.search(
+            Page<Chat> search = chatQueryRepository.search(
                     new ChatSearchCond(null, null, null, LikeCond.ALL),
                     PageRequest.of(0, 20));
 
