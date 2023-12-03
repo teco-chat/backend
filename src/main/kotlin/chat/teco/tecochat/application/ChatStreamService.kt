@@ -15,8 +15,6 @@ import com.theokanning.openai.service.OpenAiService
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 import org.springframework.transaction.support.TransactionTemplate
-import org.springframework.web.socket.TextMessage
-import java.io.IOException
 
 @Component
 class ChatStreamService(
@@ -50,25 +48,16 @@ class ChatStreamService(
 
     private fun sendAnswer(context: ChatSocketContext, completion: ChatCompletionChunk) {
         val answer = completion.choices[0].message.content ?: ""
-        sendMessage(context, answer)
+        context.sendMessage(answer)
         context.addAnswer(answer)
-    }
-
-    private fun sendMessage(context: ChatSocketContext, message: String) {
-        val session = context.session
-        try {
-            session.sendMessage(TextMessage(message))
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
     }
 
     private fun finishProcess(chat: Chat, context: ChatSocketContext) {
         val chatId = getOrCreateChatId(chat)
         chatRepository.getWithQuestionAndAnswersByIdOrThrow(chatId)
             .addQuestionAndAnswer(QuestionAndAnswer(context.getCurrentQuestion(), context.getAnswer()))
-        sendMessage(context, "[DONE] - ID:$chatId")
-        closeSession(context)
+        context.sendMessage("[DONE] - ID:$chatId")
+        context.close()
     }
 
     private fun getOrCreateChatId(chat: Chat): Long {
@@ -78,14 +67,5 @@ class ChatStreamService(
         val save = chatRepository.save(chat)
         publisher.publishEvent(from(save))
         return save.id
-    }
-
-    private fun closeSession(context: ChatSocketContext) {
-        try {
-            val session = context.session
-            session.close()
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
     }
 }
